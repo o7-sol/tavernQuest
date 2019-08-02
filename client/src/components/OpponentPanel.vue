@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-4">
     <div class="panelBody">
-      <h1 class="panelTitle">Opponents</h1>
+      <h1 class="panelTitle"><img src="../assets/board.png" class="board">  Opponents</h1>
       <ul class="list-unstyled opponentsList">
         <li>
           <p>
@@ -18,7 +18,7 @@
                     <img src="../assets/fist.png" class="opponentImg">
                     Strength
                   </tr>
-                  <tr class="text-center">15</tr>
+                  <tr style="margin-right: 19px; float: right;">15</tr>
                 </td>
                 &nbsp;&nbsp;
                 <td>
@@ -26,7 +26,7 @@
                     <img src="../assets/shoes.png" class="opponentImg">
                     Agility
                   </tr>
-                  <tr class="text-center">25</tr>
+                  <tr style="margin-right: 11px; float: right;">25</tr>
                 </td>
                 &nbsp;&nbsp;
                 <td>
@@ -34,7 +34,7 @@
                     <img src="../assets/heart.png" class="opponentImg">
                     Vitality
                   </tr>
-                  <tr class="text-center">25</tr>
+                  <tr style="margin-right: 12px; float: right;">25</tr>
                 </td>
                 &nbsp;&nbsp;
                 <td>
@@ -42,7 +42,7 @@
                     <img src="../assets/book.png" class="opponentImg">
                     Intellect
                   </tr>
-                  <tr class="text-center">25</tr>
+                  <tr style="margin-right: 17px; float: right;">25</tr>
                 </td>
               </tbody>
             </table>
@@ -64,7 +64,7 @@
                     <img src="../assets/fist.png" class="opponentImg">
                     Strength
                   </tr>
-                  <tr class="text-center">15</tr>
+                  <tr style="margin-right: 19px; float: right;">15</tr>
                 </td>
                 &nbsp;&nbsp;
                 <td>
@@ -72,7 +72,7 @@
                     <img src="../assets/shoes.png" class="opponentImg">
                     Agility
                   </tr>
-                  <tr class="text-center">25</tr>
+                  <tr style="margin-right: 11px; float: right;">25</tr>
                 </td>
                 &nbsp;&nbsp;
                 <td>
@@ -80,7 +80,7 @@
                     <img src="../assets/heart.png" class="opponentImg">
                     Vitality
                   </tr>
-                  <tr class="text-center">25</tr>
+                  <tr style="margin-right: 12px; float: right;">25</tr>
                 </td>
                 &nbsp;&nbsp;
                 <td>
@@ -88,7 +88,7 @@
                     <img src="../assets/book.png" class="opponentImg">
                     Intellect
                   </tr>
-                  <tr class="text-center">25</tr>
+                  <tr style="margin-right: 17px; float: right;">25</tr>
                 </td>
               </tbody>
             </table>
@@ -111,7 +111,7 @@ export default {
 .opponentImg {
     height: 20px;
     image-rendering: pixelated;
-    vertical-align: sub;
+    vertical-align: bottom;
 }
 .opponentsList {
     font-size: 13px;

@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-4">
     <div class="panelBody">
-      <h1 class="panelTitle">Arena</h1>
+      <h1 class="panelTitle"><img src="../assets/board.png" class="board"> Arena</h1>
       <ul class="list-unstyled latestFights">
         <li class="row fight">
           <span class="col-md-3 text-center">
@@ -13,7 +13,8 @@
             2019-08-01 20:58<br>
             <img src="../assets/gold.png" style="height: 25px;"> 300
             <br>
-            <strong style="color: red">EXP</strong>&nbsp; 200
+            <strong style="color: red">EXP</strong>&nbsp; 
+            <span style="margin-right: 2px;">200</span>
           </span>
           <span class="col-md-3 text-center">
             <span style="color: red">LOSER</span>
@@ -32,7 +33,8 @@
             2019-08-01 20:58<br>
             <img src="../assets/gold.png" style="height: 25px;"> 300
             <br>
-            <strong style="color: red">EXP</strong>&nbsp; 200
+            <strong style="color: red">EXP</strong>&nbsp; 
+            <span style="margin-right: 2px;">200</span>
           </span>
           <span class="col-md-3 text-center">
             <span style="color: red">LOSER</span>
@@ -51,7 +53,8 @@
             2019-08-01 20:58<br>
             <img src="../assets/gold.png" style="height: 25px;"> 300
             <br>
-            <strong style="color: red">EXP</strong>&nbsp; 200
+            <strong style="color: red">EXP</strong>&nbsp; 
+            <span style="margin-right: 2px;">200</span>
           </span>
           <span class="col-md-3 text-center">
             <span style="color: red">LOSER</span>

@@ -7,27 +7,27 @@
       </div>
       <div class="p-2" style="margin-top: 0.6em;">
         <table>
-          <tbody>
+          <tbody style="vertical-align: bottom">
             <tr>
-              <td>&nbsp;<img src="../assets/fist.png" style="height: 25px;"></td>
+              <td>&nbsp;<img src="../assets/fist.png" style="height: 25px; vertical-align: text-top;"></td>
               <td>Strength&nbsp;</td>
               <td>{{user.strength}}&nbsp;/</td>
               <td>500</td>
             </tr>
             <tr>
-              <td>&nbsp;<img src="../assets/shoes.png" style="height: 25px"></td>
+              <td>&nbsp;<img src="../assets/shoes.png" style="height: 25px; vertical-align: text-top;"></td>
               <td>&nbsp;Agility</td>
               <td>{{user.agility}}&nbsp;/</td>
               <td>500</td>
             </tr>
             <tr>
-              <td>&nbsp;<img src="../assets/heart.png" style="height: 25px;"></td>
+              <td>&nbsp;<img src="../assets/heart.png" style="height: 25px; vertical-align: text-top;"></td>
               <td>Vitality</td>
               <td>{{user.vitality}}&nbsp;/</td>
               <td>500</td>
             </tr>
             <tr>
-              <td>&nbsp;<img src="../assets/book.png" style="height: 25px;"></td>
+              <td>&nbsp;<img src="../assets/book.png" style="height: 25px; vertical-align: text-top;"></td>
               <td>Intellect</td>
               <td>{{user.intellect}}&nbsp;/</td>
               <td>500</td>
@@ -113,7 +113,7 @@
             </span>
           </li>
           <label class="sr-only" for="inlineFormInputGroupMessage">Message</label>
-          <div class="input-group">
+          <div class="input-group" style="margin-top: 5px;">
             <div class="input-group-prepend">
               <div style="font-size: 13px;" class="input-group-text" id="sendBtn">Send</div>
             </div>

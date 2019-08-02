@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-4">
     <div class="panelBody">
-      <h1 class="panelTitle">Market</h1>
+      <h1 class="panelTitle"><img src="../assets/board.png" class="board">  Market</h1>
       <ul class="list-unstyled latestMarket">
         <li>
           <span>2019-08-01 21:25</span><br>

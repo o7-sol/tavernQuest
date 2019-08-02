@@ -114,4 +114,11 @@ body {
   height: 30px;
   image-rendering: pixelated;
 }
+.board {
+  vertical-align: bottom;
+}
+.navbar-nav a:hover {
+  text-decoration: none;
+  color: #30007b;
+}
 </style>
