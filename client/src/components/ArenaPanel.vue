@@ -4,7 +4,7 @@
       <h1 class="panelTitle"><img src="../assets/board.png" class="board"> Arena</h1>
       <ul class="list-unstyled latestFights">
         <li class="row fight">
-          <span class="col-md-3 text-center">
+          <span class="col-md-3 text-center" style="padding-top: 10px;">
             <span style="color: #02ff02">WINNER</span><br>
             <img src="../assets/hero/necromancer.png" class="latestFightHero"><br>
             Zlotte
@@ -16,7 +16,7 @@
             <strong style="color: red">EXP</strong>&nbsp; 
             <span style="margin-right: 2px;">200</span>
           </span>
-          <span class="col-md-3 text-center">
+          <span class="col-md-3 text-center" style="padding-top: 10px;">
             <span style="color: red">LOSER</span>
             <br>
             <img src="../assets/hero/barbarian.png" class="latestFightHero">
@@ -24,7 +24,7 @@
           </span>
         </li>
         <li class="row fight">
-          <span class="col-md-3 text-center">
+          <span class="col-md-3 text-center" style="padding-top: 10px;">
             <span style="color: #02ff02">WINNER</span><br>
             <img src="../assets/hero/necromancer.png" class="latestFightHero"><br>
             Zlotte
@@ -36,7 +36,7 @@
             <strong style="color: red">EXP</strong>&nbsp; 
             <span style="margin-right: 2px;">200</span>
           </span>
-          <span class="col-md-3 text-center">
+          <span class="col-md-3 text-center" style="padding-top: 10px;">
             <span style="color: red">LOSER</span>
             <br>
             <img src="../assets/hero/barbarian.png" class="latestFightHero">
@@ -44,7 +44,7 @@
           </span>
         </li>
         <li class="row fight">
-          <span class="col-md-3 text-center">
+          <span class="col-md-3 text-center" style="padding-top: 10px;">
             <span style="color: #02ff02">WINNER</span><br>
             <img src="../assets/hero/necromancer.png" class="latestFightHero"><br>
             Zlotte
@@ -56,7 +56,7 @@
             <strong style="color: red">EXP</strong>&nbsp; 
             <span style="margin-right: 2px;">200</span>
           </span>
-          <span class="col-md-3 text-center">
+          <span class="col-md-3 text-center" style="padding-top: 10px;">
             <span style="color: red">LOSER</span>
             <br>
             <img src="../assets/hero/barbarian.png" class="latestFightHero">
