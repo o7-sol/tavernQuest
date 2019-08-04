@@ -83,6 +83,18 @@ export default new Router({
       name: 'guilds',
       component: () => import(/* webpackChunkName: "guilds" */ './views/Guilds.vue'),
       beforeEnter: isLoggedIn
-    }      
+    },
+    {
+      path: '/guild',
+      name: 'guild',
+      component: () => import(/* webpackChunkName: "guild" */ './views/Guild.vue'),
+      beforeEnter: isLoggedIn
+    },
+    {
+      path: '/achievements',
+      name: 'achievements',
+      component: () => import(/* webpackChunkName: "achievements" */ './views/Achievements.vue'),
+      beforeEnter: isLoggedIn
+    }
   ],
 });

@@ -14,8 +14,11 @@
         <router-link to="/game">Home</router-link>
         <router-link to="/arena">Arena</router-link>
         <router-link to="/market">Market</router-link>   
-        <router-link to="/guilds">Guilds</router-link> 
-        <router-link to="/achievements">Quests</router-link>
+        <b-nav-item-dropdown text="Guilds">
+          <router-link to="/guilds" class="dropdown-item">Guilds List</router-link>
+          <router-link to="/guild" class="dropdown-item">My Guild</router-link>
+        </b-nav-item-dropdown>        
+        <router-link to="/achievements">Achievements</router-link>
         <router-link to="/forum">Forum</router-link>
         </template>
         <router-link to="/about">About</router-link>
@@ -119,6 +122,20 @@ body {
 }
 .navbar-nav a:hover {
   text-decoration: none;
-  color: #30007b;
+  color: #30007b !important;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 1) !important;
+}
+.dropdown-menu {
+  background-color: #1d1d1d !important;
+}
+.dropdown-item  {
+  color: white !important;
+  background: #1d1d1d !important;
+}
+.sectionTitle {
+    font-family: 'Cormorant', serif; 
+    color: #de9c20;
 }
 </style>

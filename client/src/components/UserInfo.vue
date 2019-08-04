@@ -190,6 +190,7 @@ export default {
 }
 #sendBtn {
     background: #04d004;
+    color: black;
 }
 .chat {
     margin-top: -1em;
