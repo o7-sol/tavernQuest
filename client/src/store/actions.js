@@ -44,7 +44,6 @@ const authenticate = async({commit}, payload) => {
                 level: user.level,
                 gold: user.gold,
                 experience: user.experience,
-                items: user.items
             }
 
             VueCookie.set('token', response.data.token);
@@ -67,7 +66,111 @@ const authenticate = async({commit}, payload) => {
     }    
 };
 
+const getStrengthItems = async ({commit}) => {
+    try {
+        const response = await API.get('/strength-items');
+        if(response.status === 200 && response.data.items) {
+            const items = response.data.items;
+            return items;
+        }
+    } catch (error) {
+        
+    }
+};
+
+const getAgilityItems = async ({commit}) => {
+    try {
+        const response = await API.get('/agility-items');
+        if(response.status === 200 && response.data.items) {
+            const items = response.data.items;
+            return items;
+        }
+    } catch (error) {
+        
+    }
+};
+
+const getIntellectItems = async ({commit}) => {
+    try {
+        const response = await API.get('/intellect-items');
+        if(response.status === 200 && response.data.items) {
+            const items = response.data.items;
+            return items;
+        }
+    } catch (error) {
+        
+    }
+};
+
+const getVitalityItems = async ({commit}) => {
+    try {
+        const response = await API.get('/vitality-items');
+        if(response.status === 200 && response.data.items) {
+            const items = response.data.items;
+            return items;
+        }
+    } catch (error) {
+        
+    }
+};
+
+const getLatestItems = async({commit}) => {
+    try {
+        const response = await API.get('/latest-items');
+        if(response.status === 200 && response.data.items) {
+            const items = response.data.items;
+            return items;
+        }
+    } catch (error) {
+        
+    }
+};
+
+const getItemsDiscounts = async({commit}) => {
+    try {
+        const response = await API.get('/items-discounts');
+        if(response.status === 200 && response.data.discounts) {
+            const items = response.data.discounts;
+            return items;
+        }
+    } catch (error) {
+        
+    }
+};
+
+const buyItem = async({commit}, payload) => {
+    try {
+        if(!payload.itemID || payload.itemID.length === 0 || payload.itemID === null) {
+            return 'Something went wrong. Try again later.';
+        }
+        API.post('/buy-item/'+payload.itemID, {
+            itemID: payload.itemID
+        });        
+    } catch (error) {
+        
+    }
+};
+
+const getUserItems = async({commit}, payload) => {
+    try {
+        const response = await API.get('/user-items');
+        if(response.status === 200 && response.data.items) {
+            return response.data.items;
+        }
+    } catch (error) {
+        
+    }
+};
+
 export default {
     createAccount,
-    authenticate
+    authenticate,
+    getStrengthItems,
+    getAgilityItems,
+    getIntellectItems,
+    getVitalityItems,
+    getLatestItems,
+    getItemsDiscounts,
+    buyItem,
+    getUserItems
 }

@@ -12,7 +12,10 @@
                         <img src="../assets/hero/necromancer.png" id="leaderImg"> 
                         &nbsp;<strong>Zlotte</strong> (<span style="color: red">LEADER</span>)
                         <br><br>
-                        <span id="announcement">ANNOUNCEMENT:</span>
+                        <span id="announcement">
+                            <img src="../assets/msgboard.png" style="margin-top: -4px"> 
+                            ANNOUNCEMENT
+                        </span>
                         <span id="announcementText">
                         <small style="vertical-align: text-bottom;">2019-08-04 20:16</small>
                         Some text flying in from leader of the guild
@@ -37,8 +40,7 @@
                                 </span>
                                 <span class="forItem">
                                 <img src="../assets/items/strength/W_Sword017.png">
-                                <span>OR</span>&nbsp;
-                                <img src="../assets/gold.png" class="itemGold">&nbsp;84000                                
+                                <span>Desolator</span>
                                 </span>
                                 <span class="userExchange">
                                     <strong>Zlotte</strong>
@@ -52,11 +54,10 @@
                                 </span>
                                 <span class="forItem">
                                 <img src="../assets/items/strength/W_Sword017.png">
-                                <span>OR</span>&nbsp;
-                                <img src="../assets/gold.png" class="itemGold">&nbsp;84000                                
+                                <span>Desolator</span>
                                 </span>
                                 <span class="userExchange">
-                                    <strong>Songohan</strong>
+                                    <strong>Zlotte</strong>
                                 </span>                             
                             </div>
                             <br>
@@ -67,11 +68,10 @@
                                 </span>
                                 <span class="forItem">
                                 <img src="../assets/items/strength/W_Sword017.png">
-                                <span>OR</span>&nbsp;
-                                <img src="../assets/gold.png" class="itemGold">&nbsp;84000                                
+                                <span>Desolator</span>
                                 </span>
                                 <span class="userExchange">
-                                    <strong>Botukas84</strong>
+                                    <strong>Zlotte</strong>
                                 </span>                             
                             </div>
                             <br>
@@ -82,13 +82,26 @@
                                 </span>
                                 <span class="forItem">
                                 <img src="../assets/items/strength/W_Sword017.png">
-                                <span>OR</span>&nbsp;
-                                <img src="../assets/gold.png" class="itemGold">&nbsp;84000                                
+                                <span>Desolator</span>
                                 </span>
                                 <span class="userExchange">
-                                    <strong>Feknaz</strong>
+                                    <strong>Zlotte</strong>
                                 </span>                             
-                            </div> 
+                            </div>
+                            <br>
+                            <div>
+                                <span class="item">
+                                <img src="../assets/items/strength/W_Mace005.png">
+                                <span>Light Mace</span>
+                                </span>
+                                <span class="forItem">
+                                <img src="../assets/items/strength/W_Sword017.png">
+                                <span>Desolator</span>
+                                </span>
+                                <span class="userExchange">
+                                    <strong>Zlotte</strong>
+                                </span>                             
+                            </div>
                             <br>  
                             <div>
                                 <span class="item">
@@ -97,29 +110,13 @@
                                 </span>
                                 <span class="forItem">
                                 <img src="../assets/items/strength/W_Sword017.png">
-                                <span>OR</span>&nbsp;
-                                <img src="../assets/gold.png" class="itemGold">&nbsp;84000                                
+                                <span>Desolator</span>
                                 </span>
                                 <span class="userExchange">
-                                    <strong>Songohan</strong>
+                                    <strong>Zlotte</strong>
                                 </span>                             
                             </div>
-                            <br>
-                            <div>
-                                <span class="item">
-                                <img src="../assets/items/strength/W_Mace005.png">
-                                <span>Light Mace</span>
-                                </span>
-                                <span class="forItem">
-                                <img src="../assets/items/strength/W_Sword017.png">
-                                <span>OR</span>&nbsp;
-                                <img src="../assets/gold.png" class="itemGold">&nbsp;84000                                
-                                </span>
-                                <span class="userExchange">
-                                    <strong>Songohan</strong>
-                                </span>                             
-                            </div>
-                            <br>                                                                                                                                                                   
+                            <br>                                                                                                              
                         </div>                      
                         <div class="col-md-4">
                             <p><img src="../assets/board.png" style="margin-top: -4px;"> Actions</p>
@@ -279,8 +276,7 @@ export default {
     position: relative;
 }
 .panelTitle {
-    color: black;
-    background-color: #37d24a;
+    background-color: #7337d2;
     height: 40px;
     margin-bottom: 0;
     padding: 13px;
@@ -304,32 +300,27 @@ export default {
     vertical-align: bottom;
 }
 #wins {
-    background: #37d24a;
+    background: #7337d2;
     padding: 5px;
     border-radius: 12px;
-    color: black;
 }
 #loses {
-    background: #37d24a;
+    background: #7337d2;
     padding: 5px;
     border-radius: 12px;
-    color: black;
 }
 #rank {
-    background: #37d24a;
+    background: #7337d2;
     padding: 5px;
     border-radius: 12px;
-    color: black;
 }
 #members {
-    background: #37d24a;
+    background: #7337d2;
     padding: 5px;
     border-radius: 12px;
-    color: black;
 }
 #announcement {
-    color: white;
-    background: red;
+    background: #7337d2;
     padding: 5px;
     border-radius: 5px;
     border: 1px solid #232323;
@@ -354,7 +345,7 @@ export default {
     padding: 10px 20px 10px 10px;    
 }
 .forItem {
-    background: #37d24a;
+    background: #223196;
     padding: 10px;
     border-radius: 5px;
     margin-left: -5px;
@@ -423,7 +414,7 @@ export default {
 }
 .msgDate {
     padding: 5px;
-    background: #840000;
+    background: #7337d2;
 }
 .msgText {
     padding: 5px;

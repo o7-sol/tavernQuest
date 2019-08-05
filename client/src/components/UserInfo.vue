@@ -1,11 +1,11 @@
 <template>
-  <div id="userInfo" class="row">
-    <div class="d-flex flex-row bd-highlight mb-3">
-      <div class="p-2 img-with-text">
-        <img :src="imagePath" style="margin-top: 0.3em;">
+  <div id="userInfo" class="row">    
+    <div class="d-flex flex-row">      
+      <div class="p-2 flex-fill img-with-text">          
+        <img :src="require('../assets/hero/'+user.heroImg)" style="margin-top: 0.3em;">
         <p>Zlotte</p>
       </div>
-      <div class="p-2" style="margin-top: 0.6em;">
+      <div class="p-2" style="min-width: 16%;">
         <table>
           <tbody style="vertical-align: bottom">
             <tr>
@@ -33,94 +33,76 @@
               <td>500</td>
             </tr>
           </tbody>
-        </table>
+        </table> 
+                <b-progress :value="100" show-progress variant="danger">
+                </b-progress>             
       </div>
-      <div class="p-2 flex-fill" style="margin-top: 0.6em">
+     <!-- <div class="p-2 flex-fill" style="margin-top: 0.6em">
         <table>
           <tbody>
             <tr>
-              <td>&nbsp;<img src="../assets/gold.png" style="height: 25px;"></td>
-              <td>{{user.gold}}</td>
+              <td>&nbsp;<img src="../assets/gold.png" style="height: 25px;">
+              {{user.gold}}
+              </td>
             </tr>
             <tr>
               <td><strong style="color: red">EXP</strong></td>
               <td>{{user.experience}}</td>
             </tr>
-            <tr>
-              <td>Health</td>
-            </tr>
-          </tbody>
-        </table>
-        <table style="width: 100%; margin-top: 5px;">
-          <tbody>
-            <tr>
-              <td>
-                <b-progress :value="100" show-progress variant="danger">
-                </b-progress>
-              </td>
-            </tr>
           </tbody>
         </table>
 
-      </div>
+      </div>-->
+      
       <div class="vl"></div>
       <div class="p-2 flex-fill userItems">
         <p>Items</p>
-
-        <img src="../assets/items/health/potion.png">
-        <img src="../assets/items/health/potion.png">
-        <img src="../assets/items/health/potion.png">
-        <img src="../assets/items/health/potion.png">
-        <img src="../assets/items/health/potion.png">
-        <img src="../assets/items/health/potion.png">
-        <img src="../assets/items/health/potion.png">
-        <img src="../assets/items/health/potion.png">
-        <img src="../assets/items/health/potion.png">
-        <img src="../assets/items/health/potion.png">
-        <img src="../assets/items/health/potion.png">
-        <img src="../assets/items/health/potion.png">
+        <div class="itemsList">
+          <img v-for="item in items" :src="require('../assets/items/vitality/'+item.img)">
+        </div>
       </div>
       <div class="vl"></div>
-      <div class="p-2" style="width: 50%;">
+      
+     <div class="p-2" style="width: 830px;">
         <p>Tavern Pub</p>
         <ul class="list-unstyled chat">
-          <li>
+          <li style="width: 541px">
             <span class="chatDate">2019-08-01 21:52</span>&nbsp;
             <span class="chatUsername" style="color: white">Zlotte:</span>
             &nbsp;<span class="chatMessage">Some lorem ipsum text flying
               in here. Cmon tell me something. sdfsdfsdfsdfsdf
             </span>
           </li>
-          <li>
+          <li style="width: 541px">
             <span class="chatDate">2019-08-01 21:52</span>&nbsp;
             <span class="chatUsername" style="color: white">Zlotte:</span>
             &nbsp;<span class="chatMessage">Some lorem ipsum text flying
               in here. Cmon tell me something. sdfsdfsdfsdfsdf
             </span>
           </li>
-          <li>
+          <li style="width: 541px">
             <span class="chatDate">2019-08-01 21:52</span>&nbsp;
             <span class="chatUsername" style="color: white">Zlotte:</span>
             &nbsp;<span class="chatMessage">Some lorem ipsum text flying
               in here. Cmon tell me something. sdfsdfsdfsdfsdf
             </span>
           </li>
-          <li>
+          <li style="width: 541px">
             <span class="chatDate">2019-08-01 21:52</span>&nbsp;
             <span class="chatUsername" style="color: white">Zlotte:</span>
             &nbsp;<span class="chatMessage">Some lorem ipsum text flying
               in here. Cmon tell me something. sdfsdfsdfsdfsdf
             </span>
           </li>
+        </ul>
           <label class="sr-only" for="inlineFormInputGroupMessage">Message</label>
-          <div class="input-group" style="margin-top: 5px;">
+          <div class="input-group" style="margin-top: -10px;">
             <div class="input-group-prepend">
               <div style="font-size: 13px;" class="input-group-text" id="sendBtn">Send</div>
             </div>
             <input style="font-size: 13px;" type="text" class="form-control"
               id="inlineFormInputGroupMessage" placeholder="Type message...">
-          </div>
-        </ul>
+          </div>        
       </div>
     </div>
   </div>
@@ -131,16 +113,17 @@ export default {
     name: 'userInfo',
     data() {
         return {
-            user: ''
+            user: '',
+            items: []
         }
     },
     created() {
         this.user = JSON.parse(this.$cookie.get('user'));
-    },    
-    computed: {
-        imagePath: function () {
-            return require('../assets/hero/'+this.user.heroImg);
-        }
+        this.$store.dispatch('getUserItems').then(items => {
+          items.forEach(e => {
+            this.items.push(e);
+          })
+        });
     }
 }
 </script>
@@ -174,7 +157,7 @@ export default {
     border: 2px solid white;
 }
 .userItems {
-    width: 13%
+    min-width: 33%;
 }
 .vl {
     border-left: 3px solid #19022b;
@@ -194,9 +177,20 @@ export default {
 }
 .chat {
     margin-top: -1em;
+    height: 74px;
 }
 .chat li {
     font-size: 13px;
+}
+.item {
+    background: black;
+    padding: 5px;
+    border-radius: 6px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+.itemsList {
+  margin-top: -15px;
 }
 @media only screen and (max-width: 768px) {
     #userInfo {

@@ -63,6 +63,7 @@ router.post('/api/create-account', async(req, res) => {
                         experience: 0,
                         gold: 300,
                         items: [],
+                        role: 'User',
                         token: '',
                         createdAt: dayjs().format('YYYY MM DD h:mm:ss A')
                     });
@@ -97,7 +98,7 @@ router.post('/api/sign-in', async(req, res) => {
 
         bcrypt.compare(password, user.password).then((result) => {
             if(result) {
-                const token = JWT.sign({ username: user.username, userid: user._id }, 'privateKey');
+                const token = JWT.sign({ username: user.username, userid: user._id }, process.env.SECRET_KEY);
                 user.token = token;
                 user.save();
                 res.json({success: 'Logged in', token: user.token, user});

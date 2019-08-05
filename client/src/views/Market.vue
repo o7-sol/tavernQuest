@@ -19,71 +19,34 @@
                         Latest Items
                     </h1>
                     <div class="row"> 
-                    <div id="25" class="latestItemBody" @mouseover="bounceItemIcon(25)"
-                    @mouseout="bounceOff(25)">
-                    <img :class="bounce" class="latestItemIcon" src="../assets/items/strength/W_Spear014.png">
-                    <p>Dragon Sword</p>
-                    <p style="margin-left: 15%;">
-                        <img class="latestItemPowerIcon" src="../assets/fist.png">
-                        +15 
+                    <div v-for="item in latestItems" :key="item._id" class="latestItemBody" @mouseover="bounceItemIcon(item._id)"
+                    @mouseout="bounceOff(item._id)">
+                    <span v-if="item.strength === true">
+                    <img :class="bounce" class="latestItemIcon" :src="require('../assets/items/strength/'+item.img)">
+                    </span>
+                    <span v-if="item.agility === true">
+                    <img :class="bounce" class="latestItemIcon" :src="require('../assets/items/agility/'+item.img)">
+                    </span> 
+                    <span v-if="item.vitality === true">
+                    <img :class="bounce" class="latestItemIcon" :src="require('../assets/items/vitality/'+item.img)">
+                    </span> 
+                    <span v-if="item.intellect === true">
+                    <img :class="bounce" class="latestItemIcon" :src="require('../assets/items/intellect/'+item.img)">
+                    </span>                                                          
+                    <p style="font-size: 13px;">{{item.title}}
+                        <br>
+                        <img v-if="item.strength === true" class="latestItemPowerIcon" src="../assets/fist.png">
+                        <img v-if="item.agility === true" class="latestItemPowerIcon" src="../assets/shoes.png">
+                        <img v-if="item.vitality === true" class="latestItemPowerIcon" src="../assets/heart.png">
+                        <img v-if="item.intellect === true" class="latestItemPowerIcon" src="../assets/book.png">
+
+                        +{{item.power}}
                     </p>
-                    <b-button variant="danger">
+                    <b-button @click="buyItem(item._id)" variant="danger">
                         <img src="../assets/gold.png" class="latestItemGold">
-                        3510
+                        {{item.price}}
                     </b-button>
-                    </div>  
-                    <div id="30" class="latestItemBody" @mouseover="bounceItemIcon(30)"
-                    @mouseout="bounceOff(30)">
-                    <img :class="bounce" class="latestItemIcon" src="../assets/items/strength/W_Spear014.png">
-                    <p>Dragon Sword</p>
-                    <p style="margin-left: 15%;">
-                        <img class="latestItemPowerIcon" src="../assets/fist.png">
-                        +15 
-                    </p>
-                    <b-button variant="danger">
-                        <img src="../assets/gold.png" class="latestItemGold">
-                        3510
-                    </b-button>
-                    </div>
-                    <div id="30" class="latestItemBody" @mouseover="bounceItemIcon(30)"
-                    @mouseout="bounceOff(30)">
-                    <img :class="bounce" class="latestItemIcon" src="../assets/items/strength/W_Spear014.png">
-                    <p>Dragon Sword</p>
-                    <p style="margin-left: 15%;">
-                        <img class="latestItemPowerIcon" src="../assets/fist.png">
-                        +15 
-                    </p>
-                    <b-button variant="danger">
-                        <img src="../assets/gold.png" class="latestItemGold">
-                        3510
-                    </b-button>
-                    </div>    
-                    <div id="30" class="latestItemBody" @mouseover="bounceItemIcon(30)"
-                    @mouseout="bounceOff(30)">
-                    <img :class="bounce" class="latestItemIcon" src="../assets/items/strength/W_Spear014.png">
-                    <p>Dragon Sword</p>
-                    <p style="margin-left: 15%;">
-                        <img class="latestItemPowerIcon" src="../assets/fist.png">
-                        +15 
-                    </p>
-                    <b-button variant="danger">
-                        <img src="../assets/gold.png" class="latestItemGold">
-                        3510
-                    </b-button>
-                    </div>    
-                    <div id="30" class="latestItemBody" @mouseover="bounceItemIcon(30)"
-                    @mouseout="bounceOff(30)">
-                    <img :class="bounce" class="latestItemIcon" src="../assets/items/strength/W_Spear014.png">
-                    <p>Dragon Sword</p>
-                    <p style="margin-left: 15%;">
-                        <img class="latestItemPowerIcon" src="../assets/fist.png">
-                        +15 
-                    </p>
-                    <b-button variant="danger">
-                        <img src="../assets/gold.png" class="latestItemGold">
-                        3510
-                    </b-button>
-                    </div>                                                                                                                                                                                    
+                    </div>                                                                                                                                                                            
                     </div> 
                     <br>
                 </div>  
@@ -94,45 +57,24 @@
                     </h1>
                     <table>
                         <tbody>
-                            <tr>
-                                <td><img src="../assets/items/strength/W_Axe012.png"> <strong>Severe Light</strong> </td>
-                                <td>&nbsp;<span style="color: red; text-decoration: line-through;">500</span> 
-                                now is only for<img src="../assets/gold.png" class="purchaserGoldIcon"> <span style="color: lime">300</span>
+                            <tr class="item" v-for="item in discountedItems" :key="item._id">
+                                <td><img :src="require('../assets/items/'+item.skill+'/'+item.image)"> 
+                                <strong>{{item.title}}</strong> </td>
+                                <td>&nbsp;<span style="color: red; text-decoration: line-through;">
+                                    {{item.old_price}}
+                                    </span> 
+                                now is only for<img src="../assets/gold.png" class="purchaserGoldIcon"> 
+                                <span style="color: lime">{{item.new_price}}</span>
                                 &nbsp;<span class="discountImage">
-                                <img src="../assets/fist.png" style="height: 25px"> +15
+                                <img v-if="item.skill === 'strength' " src="../assets/fist.png" style="height: 25px"> 
+                                <img v-if="item.skill === 'agility' " src="../assets/shoes.png" style="height: 25px"> 
+                                <img v-if="item.skill === 'vitality' " src="../assets/heart.png" style="height: 25px"> 
+                                <img v-if="item.skill === 'intellect' " src="../assets/book.png" style="height: 25px"> 
+
+                                +{{item.power}}
                                 </span>
                                 </td>
-                            </tr>
-                            <br>
-                            <tr>
-                                <td><img src="../assets/items/strength/W_Axe012.png"> <strong>Severe Light</strong> </td>
-                                <td>&nbsp;<span style="color: red; text-decoration: line-through;">500</span> 
-                                now is only for<img src="../assets/gold.png" class="purchaserGoldIcon"> <span style="color: lime">300</span>
-                                &nbsp;<span class="discountImage">
-                                <img src="../assets/fist.png" style="height: 25px"> +15
-                                </span>
-                                </td>
-                            </tr>
-                            <br>
-                            <tr>
-                                <td><img src="../assets/items/strength/W_Axe012.png"> <strong>Severe Light</strong> </td>
-                                <td>&nbsp;<span style="color: red; text-decoration: line-through;">500</span> 
-                                now is only for<img src="../assets/gold.png" class="purchaserGoldIcon"> <span style="color: lime">300</span>
-                                &nbsp;<span class="discountImage">
-                                <img src="../assets/fist.png" style="height: 25px"> +15
-                                </span>
-                                </td>
-                            </tr> 
-                            <br>
-                            <tr>
-                                <td><img src="../assets/items/strength/W_Axe012.png"> <strong>Severe Light</strong> </td>
-                                <td>&nbsp;<span style="color: red; text-decoration: line-through;">500</span> 
-                                now is only for<img src="../assets/gold.png" class="purchaserGoldIcon"> <span style="color: lime">300</span>
-                                &nbsp;<span class="discountImage">
-                                <img src="../assets/fist.png" style="height: 25px"> +15
-                                </span>
-                                </td>
-                            </tr>                                                                                                                                                                                                                           
+                            </tr>                                                                                                                                                                                                                        
                         </tbody>
                     </table>
                 </div>
@@ -148,16 +90,38 @@ export default {
     name: 'market',
     data() {
         return {
-            bounce: ''
+            bounce: '',
+            latestItems: [],
+            discountedItems: []
         }
     },
     methods: {
+        buyItem(itemID) {
+            const payload = {
+                itemID
+            }
+            this.$store.dispatch('buyItem', payload);
+        },
         bounceItemIcon(id) {
             this.bounce = 'animated bounceIn';
         },
         bounceOff(id) {
             this.bounce = '';
         }
+    },
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.$store.dispatch('getLatestItems').then((items) => {
+                items.forEach(e => {
+                    vm.latestItems.push(e);
+                });
+            });
+            vm.$store.dispatch('getItemsDiscounts').then((items) => {
+                items.forEach(e => {
+                    vm.discountedItems.push(e);
+                });
+            });            
+        });
     },
     components: {
         appMarketCats: MarketCats
@@ -202,7 +166,6 @@ export default {
       background: #030615;
       padding: 8px;
       border-radius: 19px;
-      margin-left: 18%;
   }
   .latestItemPowerIcon {
       height: 25px;
@@ -211,7 +174,6 @@ export default {
   }
   .latestItemGold {
       height: 25px; 
-      vertical-align: bottom;
       image-rendering: pixelated;
   }
   .latestItemBody {
@@ -220,6 +182,8 @@ export default {
       border-radius: 9px;
       margin-left: 2%;
       margin-top: 2%;
+      text-align: center;
+      width: 132px;
   }
   .latestItemBody:hover {
       background-color: #7a00ff
@@ -239,7 +203,10 @@ export default {
   }
   .discountImage {
       background: #7337d2;
-      padding: 13px;
+      padding: 6px;
       border-radius: 38px;
+  }
+  .item {
+      font-size: 14px;
   }
 </style>

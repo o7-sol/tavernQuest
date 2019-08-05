@@ -35,6 +35,9 @@
         <span v-if="$cookie.get('user')">
         <b-nav-item>
         <span style="vertical-align: middle">
+        <img src="./assets/gold.png" style="height: 25px; vertical-align: bottom">
+        {{user.gold}}
+        <strong style="color: red">EXP</strong> {{user.experience}}
         <router-link to="/profile">{{user.username}}</router-link>
         <router-link @click.native="logOut" to="/">Log Out</router-link>    
        </span>       

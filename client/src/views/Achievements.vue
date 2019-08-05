@@ -216,7 +216,7 @@ export default {
     color: #fff;
     border-radius: 3px !important;
     border: 1px solid #1d1d1d;
-    background: #ad2128;
+    background: #401a7b;
 }
 .info {
     padding: 10px;
@@ -225,14 +225,18 @@ export default {
     padding: 10px
 }
 .item {
-    background: #1e165a;
+background: #1e165a;
     padding: 4px;
     padding-bottom: 3px;
-    margin-top: 0px;
+    margin-top: -3px;
     margin-left: -14px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     height: 34px;
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-pixelated;
     image-rendering: pixelated;
 }
 .itemTitle {
@@ -242,6 +246,7 @@ export default {
     float: right;
     margin-top: -5px;
     margin-right: -5px;
+    padding-top: 3px;
 }
 .specialItem {
     background: black;

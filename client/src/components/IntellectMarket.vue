@@ -29,200 +29,27 @@
                     <br>                           
                 <div class="row">
                 <div id="marketInfo" class="col-md-12">
-                    <ul class="list-unstyled row">
-                        <li class="list-item col-4">
-                            <p>
-                            <span class="item">
-                            <img src="../assets/items/strength/W_Axe002.png">
-                            <strong>Severe Light</strong>
-                            &nbsp;<img src="../assets/fist.png" style="height: 25px">
-                            +15&nbsp;
+                    <ul class="list-unstyled row" style="margin-right: -9%;">
+                        <li style="padding-right: 30px; width: 15%; padding-bottom: 30px;" v-for="item in items" class="list-item">
+                        <div class="item">
+                       <img class="itemImg" :src="require('../assets/items/intellect/'+item.img)">  
+                        <p>
+                            {{item.title}}<br>
+                            <img src="../assets/book.png" style="height: 25px; image-rendering: pixelated">
+                            +{{item.power}}<br>     
+                            <small>Stock: {{item.stock}} / {{item.max_stock}}<br>
+                            Level Required: <span style="color: red">{{item.level}}</span> 
+                            </small>               
+                        </p>  
                             <span class="itemBuyBtn">
                             <b-button variant="danger">
                             <img src="../assets/gold.png" class="buyBtnGold">
-                            3000
+                            {{item.price}}
                             </b-button>
-                            </span>                            
-                            </span>
-                            </p>
-                        </li> 
-                        <li class="list-item col-4">
-                            <p>
-                            <span class="item">
-                            <img src="../assets/items/strength/W_Axe002.png">
-                            <strong>Severe Light</strong>
-                            &nbsp;<img src="../assets/fist.png" style="height: 25px">
-                            +15&nbsp;
-                            <span class="itemBuyBtn">
-                            <b-button variant="danger">
-                            <img src="../assets/gold.png" class="buyBtnGold">
-                            3000
-                            </b-button>
-                            </span>                            
-                            </span>
-                            </p>
-                        </li> 
-                        <li class="list-item col-4">
-                            <p>
-                            <span class="item">
-                            <img src="../assets/items/strength/W_Axe002.png">
-                            <strong>Severe Light</strong>
-                            &nbsp;<img src="../assets/fist.png" style="height: 25px">
-                            +15&nbsp;
-                            <span class="itemBuyBtn">
-                            <b-button variant="danger">
-                            <img src="../assets/gold.png" class="buyBtnGold">
-                            3000
-                            </b-button>
-                            </span>                            
-                            </span>
-                            </p>
-                        </li> 
-                        <li class="list-item col-4">
-                            <p>
-                            <span class="item">
-                            <img src="../assets/items/strength/W_Axe002.png">
-                            <strong>Severe Light</strong>
-                            &nbsp;<img src="../assets/fist.png" style="height: 25px">
-                            +15&nbsp;
-                            <span class="itemBuyBtn">
-                            <b-button variant="danger">
-                            <img src="../assets/gold.png" class="buyBtnGold">
-                            3000
-                            </b-button>
-                            </span>                            
-                            </span>
-                            </p>
-                        </li> 
-                        <li class="list-item col-4">
-                            <p>
-                            <span class="item">
-                            <img src="../assets/items/strength/W_Axe002.png">
-                            <strong>Severe Light</strong>
-                            &nbsp;<img src="../assets/fist.png" style="height: 25px">
-                            +15&nbsp;
-                            <span class="itemBuyBtn">
-                            <b-button variant="danger">
-                            <img src="../assets/gold.png" class="buyBtnGold">
-                            3000
-                            </b-button>
-                            </span>                            
-                            </span>
-                            </p>
-                        </li> 
-                        <li class="list-item col-4">
-                            <p>
-                            <span class="item">
-                            <img src="../assets/items/strength/W_Axe002.png">
-                            <strong>Severe Light</strong>
-                            &nbsp;<img src="../assets/fist.png" style="height: 25px">
-                            +15&nbsp;
-                            <span class="itemBuyBtn">
-                            <b-button variant="danger">
-                            <img src="../assets/gold.png" class="buyBtnGold">
-                            3000
-                            </b-button>
-                            </span>                            
-                            </span>
-                            </p>
-                        </li> 
-                        <li class="list-item col-4">
-                            <p>
-                            <span class="item">
-                            <img src="../assets/items/strength/W_Axe002.png">
-                            <strong>Severe Light</strong>
-                            &nbsp;<img src="../assets/fist.png" style="height: 25px">
-                            +15&nbsp;
-                            <span class="itemBuyBtn">
-                            <b-button variant="danger">
-                            <img src="../assets/gold.png" class="buyBtnGold">
-                            3000
-                            </b-button>
-                            </span>                            
-                            </span>
-                            </p>
-                        </li> 
-                        <li class="list-item col-4">
-                            <p>
-                            <span class="item">
-                            <img src="../assets/items/strength/W_Axe002.png">
-                            <strong>Severe Light</strong>
-                            &nbsp;<img src="../assets/fist.png" style="height: 25px">
-                            +15&nbsp;
-                            <span class="itemBuyBtn">
-                            <b-button variant="danger">
-                            <img src="../assets/gold.png" class="buyBtnGold">
-                            3000
-                            </b-button>
-                            </span>                            
-                            </span>
-                            </p>
-                        </li> 
-                        <li class="list-item col-4">
-                            <p>
-                            <span class="item">
-                            <img src="../assets/items/strength/W_Axe002.png">
-                            <strong>Severe Light</strong>
-                            &nbsp;<img src="../assets/fist.png" style="height: 25px">
-                            +15&nbsp;
-                            <span class="itemBuyBtn">
-                            <b-button variant="danger">
-                            <img src="../assets/gold.png" class="buyBtnGold">
-                            3000
-                            </b-button>
-                            </span>                            
-                            </span>
-                            </p>
-                        </li> 
-                        <li class="list-item col-4">
-                            <p>
-                            <span class="item">
-                            <img src="../assets/items/strength/W_Axe002.png">
-                            <strong>Severe Light</strong>
-                            &nbsp;<img src="../assets/fist.png" style="height: 25px">
-                            +15&nbsp;
-                            <span class="itemBuyBtn">
-                            <b-button variant="danger">
-                            <img src="../assets/gold.png" class="buyBtnGold">
-                            3000
-                            </b-button>
-                            </span>                            
-                            </span>
-                            </p>
-                        </li> 
-                        <li class="list-item col-4">
-                            <p>
-                            <span class="item">
-                            <img src="../assets/items/strength/W_Axe002.png">
-                            <strong>Severe Light</strong>
-                            &nbsp;<img src="../assets/fist.png" style="height: 25px">
-                            +15&nbsp;
-                            <span class="itemBuyBtn">
-                            <b-button variant="danger">
-                            <img src="../assets/gold.png" class="buyBtnGold">
-                            3000
-                            </b-button>
-                            </span>                            
-                            </span>
-                            </p>
-                        </li> 
-                        <li class="list-item col-4">
-                            <p>
-                            <span class="item">
-                            <img src="../assets/items/strength/W_Axe002.png">
-                            <strong>Severe Light</strong>
-                            &nbsp;<img src="../assets/fist.png" style="height: 25px">
-                            +15&nbsp;
-                            <span class="itemBuyBtn">
-                            <b-button variant="danger">
-                            <img src="../assets/gold.png" class="buyBtnGold">
-                            3000
-                            </b-button>
-                            </span>                            
-                            </span>
-                            </p>
-                        </li>                                                                                                                                                                                                                                                                                                
-                    </ul>
+                            </span>  
+                            </div> 
+                        </li>                      
+                    </ul>   
                 </div>  
                 </div>                                      
             </div>
@@ -236,7 +63,8 @@ export default {
     name: 'market',
     data() {
         return {
-            bounce: ''
+            bounce: '',
+            items: []
         }
     },
     methods: {
@@ -249,6 +77,15 @@ export default {
         toVitMarket() {
             this.$router.push({name: 'vitalityMarket'});
         }
+    },
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.$store.dispatch('getIntellectItems').then((items) => {
+                items.forEach(e => {
+                    vm.items.push(e);
+                });
+            });
+        });
     }
 }
 </script>
@@ -325,25 +162,28 @@ export default {
       background: #212f69;
   } 
   #marketInfo {
-      padding-left: 2em;
+      padding-left: 5em;
   }
   #marketInfo h1 {
       font-size: 1rem;
   }
-  .item {
-    background: #030615;
+.item {
+    background: #050813;
     padding: 14px;
     border: 1px solid #111525;
     border-radius: 5px;
-  }
+    text-align: center;
+}
+.itemImg {
+    background: #7337d2;
+    padding: 8px;
+    border-radius: 11px;
+}
   .itemBuyBtn {
     background: #dc3545;
     padding: 14px;
     border-radius: 9px;
-    margin-right: -20px;
     border-left: none;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
   }
   .buyBtnGold {
     height: 25px;
