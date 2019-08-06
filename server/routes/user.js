@@ -63,6 +63,7 @@ router.post('/api/create-account', async(req, res) => {
                         experience: 0,
                         gold: 300,
                         items: [],
+                        bank: [],
                         role: 'User',
                         token: '',
                         createdAt: dayjs().format('YYYY MM DD h:mm:ss A')

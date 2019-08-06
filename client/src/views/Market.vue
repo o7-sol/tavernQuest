@@ -40,9 +40,13 @@
                         <img v-if="item.vitality === true" class="latestItemPowerIcon" src="../assets/heart.png">
                         <img v-if="item.intellect === true" class="latestItemPowerIcon" src="../assets/book.png">
 
-                        +{{item.power}}
+                        +{{item.power}}                      
                     </p>
-                    <b-button @click="buyItem(item._id)" variant="danger">
+                    <small style="font-size: 12px">
+                        Level Required: {{item.level}}<br>
+                        Stock: {{item.stock}} / {{item.max_stock}} 
+                    </small>                      
+                    <b-button @click="buyItem(item)" variant="danger">
                         <img src="../assets/gold.png" class="latestItemGold">
                         {{item.price}}
                     </b-button>
@@ -79,34 +83,21 @@
                     </table>
                 </div>
                 </div>                                      
-            </div>
+            </div>          
         </div>
     </div>
 </template>
 
 <script>
 import MarketCats from '../components/MarketCats';
+import { mapGetters } from 'vuex';
 export default {
     name: 'market',
     data() {
         return {
             bounce: '',
             latestItems: [],
-            discountedItems: []
-        }
-    },
-    methods: {
-        buyItem(itemID) {
-            const payload = {
-                itemID
-            }
-            this.$store.dispatch('buyItem', payload);
-        },
-        bounceItemIcon(id) {
-            this.bounce = 'animated bounceIn';
-        },
-        bounceOff(id) {
-            this.bounce = '';
+            discountedItems: [],
         }
     },
     beforeRouteEnter(to, from, next) {
@@ -122,6 +113,128 @@ export default {
                 });
             });            
         });
+    },    
+    methods: {
+        buyItem(item) {
+
+            var imgURL = '';
+            if(item.strength === true) {
+                imgURL = require("../assets/items/strength/"+item.img);
+            } else if (item.agility === true) {
+                imgURL = require("../assets/items/agility/"+item.img);
+            } else if (item.vitality === true) {
+                imgURL = require("../assets/items/vitality/"+item.img);
+            } else {
+                imgURL = require("../assets/items/intellect/"+item.img);
+            }
+
+            const user = JSON.parse(this.$cookie.get('user'));
+            if(user.level < item.level) {
+                const h = this.$createElement
+
+                const vNodesMsg = h(
+                'p',
+                { class: ['text-center', 'mb-0'] },
+                [
+                    h('b-img', { props: { 'src': imgURL}}),
+                    h('strong', {}, `${item.title} `),
+                    h('br', {}, ''),
+                    `Your current level is lower than item requires.`,
+                ]
+                );                
+
+               this.$bvToast.toast([vNodesMsg], {
+                title: 'Notification',
+                variant: 'warning',
+                solid: true,
+                autoHideDelay: 5000
+                }); 
+            }
+
+            else if(item.stock < 1) {
+                const h = this.$createElement
+
+                const vNodesMsg = h(
+                'p',
+                { class: ['text-center', 'mb-0'] },
+                [
+                    h('b-img', { props: { 'src': imgURL}}),
+                    h('strong', {}, `${item.title} `),
+                    h('br', {}, ''),
+                    `Currently this item is out of stock.`,
+                ]
+                );  
+
+               this.$bvToast.toast([vNodesMsg], {
+                title: 'Notification',
+                variant: 'warning',
+                solid: true,
+                autoHideDelay: 5000
+                });                
+            }
+
+            else if(user.gold < item.price) {
+                const h = this.$createElement
+
+                const vNodesMsg = h(
+                'p',
+                { class: ['text-center', 'mb-0'] },
+                [
+                    h('b-img', { props: { 'src': imgURL}}),
+                    h('strong', {}, `${item.title} `),
+                    h('br', {}, ''),
+                    `You do not have enough gold to buy this item.`,
+                ]
+                ); 
+
+               this.$bvToast.toast([vNodesMsg], {
+                title: 'Notification',
+                variant: 'warning',
+                solid: true,
+                autoHideDelay: 5000
+                });
+            } else {
+                const payload = {
+                    itemID: item._id
+                }
+                this.$store.dispatch('buyItem', payload).then(data => {
+                    
+                    if(data.successMsg){
+                        const h = this.$createElement
+
+                        const vNodesMsg = h(
+                        'p',
+                        { class: ['text-center', 'mb-0'] },
+                        [
+                            h('b-img', { props: { 'src': imgURL}}),
+                            h('strong', {}, `${item.title} `),
+                            h('br', {}, ''),
+                            `${data.successMsg}`,
+                        ]
+                        );                         
+                        this.$bvToast.toast([vNodesMsg], {
+                        title: 'Notification',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 5000
+                        });  
+                        this.storedUserItems.push(data.item);
+                    }                 
+                });                
+            }
+        },
+        bounceItemIcon(id) {
+            this.bounce = 'animated bounceIn';
+        },
+        bounceOff(id) {
+            this.bounce = '';
+        },
+
+     },
+    computed: {
+        ...mapGetters([
+            'storedUserItems'
+        ])
     },
     components: {
         appMarketCats: MarketCats
@@ -170,7 +283,6 @@ export default {
   .latestItemPowerIcon {
       height: 25px;
       image-rendering: pixelated;
-      vertical-align: bottom;
   }
   .latestItemGold {
       height: 25px; 

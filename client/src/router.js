@@ -95,6 +95,12 @@ export default new Router({
       name: 'achievements',
       component: () => import(/* webpackChunkName: "achievements" */ './views/Achievements.vue'),
       beforeEnter: isLoggedIn
+    },
+    {
+      path: '/bank',
+      name: 'bank',
+      component: () => import(/* webpackChunkName: "bank" */ './views/Bank.vue'),
+      beforeEnter: isLoggedIn
     }
   ],
 });

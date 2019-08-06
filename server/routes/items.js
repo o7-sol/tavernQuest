@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const JWT = require('jsonwebtoken');
 const dayjs = require('dayjs');
+const uuidv1 = require('uuid/v1');
 
 // Models
 const Item = require('../models/Item');
@@ -10,10 +11,29 @@ const ItemDiscount = require('../models/ItemDiscount');
 // Middlewares
 const Authenticated = require('../middlewares/authenticated');
 
+// Latest items
+const getLatestItems = (items) => {
+    return items.slice(0, 36);
+};
+
+router.post('/api/place-item-to-bank', Authenticated, async(req, res) => {
+    
+});
+
+router.get('/api/user-bank', Authenticated, async(req, res) => {
+    try {
+        const user = await req.user;
+        items = await user.items.slice(36, 100);
+        res.json({items});  
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 router.get('/api/user-items', Authenticated, async(req, res) => {
     try {
         const user = await req.user;
-        items = await user.items;
+        items = await getLatestItems(user.items);
         res.json({items});
     } catch (error) {
         console.log(error);
@@ -24,8 +44,18 @@ router.post('/api/buy-item/:id', Authenticated, async(req, res) => {
     try {
         const user = await req.user;
         const item = await Item.findById(req.body.itemID);
-        if(user.gold === item.price || user.gold > item.price) {
-            user.items.push({
+        if(!item) {
+            return console.log('Item do not exist');
+        }
+        if(item.level > user.level) {
+            return console.log('Item level is too high');
+        }
+        if(item.stock < 1) {
+            return console.log('Item is out of stock');
+        }
+        if(user.gold >= item.price && user.level >= item.level && item.stock > 0) {
+            const itemPayload = {
+                _id: uuidv1(),
                 title: item.title,
                 img: item.img,
                 power: item.power,
@@ -34,9 +64,12 @@ router.post('/api/buy-item/:id', Authenticated, async(req, res) => {
                 vitality: item.vitality,
                 intellect: item.intellect,
                 price: item.price,
-                createdAt: dayjs().format('YYYY MM DD h:mm:ss A')
-            });
+                createdAt: dayjs().format('YYYY MM DD h:mm:ss A')                
+            }
+            user.items.push(itemPayload);
             user.save();
+            res.json({successMsg: 'Gold transaction successful. Item was shipped.', item: itemPayload});
+            console.log('Item bought successfully');
         } else {
             console.log('User do not have enough gold to buy item');
         }

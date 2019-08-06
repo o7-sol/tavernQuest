@@ -2,8 +2,8 @@
   <div id="userInfo" class="row">    
     <div class="d-flex flex-row">      
       <div class="p-2 flex-fill img-with-text">          
-        <img :src="require('../assets/hero/'+user.heroImg)" style="margin-top: 0.3em;">
-        <p>Zlotte</p>
+        <img :src="require('../assets/hero/'+user.heroImg)" style="margin-top: -0.5em;">
+        <p>Zlotte<br>Level {{user.level}}</p>
       </div>
       <div class="p-2" style="min-width: 16%;">
         <table>
@@ -37,28 +37,17 @@
                 <b-progress :value="100" show-progress variant="danger">
                 </b-progress>             
       </div>
-     <!-- <div class="p-2 flex-fill" style="margin-top: 0.6em">
-        <table>
-          <tbody>
-            <tr>
-              <td>&nbsp;<img src="../assets/gold.png" style="height: 25px;">
-              {{user.gold}}
-              </td>
-            </tr>
-            <tr>
-              <td><strong style="color: red">EXP</strong></td>
-              <td>{{user.experience}}</td>
-            </tr>
-          </tbody>
-        </table>
 
-      </div>-->
-      
       <div class="vl"></div>
       <div class="p-2 flex-fill userItems">
-        <p>Items</p>
+        <p>Inventory</p>
         <div class="itemsList">
-          <img v-for="item in items" :src="require('../assets/items/vitality/'+item.img)">
+          <span v-for="item in storedUserItems">
+          <img v-if="item.strength" :src="require('../assets/items/strength/'+item.img)">
+          <img v-if="item.agility" :src="require('../assets/items/agility/'+item.img)">
+          <img v-if="item.vitality" :src="require('../assets/items/vitality/'+item.img)">
+          <img v-if="item.intellect" :src="require('../assets/items/intellect/'+item.img)">
+          </span>
         </div>
       </div>
       <div class="vl"></div>
@@ -109,6 +98,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 export default {
     name: 'userInfo',
     data() {
@@ -119,11 +110,17 @@ export default {
     },
     created() {
         this.user = JSON.parse(this.$cookie.get('user'));
-        this.$store.dispatch('getUserItems').then(items => {
-          items.forEach(e => {
-            this.items.push(e);
-          })
-        });
+        this.getUserItems();
+    },
+    methods: {
+      ...mapActions([
+        'getUserItems'
+      ])
+    },
+    computed: {
+      ...mapGetters([
+        'storedUserItems'
+      ])
     }
 }
 </script>

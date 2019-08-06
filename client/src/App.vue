@@ -37,7 +37,8 @@
         <span style="vertical-align: middle">
         <img src="./assets/gold.png" style="height: 25px; vertical-align: bottom">
         {{user.gold}}
-        <strong style="color: red">EXP</strong> {{user.experience}}
+        <strong style="color: red">EXP</strong>&nbsp; {{user.experience}}
+        <router-link to="/bank">Bank</router-link>
         <router-link to="/profile">{{user.username}}</router-link>
         <router-link @click.native="logOut" to="/">Log Out</router-link>    
        </span>       
@@ -140,5 +141,27 @@ body {
 .sectionTitle {
     font-family: 'Cormorant', serif; 
     color: #de9c20;
+}
+.b-toast-warning .toast .toast-header {
+    background: black !important;
+    color: white !important;
+}
+.b-toast-success .toast .toast-header {
+    background: black !important;
+    color: white !important;
+}
+.b-toast-warning .toast {
+  color: white !important;
+  border-color: black !important;
+}
+.b-toast-success .toast {
+  color: black !important;
+  border-color: black !important;
+}
+.b-toast-warning .toast-body {
+  background: #dc3545 !important;
+}
+.b-toast-success .toast-body {
+  background: #04d61e !important;
 }
 </style>

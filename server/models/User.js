@@ -66,6 +66,7 @@ const userSchema = mongoose.Schema({
         min: 0
     },
     items: [],
+    bank: [],
     token: {
         type: String
     },

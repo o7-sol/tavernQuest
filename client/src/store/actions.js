@@ -143,9 +143,16 @@ const buyItem = async({commit}, payload) => {
         if(!payload.itemID || payload.itemID.length === 0 || payload.itemID === null) {
             return 'Something went wrong. Try again later.';
         }
-        API.post('/buy-item/'+payload.itemID, {
+        const response = await API.post('/buy-item/'+payload.itemID, {
             itemID: payload.itemID
-        });        
+        });     
+        if(response.status === 200 && response.data.successMsg) {
+            const data = {
+                successMsg: response.data.successMsg,
+                item: response.data.item
+            }
+            return data;
+        }   
     } catch (error) {
         
     }
@@ -155,8 +162,29 @@ const getUserItems = async({commit}, payload) => {
     try {
         const response = await API.get('/user-items');
         if(response.status === 200 && response.data.items) {
+            commit('SET_USER_ITEMS', response.data.items);
+        }
+    } catch (error) {
+        
+    }
+};
+
+const getUserBankItems = async({commit}, payload) => {
+    try {
+        const response = await API.get('/user-bank');
+        if(response.status === 200 && response.data.items) {
             return response.data.items;
         }
+    } catch (error) {
+        
+    }
+};
+
+const placeItemToBank = async({commit}, payload) => {
+    try {
+        const response = API.post('/place-item-to-bank', {
+            itemID: payload.itemID
+        });
     } catch (error) {
         
     }
@@ -172,5 +200,7 @@ export default {
     getLatestItems,
     getItemsDiscounts,
     buyItem,
-    getUserItems
+    getUserItems,
+    getUserBankItems,
+    placeItemToBank
 }

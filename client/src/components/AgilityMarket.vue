@@ -42,7 +42,7 @@
                             </small>               
                         </p>  
                             <span class="itemBuyBtn">
-                            <b-button variant="danger">
+                            <b-button @click="buyItem(item)" variant="danger">
                             <img src="../assets/gold.png" class="buyBtnGold">
                             {{item.price}}
                             </b-button>
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'market',
@@ -65,17 +66,6 @@ export default {
         return {
             bounce: '',
             items: []
-        }
-    },
-    methods: {
-        toStrMarket() {
-            this.$router.push({name: 'strengthMarket'});
-        },
-        toVitMarket() {
-            this.$router.push({name: 'vitalityMarket'});
-        },
-        toIntMarket() {
-            this.$router.push({name: 'intellectMarket'});
         }
     },
     beforeRouteEnter(to, from, next) {
@@ -86,7 +76,131 @@ export default {
                 });
             });
         });
-    }    
+    },      
+    methods: {
+        buyItem(item) {
+
+            var imgURL = '';
+            if(item.strength === true) {
+                imgURL = require("../assets/items/strength/"+item.img);
+            } else if (item.agility === true) {
+                imgURL = require("../assets/items/agility/"+item.img);
+            } else if (item.vitality === true) {
+                imgURL = require("../assets/items/vitality/"+item.img);
+            } else {
+                imgURL = require("../assets/items/intellect/"+item.img);
+            }
+
+            const user = JSON.parse(this.$cookie.get('user'));
+            if(user.level < item.level) {
+                const h = this.$createElement
+
+                const vNodesMsg = h(
+                'p',
+                { class: ['text-center', 'mb-0'] },
+                [
+                    h('b-img', { props: { 'src': imgURL}}),
+                    h('strong', {}, `${item.title} `),
+                    h('br', {}, ''),
+                    `Your current level is lower than item requires.`,
+                ]
+                );                
+
+               this.$bvToast.toast([vNodesMsg], {
+                title: 'Notification',
+                variant: 'warning',
+                solid: true,
+                autoHideDelay: 5000
+                }); 
+            }
+
+            else if(item.stock < 1) {
+                const h = this.$createElement
+
+                const vNodesMsg = h(
+                'p',
+                { class: ['text-center', 'mb-0'] },
+                [
+                    h('b-img', { props: { 'src': imgURL}}),
+                    h('strong', {}, `${item.title} `),
+                    h('br', {}, ''),
+                    `Currently this item is out of stock.`,
+                ]
+                );  
+
+               this.$bvToast.toast([vNodesMsg], {
+                title: 'Notification',
+                variant: 'warning',
+                solid: true,
+                autoHideDelay: 5000
+                });                
+            }
+
+            else if(user.gold < item.price) {
+                const h = this.$createElement
+
+                const vNodesMsg = h(
+                'p',
+                { class: ['text-center', 'mb-0'] },
+                [
+                    h('b-img', { props: { 'src': imgURL}}),
+                    h('strong', {}, `${item.title} `),
+                    h('br', {}, ''),
+                    `You do not have enough gold to buy this item.`,
+                ]
+                ); 
+
+               this.$bvToast.toast([vNodesMsg], {
+                title: 'Notification',
+                variant: 'warning',
+                solid: true,
+                autoHideDelay: 5000
+                });
+            } else {
+                const payload = {
+                    itemID: item._id
+                }
+                this.$store.dispatch('buyItem', payload).then(data => {
+                    
+                    if(data.successMsg){
+                        const h = this.$createElement
+
+                        const vNodesMsg = h(
+                        'p',
+                        { class: ['text-center', 'mb-0'] },
+                        [
+                            h('b-img', { props: { 'src': imgURL}}),
+                            h('strong', {}, `${item.title} `),
+                            h('br', {}, ''),
+                            `${data.successMsg}`,
+                        ]
+                        );                         
+                        this.$bvToast.toast([vNodesMsg], {
+                        title: 'Notification',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 5000
+                        });  
+                        this.storedUserItems.push(data.item);
+                    }                 
+                });                
+            }
+        },         
+        toStrMarket() {
+            this.$router.push({name: 'strengthMarket'});
+        },
+        toVitMarket() {
+            this.$router.push({name: 'vitalityMarket'});
+        },
+        toIntMarket() {
+            this.$router.push({name: 'intellectMarket'});
+        }
+    },
+    computed: {
+        ...mapGetters([
+            'storedUserItems'
+        ])
+    }
 }
 </script>
 

@@ -9,12 +9,16 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     token: VueCookie.get('token') || '',
+    user_items: ''
   },
   actions,
   mutations,
   getters: {
     token: state => {
       return state.token;
+    },
+    storedUserItems: state => {
+      return state.user_items
     }
   }
 });
