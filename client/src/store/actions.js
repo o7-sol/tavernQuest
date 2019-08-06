@@ -190,6 +190,16 @@ const placeItemToBank = async({commit}, payload) => {
     }
 };
 
+const placeItemToInventoryFromBank= async({commit}, payload) => {
+    try {
+        const response = API.post('/place-item-to-inventory', {
+            itemID: payload.itemID
+        });
+    } catch (error) {
+        
+    }
+};
+
 export default {
     createAccount,
     authenticate,
@@ -202,5 +212,6 @@ export default {
     buyItem,
     getUserItems,
     getUserBankItems,
-    placeItemToBank
+    placeItemToBank,
+    placeItemToInventoryFromBank
 }

@@ -17,13 +17,43 @@ const getLatestItems = (items) => {
 };
 
 router.post('/api/place-item-to-bank', Authenticated, async(req, res) => {
-    
+    try {
+        const user = await req.user;
+        const itemID = await req.body.itemID;
+
+        const itemIndex = await user.items.findIndex(x => x._id === itemID);
+        const item = await user.items.find(x => x._id === itemID);
+
+        user.items.splice(itemIndex, 1);
+        user.bank.push(item);
+
+        user.save();
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.post('/api/place-item-to-inventory', Authenticated, async(req, res) => {
+    try {
+        const user = await req.user;
+        const itemID = await req.body.itemID;
+
+        const itemIndex = await user.bank.findIndex(x => x._id === itemID);
+        const item = await user.bank.find(x => x._id === itemID);
+
+        user.bank.splice(itemIndex, 1);
+        user.items.push(item);
+
+        user.save();
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 router.get('/api/user-bank', Authenticated, async(req, res) => {
     try {
         const user = await req.user;
-        items = await user.items.slice(36, 100);
+        const items = await user.bank;
         res.json({items});  
     } catch (error) {
         console.log(error);

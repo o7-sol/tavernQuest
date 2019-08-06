@@ -7,14 +7,18 @@
                         <img src="../assets/board.png" style="margin-top: -3px">
                         Items in the bank
                     </h1>
-                    <ul class="list-unstyled text-center row" id="bankList">
+                   <ul class="list-unstyled text-center row" id="bankList">
                         <li @click="putItemToPendBoxFromBank(index, item)" v-for="(item, index) in bankItems" class="col-2">
                             <img class="itemInBank" v-if="item.strength" :src="require('../assets/items/strength/'+item.img)">
                             <img class="itemInBank" v-if="item.agility" :src="require('../assets/items/agility/'+item.img)">
                             <img class="itemInBank" v-if="item.vitality" :src="require('../assets/items/vitality/'+item.img)">
                             <img class="itemInBank" v-if="item.intellect" :src="require('../assets/items/intellect/'+item.img)">
                             <p class="itemTitle">{{item.title}}</p>
-                        </li>                                                                  
+                        </li> 
+                        <li v-for="index in 30" class="col-2">
+                            <div class="blankItem"></div>
+                            <p class="itemTitle">Some title</p>
+                        </li>                                                                                                         
                     </ul>
                 </div>
             </div>
@@ -140,6 +144,7 @@ export default {
             this.intellect = item.intellect;
             this.power = item.power;
             this.index = index;
+            this.id = item._id;
         },        
         addToBank(index) {
             this.storedUserItems.splice(index, 1);
@@ -150,7 +155,8 @@ export default {
                 agility: this.agility,
                 vitality: this.vitality,
                 intellect: this.intellect,
-                power: this.power
+                power: this.power,
+                _id: this.id
             });
             this.itemInPendingBox = false;
             const payload = {
@@ -170,9 +176,14 @@ export default {
                 power: this.power
             });
             this.itemInPendingBox = false;
+            const payload = {
+                itemID: this.id
+            }           
+            this.placeItemToInventoryFromBank(payload);
         },
         ...mapActions([
-            'placeItemToBank'
+            'placeItemToBank',
+            'placeItemToInventoryFromBank'
         ]),
 
     },
@@ -262,5 +273,11 @@ export default {
     background: black;
     padding: 11px;
     margin: 0 auto;
+}
+.blankItem {
+    background: black;
+    max-width: 44px;
+    height: 44px;
+    border-radius: 5px;
 }
 </style>
