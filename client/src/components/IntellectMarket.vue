@@ -77,6 +77,27 @@ export default {
         });
     },    
     methods: {
+        pushToast(imgURL, title, message, type) {
+                const h = this.$createElement
+
+                const vNodesMsg = h(
+                'p',
+                { class: ['text-center', 'mb-0'] },
+                [
+                    h('b-img', { props: { 'src': imgURL}}),
+                    h('strong', {}, `${title} `),
+                    h('br', {}, ''),
+                    `${message}`,
+                ]
+                );                
+
+               this.$bvToast.toast([vNodesMsg], {
+                title: 'Notification',
+                variant: `${type}`,
+                solid: true,
+                autoHideDelay: 5000
+                }); 
+        },        
         buyItem(item) {
 
             var imgURL = '';
@@ -91,70 +112,23 @@ export default {
             }
 
             const user = JSON.parse(this.$cookie.get('user'));
+            
             if(user.level < item.level) {
-                const h = this.$createElement
+                const message = 'Your current level is lower than item requires.';
 
-                const vNodesMsg = h(
-                'p',
-                { class: ['text-center', 'mb-0'] },
-                [
-                    h('b-img', { props: { 'src': imgURL}}),
-                    h('strong', {}, `${item.title} `),
-                    h('br', {}, ''),
-                    `Your current level is lower than item requires.`,
-                ]
-                );                
-
-               this.$bvToast.toast([vNodesMsg], {
-                title: 'Notification',
-                variant: 'warning',
-                solid: true,
-                autoHideDelay: 5000
-                }); 
+                this.pushToast(imgURL, item.title, message, 'warning');
             }
 
             else if(item.stock < 1) {
-                const h = this.$createElement
+                const message = 'Currently this item is out of stock.';
 
-                const vNodesMsg = h(
-                'p',
-                { class: ['text-center', 'mb-0'] },
-                [
-                    h('b-img', { props: { 'src': imgURL}}),
-                    h('strong', {}, `${item.title} `),
-                    h('br', {}, ''),
-                    `Currently this item is out of stock.`,
-                ]
-                );  
-
-               this.$bvToast.toast([vNodesMsg], {
-                title: 'Notification',
-                variant: 'warning',
-                solid: true,
-                autoHideDelay: 5000
-                });                
+                this.pushToast(imgURL, item.title, message, 'warning');               
             }
 
             else if(user.gold < item.price) {
-                const h = this.$createElement
+                const message = 'You do not have enough gold to buy this item.';
 
-                const vNodesMsg = h(
-                'p',
-                { class: ['text-center', 'mb-0'] },
-                [
-                    h('b-img', { props: { 'src': imgURL}}),
-                    h('strong', {}, `${item.title} `),
-                    h('br', {}, ''),
-                    `You do not have enough gold to buy this item.`,
-                ]
-                ); 
-
-               this.$bvToast.toast([vNodesMsg], {
-                title: 'Notification',
-                variant: 'warning',
-                solid: true,
-                autoHideDelay: 5000
-                });
+                this.pushToast(imgURL, item.title, message, 'warning');
             } else {
                 const payload = {
                     itemID: item._id
@@ -162,24 +136,8 @@ export default {
                 this.$store.dispatch('buyItem', payload).then(data => {
                     
                     if(data.successMsg){
-                        const h = this.$createElement
-
-                        const vNodesMsg = h(
-                        'p',
-                        { class: ['text-center', 'mb-0'] },
-                        [
-                            h('b-img', { props: { 'src': imgURL}}),
-                            h('strong', {}, `${item.title} `),
-                            h('br', {}, ''),
-                            `${data.successMsg}`,
-                        ]
-                        );                         
-                        this.$bvToast.toast([vNodesMsg], {
-                        title: 'Notification',
-                        variant: 'success',
-                        solid: true,
-                        autoHideDelay: 5000
-                        });  
+                        this.pushToast(imgURL, item.title, data.successMsg, 'success'); 
+ 
                         if(this.storedUserItems.length < 14) {
                             this.storedUserItems.push(data.item);
                         }

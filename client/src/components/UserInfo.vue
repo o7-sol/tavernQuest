@@ -43,19 +43,19 @@
       <div class="vl"></div>
       <div class="p-2 flex-fill userItems">
         <p>Inventory</p>
-        <div class="itemsList">
-          <span v-for="item in storedUserItems">
+        <div class="itemsList"> 
+          <span v-for="item in storedUserItems">  
             <template v-if="item.strength">
-            <img style="padding: 5px;background: black;border-radius: 5px;margin-top: 15px;margin-right: 15px;" :src="require('../assets/items/strength/'+item.img)">
+            <img @click="itemInfo(item)" class="itemInInventory" :src="require('../assets/items/strength/'+item.img)">
             </template>
             <template v-if="item.agility">
-            <img style="padding: 5px;background: black;border-radius: 5px;margin-top: 15px;margin-right: 15px;" :src="require('../assets/items/agility/'+item.img)">
+            <img @click="itemInfo(item)" class="itemInInventory" :src="require('../assets/items/agility/'+item.img)">
             </template>
             <template v-if="item.vitality">
-            <img style="padding: 5px;background: black;border-radius: 5px;margin-top: 15px;margin-right: 15px;" :src="require('../assets/items/vitality/'+item.img)">
+            <img @click="itemInfo(item)" class="itemInInventory" :src="require('../assets/items/vitality/'+item.img)">
             </template>
             <template v-if="item.intellect">
-            <img style="padding: 5px;background: black;border-radius: 5px;margin-top: 15px;margin-right: 15px;" :src="require('../assets/items/intellect/'+item.img)">
+            <img @click="itemInfo(item)" class="itemInInventory" :src="require('../assets/items/intellect/'+item.img)">
             </template>            
           </span>
         </div>
@@ -104,6 +104,48 @@
           </div>        
       </div>
     </div>
+
+  <b-toast class="b-toaster b-toaster-top-center" id="my-toast" variant="secondary" solid no-auto-hide>
+      <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
+        <b-img blank blank-color="#ff5555" class="mr-2" width="12" height="12"></b-img>
+        <strong class="mr-auto">Notice!</strong>
+        <small class="text-muted mr-2">42 seconds ago</small>
+      </div>
+      <div class="text-left">
+        <span class="selectedItemNoti">
+        <template v-if="selectedItem.strength">
+        <img class="selectedItemImage" :src="require('../assets/items/strength/'+selectedItem.img)">
+        </template>
+        <template v-if="selectedItem.agility">
+        <img class="selectedItemImage" :src="require('../assets/items/agility/'+selectedItem.img)">
+        </template>
+        <template v-if="selectedItem.vitality">
+        <img class="selectedItemImage" :src="require('../assets/items/vitality/'+selectedItem.img)">
+        </template>
+        <template v-if="selectedItem.intellect">
+        <img class="selectedItemImage" :src="require('../assets/items/intellect/'+selectedItem.img)">
+        </template> 
+        <span>{{selectedItem.title}}</span>
+        </span>
+
+        <span class="selectedItemStats">
+        <template v-if="selectedItem.strength">
+        <img src="../assets/fist.png" style="height: 30px; image-rendering: pixelated">
+        </template>
+        <template v-if="selectedItem.agility">
+        
+        </template>
+        <template v-if="selectedItem.vitality">
+        
+        </template>
+        <template v-if="selectedItem.intellect">
+        
+        </template>  
+        +{{selectedItem.power}}   
+        </span>
+      </div> 
+    </b-toast>
+
   </div>
 </template>
 
@@ -115,7 +157,8 @@ export default {
     data() {
         return {
             user: '',
-            items: []
+            items: [],
+            selectedItem: ''
         }
     },
     created() {
@@ -123,6 +166,10 @@ export default {
         this.getUserItems();
     },
     methods: {
+      itemInfo(item, index) {
+        this.selectedItem = item;
+        this.$bvToast.show('my-toast');
+      },
       ...mapActions([
         'getUserItems'
       ])
@@ -207,7 +254,33 @@ export default {
   padding-bottom: 3px;
   padding-top: 3px;
 }
-
+.itemInInventory {
+  padding: 5px;
+  background: black;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-right: 15px;
+}
+.toast-body {
+  text-align: center !important;
+}
+.selectedItemImage {
+  padding: 5px;
+  border-radius: 5px;
+}
+.selectedItemNoti {
+    background: #7337d2;
+    padding: 14px 10px 14px 0px;
+    border-radius: 5px;
+}
+.selectedItemStats {
+    background: #ff5555;
+    padding: 14px;
+    border-radius: 5px;
+    margin-left: -3px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
 @media only screen and (max-width: 768px) {
     #userInfo {
          max-height: 15.25rem;

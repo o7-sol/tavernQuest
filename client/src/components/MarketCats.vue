@@ -1,35 +1,40 @@
 <template>
   <div class="marketCats row">
-    <p id="strMarket">
-      <router-link to="/market/strength">
+    <p id="strMarket" @click="toStrMarket">
         <img src="../assets/fist.png" class="skillImg">
         Strength Market
-      </router-link>
     </p>
-    <p id="aglMarket">
-      <router-link to="/market/agility">
+    <p id="aglMarket" @click="toAglMarket">
         <img src="../assets/shoes.png" class="skillImg">
         Agility Market
-      </router-link>
     </p>
-    <p id="vitMarket">
-      <router-link to="/market/vitality">
+    <p id="vitMarket" @click="toVitMarket">
         <img src="../assets/heart.png" class="skillImg">
         Vitality Market
-      </router-link>
     </p>
-    <p id="intMarket">
-      <router-link to="/market/intellect">
+    <p id="intMarket" @click="toIntMarket">
         <img src="../assets/book.png" class="skillImg">
         Intellect Market
-      </router-link>
     </p>
   </div>
 </template>
 
 <script>
 export default {
-
+  methods: {
+        toStrMarket() {
+            this.$router.push({name: 'strengthMarket'});
+        },
+        toAglMarket() {
+            this.$router.push({name: 'agilityMarket'});
+        },
+        toVitMarket() {
+            this.$router.push({name: 'vitalityMarket'});
+        },
+        toIntMarket() {
+            this.$router.push({name: 'intellectMarket'});
+        }
+  }
 }
 </script>
 

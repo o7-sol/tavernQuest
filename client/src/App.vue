@@ -150,6 +150,10 @@ body {
     background: #7337d2 !important;
     color: white !important;
 }
+.b-toast-secondary .toast .toast-header {
+    background: #7337d2 !important;
+    color: white !important;
+}
 .b-toast-warning .toast {
   color: white !important;
   border-color: black !important;
@@ -158,10 +162,17 @@ body {
   color: black !important;
   border-color: black !important;
 }
+.b-toast-secondary .toast {
+  color: white !important;
+  border-color: black !important;
+}
 .b-toast-warning .toast-body {
   background: #dc3545 !important;
 }
 .b-toast-success .toast-body {
   background: #04d61e !important;
+}
+.b-toast-secondary .toast-body {
+  background: black !important;
 }
 </style>
