@@ -24,7 +24,6 @@ router.post('/api/place-item-to-bank', Authenticated, async(req, res) => {
 
         const item = await user.items.find(x => x.id === itemID);
         
-        console.log(itemID)
         if(itemIndex === undefined || item === undefined) {
             return console.log('Item does exist');
         }

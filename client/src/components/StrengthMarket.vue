@@ -77,6 +77,27 @@ export default {
         });
     },    
     methods: {
+        pushToast(imgURL, title, message, type) {
+                const h = this.$createElement
+
+                const vNodesMsg = h(
+                'p',
+                { class: ['text-center', 'mb-0'] },
+                [
+                    h('b-img', { props: { 'src': imgURL}}),
+                    h('strong', {}, `${title} `),
+                    h('br', {}, ''),
+                    `${message}`,
+                ]
+                );                
+
+               this.$bvToast.toast([vNodesMsg], {
+                title: 'Notification',
+                variant: `${type}`,
+                solid: true,
+                autoHideDelay: 5000
+                }); 
+        },
         buyItem(item) {
 
             let imgURL = '';
@@ -92,7 +113,10 @@ export default {
 
             const user = JSON.parse(this.$cookie.get('user'));
             if(user.level < item.level) {
-                const h = this.$createElement
+                const message = 'Your current level is lower than item requires.';
+
+                this.pushToast(imgURL, item.title, message, 'warning');
+               /* const h = this.$createElement
 
                 const vNodesMsg = h(
                 'p',
@@ -110,7 +134,7 @@ export default {
                 variant: 'warning',
                 solid: true,
                 autoHideDelay: 5000
-                }); 
+                }); */
             }
 
             else if(item.stock < 1) {

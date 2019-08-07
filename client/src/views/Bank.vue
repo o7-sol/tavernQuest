@@ -63,7 +63,7 @@
                 <p id="pendingBoxDesc">Add item to bank or inventory</p>                    
                 </div>
             </div>
-            <div class="col-md-5">
+          <div class="col-md-5">
                 <div class="panelBody">
                     <h1 class="panelTitle">
                         <img src="../assets/board.png" style="margin-top: -3px">
@@ -79,7 +79,7 @@
                         </li>                                                                  
                     </ul>
                 </div>
-            </div>            
+            </div>           
         </div>
     </div>
 </template>
@@ -141,16 +141,9 @@ export default {
             this.itemInPendingBox = true;
             this.itemFromInventory = false;
             this.itemFromBank = true;
-            this.price = item.price;
-            this.title = item.title;
-            this.img = item.img;
-            this.strength = item.strength;
-            this.agility = item.agility;
-            this.vitality = item.vitality;
-            this.intellect = item.intellect;
-            this.power = item.power;
-            this.index = index;
-            this.id = item.id;
+            this.setItem(item.price, item.title, item.img, item.strength,
+            item.agility, item.vitality, item.intellect, item.power, index, item.id)
+
         },        
         addToBank(index) {
             this.storedUserItems.splice(index, 1);
@@ -176,25 +169,9 @@ export default {
 
                 if(data.successMsg) {
                 
-                const h = this.$createElement
+                this.pushToast(this.getImageURL(this.strength, this.agility, this.vitality, this.img), 
+                this.title, data.successMsg);
 
-                const vNodesMsg = h(
-                'p',
-                { class: ['text-center', 'mb-0'] },
-                [
-                    h('b-img', { props: { 'src': this.getImageURL(this.strength, this.agility, this.vitality, this.img)}}),
-                    h('strong', {}, `${this.title} `),
-                    h('br', {}, ''),
-                    `${data.successMsg}`,
-                ]
-                );  
-
-                this.$bvToast.toast([vNodesMsg], {
-                    title: 'Notification',
-                    variant: 'success',
-                    solid: true,
-                    autoHideDelay: 5000
-                    });
                 }
             });
         },
@@ -219,26 +196,10 @@ export default {
             }           
             this.placeItemToInventoryFromBank(payload).then(data => {
                 if(data.successMsg) {
-                
-                const h = this.$createElement
 
-                const vNodesMsg = h(
-                'p',
-                { class: ['text-center', 'mb-0'] },
-                [
-                    h('b-img', { props: { 'src': this.getImageURL(this.strength, this.agility, this.vitality, this.img)}}),
-                    h('strong', {}, `${this.title} `),
-                    h('br', {}, ''),
-                    `${data.successMsg}`,
-                ]
-                );  
+                this.pushToast(this.getImageURL(this.strength, this.agility, this.vitality, this.img), 
+                this.title, data.successMsg);
 
-                this.$bvToast.toast([vNodesMsg], {
-                    title: 'Notification',
-                    variant: 'success',
-                    solid: true,
-                    autoHideDelay: 5000
-                    });
                 }                
             });
 
@@ -263,6 +224,27 @@ export default {
                 imgURL = require("../assets/items/intellect/"+img);
             }      
             return imgURL;      
+        },
+        pushToast(src, title, message) {
+                const h = this.$createElement
+
+                const vNodesMsg = h(
+                'p',
+                { class: ['text-center', 'mb-0'] },
+                [
+                    h('b-img', { props: { 'src': src}}),
+                    h('strong', {}, `${title}`),
+                    h('br', {}, ''),
+                    `${message}`,
+                ]
+                );  
+
+                this.$bvToast.toast([vNodesMsg], {
+                    title: 'Notification',
+                    variant: 'success',
+                    solid: true,
+                    autoHideDelay: 5000
+                    });
         },
         ...mapActions([
             'placeItemToBank',
