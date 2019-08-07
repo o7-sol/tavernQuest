@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
     name: 'market',
     data() {
@@ -180,11 +180,16 @@ export default {
                         solid: true,
                         autoHideDelay: 5000
                         });  
-                        this.storedUserItems.push(data.item);
+                        if(this.storedUserItems.length < 14) {
+                            this.storedUserItems.push(data.item);
+                        }
                     }                 
                 });                
             }
         },        
+        ...mapActions([
+            'placeItemToBank'
+        ]),
         toStrMarket() {
             this.$router.push({name: 'strengthMarket'});
         },

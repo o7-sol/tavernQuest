@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const JWT = require('jsonwebtoken');
 const dayjs = require('dayjs');
 const uuidv1 = require('uuid/v1');
+const _ = require('lodash');
 
 // Models
 const Item = require('../models/Item');
@@ -13,21 +13,26 @@ const Authenticated = require('../middlewares/authenticated');
 
 // Latest items
 const getLatestItems = (items) => {
-    return items.slice(0, 36);
+    return items.slice(0, 14);
 };
 
 router.post('/api/place-item-to-bank', Authenticated, async(req, res) => {
     try {
         const user = await req.user;
         const itemID = await req.body.itemID;
+        const itemIndex = await req.body.index;
 
-        const itemIndex = await user.items.findIndex(x => x._id === itemID);
-        const item = await user.items.find(x => x._id === itemID);
-
-        user.items.splice(itemIndex, 1);
+        const item = await user.items.find(x => x.id === itemID);
+        
+        console.log(itemID)
+        if(itemIndex === undefined || item === undefined) {
+            return console.log('Item does exist');
+        }
         user.bank.push(item);
+        user.items.splice(itemIndex, 1);
 
         user.save();
+        res.json({'success': 'ADDED TO BANK'})
     } catch (error) {
         console.log(error);
     }
@@ -37,14 +42,22 @@ router.post('/api/place-item-to-inventory', Authenticated, async(req, res) => {
     try {
         const user = await req.user;
         const itemID = await req.body.itemID;
+        const itemIndex = await req.body.index;
 
-        const itemIndex = await user.bank.findIndex(x => x._id === itemID);
-        const item = await user.bank.find(x => x._id === itemID);
+        const item = await user.bank.find(x => x.id === itemID);
 
-        user.bank.splice(itemIndex, 1);
-        user.items.push(item);
+        if(itemIndex === undefined || item === undefined) {
+            return console.log('Item does not exist');
+        }
 
-        user.save();
+        if(user.items.length < 14) {
+            user.items.push(item);
+            user.bank.splice(itemIndex, 1);
+            user.save();
+            res.json({'success': 'ADDED TO INVENTORY'})
+        } else {
+            console.log('Inventory is full');
+        }
     } catch (error) {
         console.log(error);
     }
@@ -85,7 +98,7 @@ router.post('/api/buy-item/:id', Authenticated, async(req, res) => {
         }
         if(user.gold >= item.price && user.level >= item.level && item.stock > 0) {
             const itemPayload = {
-                _id: uuidv1(),
+                id: uuidv1(),
                 title: item.title,
                 img: item.img,
                 power: item.power,
@@ -96,7 +109,11 @@ router.post('/api/buy-item/:id', Authenticated, async(req, res) => {
                 price: item.price,
                 createdAt: dayjs().format('YYYY MM DD h:mm:ss A')                
             }
-            user.items.push(itemPayload);
+            if(user.items.length < 14) {
+                user.items.push(itemPayload);
+            } else {
+                user.bank.push(itemPayload);
+            }
             user.save();
             res.json({successMsg: 'Gold transaction successful. Item was shipped.', item: itemPayload});
             console.log('Item bought successfully');

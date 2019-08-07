@@ -5,7 +5,7 @@
                 <div class="panelBody">
                     <h1 class="panelTitle">
                         <img src="../assets/board.png" style="margin-top: -3px">
-                        Items in the bank
+                        Items in the bank <span class="itemCount">{{bankItems.length}} / 30</span>
                     </h1>
                    <ul class="list-unstyled text-center row" id="bankList">
                         <li @click="putItemToPendBoxFromBank(index, item)" v-for="(item, index) in bankItems" class="col-2">
@@ -15,10 +15,10 @@
                             <img class="itemInBank" v-if="item.intellect" :src="require('../assets/items/intellect/'+item.img)">
                             <p class="itemTitle">{{item.title}}</p>
                         </li> 
-                        <li v-for="index in 30" class="col-2">
+                       <!-- <li v-for="index in 100" class="col-2">
                             <div class="blankItem"></div>
                             <p class="itemTitle">Some title</p>
-                        </li>                                                                                                         
+                        </li>   -->                                                                                                      
                     </ul>
                 </div>
             </div>
@@ -67,10 +67,10 @@
                 <div class="panelBody">
                     <h1 class="panelTitle">
                         <img src="../assets/board.png" style="margin-top: -3px">
-                        Inventory
+                        Inventory <span class="itemCount">{{storedUserItems.length}} / 14</span>
                     </h1>
                     <ul class="list-unstyled text-center row" id="bankList">
-                        <li @click="putItemToPendBoxFromInventory(index, item)" v-for="(item, index) in storedUserItems" :key="item._id" class="col-2">
+                        <li @click="putItemToPendBoxFromInventory(index, item)" v-for="(item, index) in storedUserItems" class="col-2">
                             <img class="itemInBank" v-if="item.strength" :src="require('../assets/items/strength/'+item.img)">
                             <img class="itemInBank" v-if="item.agility" :src="require('../assets/items/agility/'+item.img)">
                             <img class="itemInBank" v-if="item.vitality" :src="require('../assets/items/vitality/'+item.img)">
@@ -116,20 +116,26 @@ export default {
         });
     },
     methods: {
+        setItem(price, title, img, strength, agility, vitality, intellect,
+        power, index, id) {
+            this.price = price;
+            this.title = title;
+            this.img = img;
+            this.strength = strength;
+            this.agility = agility;
+            this.vitality = vitality;
+            this.intellect = intellect;
+            this.power = power;
+            this.index = index;
+            this.id = id;
+        },
         putItemToPendBoxFromInventory(index, item) {
             this.itemInPendingBox = true;
             this.itemFromInventory = true;
             this.itemFromBank = false;
-            this.price = item.price;
-            this.title = item.title;
-            this.img = item.img;
-            this.strength = item.strength;
-            this.agility = item.agility;
-            this.vitality = item.vitality;
-            this.intellect = item.intellect;
-            this.power = item.power;
-            this.index = index;
-            this.id = item._id;
+            this.setItem(item.price, item.title, item.img, item.strength,
+            item.agility, item.vitality, item.intellect, item.power, index, item.id)
+
         },
         putItemToPendBoxFromBank(index, item) {
             this.itemInPendingBox = true;
@@ -144,7 +150,7 @@ export default {
             this.intellect = item.intellect;
             this.power = item.power;
             this.index = index;
-            this.id = item._id;
+            this.id = item.id;
         },        
         addToBank(index) {
             this.storedUserItems.splice(index, 1);
@@ -156,15 +162,44 @@ export default {
                 vitality: this.vitality,
                 intellect: this.intellect,
                 power: this.power,
-                _id: this.id
+                id: this.id
             });
             this.itemInPendingBox = false;
+
+
             const payload = {
-                itemID: this.id
+                itemID: this.id,
+                index
             }
-            this.placeItemToBank(payload);
+
+            this.placeItemToBank(payload).then(data => {
+
+                if(data.successMsg) {
+                
+                const h = this.$createElement
+
+                const vNodesMsg = h(
+                'p',
+                { class: ['text-center', 'mb-0'] },
+                [
+                    h('b-img', { props: { 'src': this.getImageURL(this.strength, this.agility, this.vitality, this.img)}}),
+                    h('strong', {}, `${this.title} `),
+                    h('br', {}, ''),
+                    `${data.successMsg}`,
+                ]
+                );  
+
+                this.$bvToast.toast([vNodesMsg], {
+                    title: 'Notification',
+                    variant: 'success',
+                    solid: true,
+                    autoHideDelay: 5000
+                    });
+                }
+            });
         },
         addToInventory(index) {
+            if(this.storedUserItems.length < 14) {
             this.bankItems.splice(index, 1);
             this.storedUserItems.push({
                 img: this.img,
@@ -173,13 +208,61 @@ export default {
                 agility: this.agility,
                 vitality: this.vitality,
                 intellect: this.intellect,
-                power: this.power
+                power: this.power,
+                id: this.id
             });
             this.itemInPendingBox = false;
+
             const payload = {
-                itemID: this.id
+                itemID: this.id,
+                index
             }           
-            this.placeItemToInventoryFromBank(payload);
+            this.placeItemToInventoryFromBank(payload).then(data => {
+                if(data.successMsg) {
+                
+                const h = this.$createElement
+
+                const vNodesMsg = h(
+                'p',
+                { class: ['text-center', 'mb-0'] },
+                [
+                    h('b-img', { props: { 'src': this.getImageURL(this.strength, this.agility, this.vitality, this.img)}}),
+                    h('strong', {}, `${this.title} `),
+                    h('br', {}, ''),
+                    `${data.successMsg}`,
+                ]
+                );  
+
+                this.$bvToast.toast([vNodesMsg], {
+                    title: 'Notification',
+                    variant: 'success',
+                    solid: true,
+                    autoHideDelay: 5000
+                    });
+                }                
+            });
+
+            } else {
+                this.$bvToast.toast('Inventory is full.', {
+                    title: 'Notification',
+                    variant: 'warning',
+                    solid: true,
+                    autoHideDelay: 5000
+                }); 
+            }
+        },
+        getImageURL(strength, agility, vitality, img) {
+            let imgURL = '';
+            if(strength) {
+                imgURL = require("../assets/items/strength/"+img);
+            } else if (agility) {
+                imgURL = require("../assets/items/agility/"+img);
+            } else if (vitality) {
+                imgURL = require("../assets/items/vitality/"+img);
+            } else {
+                imgURL = require("../assets/items/intellect/"+img);
+            }      
+            return imgURL;      
         },
         ...mapActions([
             'placeItemToBank',
@@ -265,7 +348,7 @@ export default {
     vertical-align: bottom;
 }
 #disabledStackButton {
-    margin-left: 25.5px;
+    margin-left: 29.5px;
     margin-top: 10px;
 }
 #pendingBoxDesc {
@@ -279,5 +362,12 @@ export default {
     max-width: 44px;
     height: 44px;
     border-radius: 5px;
+}
+.itemCount {
+    background: black;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: -6px;
+    float: right;
 }
 </style>

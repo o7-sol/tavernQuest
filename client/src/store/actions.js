@@ -180,21 +180,35 @@ const getUserBankItems = async({commit}, payload) => {
     }
 };
 
-const placeItemToBank = async({commit}, payload) => {
+const placeItemToBank = async ({commit}, payload) => {
     try {
-        const response = API.post('/place-item-to-bank', {
-            itemID: payload.itemID
+       const response = await API.post('/place-item-to-bank', {
+            itemID: payload.itemID,
+            index: payload.index
         });
+        if (response.status === 200 && response.data.success) {
+            const data = {
+                successMsg: 'Placed to the bank successfully'
+            };
+            return data;
+        }
     } catch (error) {
         
     }
 };
 
-const placeItemToInventoryFromBank= async({commit}, payload) => {
+const placeItemToInventoryFromBank = async ({commit}, payload) => {
     try {
-        const response = API.post('/place-item-to-inventory', {
-            itemID: payload.itemID
+        const response = await API.post('/place-item-to-inventory', {
+            itemID: payload.itemID,
+            index: payload.index
         });
+        if (response.status === 200 && response.data.success) {
+            const data = {
+                successMsg: 'Placed to the inventory successfully'
+            };
+            return data;
+        }
     } catch (error) {
         
     }

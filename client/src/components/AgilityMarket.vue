@@ -181,7 +181,9 @@ export default {
                         solid: true,
                         autoHideDelay: 5000
                         });  
-                        this.storedUserItems.push(data.item);
+                        if(this.storedUserItems.length < 14) {
+                            this.storedUserItems.push(data.item);
+                        }
                     }                 
                 });                
             }

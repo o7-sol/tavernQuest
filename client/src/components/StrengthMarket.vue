@@ -79,7 +79,7 @@ export default {
     methods: {
         buyItem(item) {
 
-            var imgURL = '';
+            let imgURL = '';
             if(item.strength === true) {
                 imgURL = require("../assets/items/strength/"+item.img);
             } else if (item.agility === true) {
@@ -180,7 +180,9 @@ export default {
                         solid: true,
                         autoHideDelay: 5000
                         });  
-                        this.storedUserItems.push(data.item);
+                        if(this.storedUserItems.length < 14) {
+                            this.storedUserItems.push(data.item);
+                        }
                     }                 
                 });                
             }

@@ -143,11 +143,11 @@ body {
     color: #de9c20;
 }
 .b-toast-warning .toast .toast-header {
-    background: black !important;
+    background: #7337d2 !important;
     color: white !important;
 }
 .b-toast-success .toast .toast-header {
-    background: black !important;
+    background: #7337d2 !important;
     color: white !important;
 }
 .b-toast-warning .toast {

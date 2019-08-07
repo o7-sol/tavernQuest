@@ -3,9 +3,11 @@
     <div class="d-flex flex-row">      
       <div class="p-2 flex-fill img-with-text">          
         <img :src="require('../assets/hero/'+user.heroImg)" style="margin-top: -0.5em;">
-        <p>Zlotte<br>Level {{user.level}}</p>
+        <p>Zlotte<br>
+        <span id="userLevel">Level {{user.level}}</span>
+        </p>
       </div>
-      <div class="p-2" style="min-width: 16%;">
+      <div class="p-2" style="min-width: 16%; margin-top: -4px;">
         <table>
           <tbody style="vertical-align: bottom">
             <tr>
@@ -43,16 +45,24 @@
         <p>Inventory</p>
         <div class="itemsList">
           <span v-for="item in storedUserItems">
-          <img v-if="item.strength" :src="require('../assets/items/strength/'+item.img)">
-          <img v-if="item.agility" :src="require('../assets/items/agility/'+item.img)">
-          <img v-if="item.vitality" :src="require('../assets/items/vitality/'+item.img)">
-          <img v-if="item.intellect" :src="require('../assets/items/intellect/'+item.img)">
+            <template v-if="item.strength">
+            <img style="padding: 5px;background: black;border-radius: 5px;margin-top: 15px;margin-right: 15px;" :src="require('../assets/items/strength/'+item.img)">
+            </template>
+            <template v-if="item.agility">
+            <img style="padding: 5px;background: black;border-radius: 5px;margin-top: 15px;margin-right: 15px;" :src="require('../assets/items/agility/'+item.img)">
+            </template>
+            <template v-if="item.vitality">
+            <img style="padding: 5px;background: black;border-radius: 5px;margin-top: 15px;margin-right: 15px;" :src="require('../assets/items/vitality/'+item.img)">
+            </template>
+            <template v-if="item.intellect">
+            <img style="padding: 5px;background: black;border-radius: 5px;margin-top: 15px;margin-right: 15px;" :src="require('../assets/items/intellect/'+item.img)">
+            </template>            
           </span>
         </div>
       </div>
       <div class="vl"></div>
       
-     <div class="p-2" style="width: 830px;">
+     <div class="p-2" style="width: 830px; margin-top: -4px;">
         <p>Tavern Pub</p>
         <ul class="list-unstyled chat">
           <li style="width: 541px">
@@ -154,6 +164,7 @@ export default {
     border: 2px solid white;
 }
 .userItems {
+    margin-top: -4px;
     min-width: 33%;
 }
 .vl {
@@ -187,8 +198,16 @@ export default {
     margin-bottom: 4px;
 }
 .itemsList {
-  margin-top: -15px;
+  margin-top: -32px;
 }
+#userLevel {
+  background: black;
+  padding-left: 13px;
+  padding-right: 14px;
+  padding-bottom: 3px;
+  padding-top: 3px;
+}
+
 @media only screen and (max-width: 768px) {
     #userInfo {
          max-height: 15.25rem;
