@@ -44,18 +44,18 @@
       <div class="p-2 flex-fill userItems">
         <p>Inventory</p>
         <div class="itemsList"> 
-          <span v-for="item in storedUserItems">  
+          <span v-for="(item, index) in storedUserItems">  
             <template v-if="item.strength">
-            <img @click="itemInfo(item)" class="itemInInventory" :src="require('../assets/items/strength/'+item.img)">
+            <img @click="itemInfo(item, index)" class="itemInInventory" :src="require('../assets/items/strength/'+item.img)">
             </template>
             <template v-if="item.agility">
-            <img @click="itemInfo(item)" class="itemInInventory" :src="require('../assets/items/agility/'+item.img)">
+            <img @click="itemInfo(item, index)" class="itemInInventory" :src="require('../assets/items/agility/'+item.img)">
             </template>
             <template v-if="item.vitality">
-            <img @click="itemInfo(item)" class="itemInInventory" :src="require('../assets/items/vitality/'+item.img)">
+            <img @click="itemInfo(item, index)" class="itemInInventory" :src="require('../assets/items/vitality/'+item.img)">
             </template>
             <template v-if="item.intellect">
-            <img @click="itemInfo(item)" class="itemInInventory" :src="require('../assets/items/intellect/'+item.img)">
+            <img @click="itemInfo(item, index)" class="itemInInventory" :src="require('../assets/items/intellect/'+item.img)">
             </template>            
           </span>
         </div>
@@ -108,10 +108,10 @@
   <b-toast class="b-toaster b-toaster-top-center" id="my-toast" variant="secondary" solid no-auto-hide>
       <div slot="toast-title" class="d-flex flex-grow-1 align-items-baseline">
         <b-img blank blank-color="#ff5555" class="mr-2" width="12" height="12"></b-img>
-        <strong class="mr-auto">Notice!</strong>
-        <small class="text-muted mr-2">42 seconds ago</small>
+        <strong class="mr-auto">{{selectedItem.title}}</strong>
+        <small class="text-muted mr-2" style="color: white !important;">{{seconds}} seconds ago</small>
       </div>
-      <div class="text-left">
+      <div class="text-center">
         <span class="selectedItemNoti">
         <template v-if="selectedItem.strength">
         <img class="selectedItemImage" :src="require('../assets/items/strength/'+selectedItem.img)">
@@ -133,16 +133,20 @@
         <img src="../assets/fist.png" style="height: 30px; image-rendering: pixelated">
         </template>
         <template v-if="selectedItem.agility">
-        
+        <img src="../assets/shoes.png" style="height: 30px; image-rendering: pixelated">
         </template>
         <template v-if="selectedItem.vitality">
-        
+        <img src="../assets/heart.png" style="height: 30px; image-rendering: pixelated">
         </template>
         <template v-if="selectedItem.intellect">
-        
+        <img src="../assets/book.png" style="height: 30px; image-rendering: pixelated">
         </template>  
         +{{selectedItem.power}}   
         </span>
+        <br>
+        <b-button id="btnPlaceToBank" @click="placeItemToBankFromInventory(selectedItem)" variant="danger">
+          Place to bank
+        </b-button>
       </div> 
     </b-toast>
 
@@ -158,7 +162,9 @@ export default {
         return {
             user: '',
             items: [],
-            selectedItem: ''
+            selectedItem: '',
+            selectedItemIndex: '',
+            seconds: 0
         }
     },
     created() {
@@ -168,10 +174,70 @@ export default {
     methods: {
       itemInfo(item, index) {
         this.selectedItem = item;
+        this.selectedItemIndex = index;
         this.$bvToast.show('my-toast');
+
+        this.seconds = 0;
+
+        if (this.interval) {
+          clearInterval(this.interval);
+        }
+
+        this.interval = setInterval(() => {
+          this.seconds++;
+        }, 1000);
+
+      },
+      placeItemToBankFromInventory(item) {
+        const itemFromInventory = item.id; 
+        const itemIndexFromInventory = this.selectedItemIndex;      
+
+        const payload = {
+           itemID: itemFromInventory,
+           index: itemIndexFromInventory
+        }
+
+        this.$store.dispatch('placeItemToBankFromInventory', payload).then(data => {
+          if(data.successMessage && data.item){
+
+            let imgURL = '';
+            if(data.item.strength === true) {
+                imgURL = require("../assets/items/strength/"+data.item.img);
+            } else if (data.item.agility === true) {
+                imgURL = require("../assets/items/agility/"+data.item.img);
+            } else if (data.item.vitality === true) {
+                imgURL = require("../assets/items/vitality/"+data.item.img);
+            } else {
+                imgURL = require("../assets/items/intellect/"+data.item.img);
+            }
+
+                const h = this.$createElement
+
+                const vNodesMsg = h(
+                'p',
+                { class: ['text-center', 'mb-0'] },
+                [
+                    h('b-img', { props: { 'src': `${imgURL}`}}),
+                    h('strong', {}, `${data.item.title} `),
+                    h('br', {}, ''),
+                    `${data.successMessage}`,
+                ]
+                );                
+
+               this.$bvToast.toast([vNodesMsg], {
+                title: 'Notification',
+                variant: 'success',
+                solid: true,
+                autoHideDelay: 3000
+                }); 
+
+            this.storedUserItems.splice(payload.index, 1);
+            this.$bvToast.hide('my-toast');
+          }
+        });
       },
       ...mapActions([
-        'getUserItems'
+        'getUserItems',
       ])
     },
     computed: {
@@ -261,6 +327,10 @@ export default {
   margin-top: 15px;
   margin-right: 15px;
 }
+.itemInInventory:hover {
+  background: #7337d2;
+  cursor: pointer;
+}
 .toast-body {
   text-align: center !important;
 }
@@ -280,6 +350,9 @@ export default {
     margin-left: -3px;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+}
+#btnPlaceToBank {
+  margin-top: 5px;
 }
 @media only screen and (max-width: 768px) {
     #userInfo {

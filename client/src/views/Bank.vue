@@ -208,7 +208,7 @@ export default {
                     title: 'Notification',
                     variant: 'warning',
                     solid: true,
-                    autoHideDelay: 5000
+                    autoHideDelay: 3000
                 }); 
             }
         },
@@ -243,7 +243,7 @@ export default {
                     title: 'Notification',
                     variant: 'success',
                     solid: true,
-                    autoHideDelay: 5000
+                    autoHideDelay: 3000
                     });
         },
         ...mapActions([

@@ -214,6 +214,24 @@ const placeItemToInventoryFromBank = async ({commit}, payload) => {
     }
 };
 
+const placeItemToBankFromInventory = async({commit}, payload) => {
+    try {
+        const response = await API.post('/place-item-from-inventory-to-bank', {
+            itemID: payload.itemID,
+            index: payload.index
+        });
+        if(response.status === 200 && response.data.success) {
+            const data = {
+                successMessage: response.data.success,
+                item: response.data.item
+            }
+            return data;
+        }
+    } catch (error) {
+        
+    }
+};
+
 export default {
     createAccount,
     authenticate,
@@ -227,5 +245,6 @@ export default {
     getUserItems,
     getUserBankItems,
     placeItemToBank,
-    placeItemToInventoryFromBank
+    placeItemToInventoryFromBank,
+    placeItemToBankFromInventory
 }

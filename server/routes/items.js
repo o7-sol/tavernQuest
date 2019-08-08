@@ -16,6 +16,28 @@ const getLatestItems = (items) => {
     return items.slice(0, 14);
 };
 
+router.post('/api/place-item-from-inventory-to-bank', Authenticated, async(req, res) => {
+    try {
+        const user = await req.user;
+        const itemID = await req.body.itemID;
+        const index = await req.body.index;
+
+        const item = await user.items.find(x => x.id === itemID);
+
+        if(!item) {
+            return console.log('Item not found');
+        }
+
+        user.bank.push(item);
+        user.items.splice(index, 1);
+        user.save();
+        res.json({success: 'Item was sent to the bank.', item});
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 router.post('/api/place-item-to-bank', Authenticated, async(req, res) => {
     try {
         const user = await req.user;

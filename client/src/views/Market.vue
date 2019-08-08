@@ -115,7 +115,7 @@ export default {
         });
     },    
     methods: {
-        pushToast(imgURL, title, message, type) {
+        pushToast(imgURL, toastTitle, title, message, type) {
                 const h = this.$createElement
 
                 const vNodesMsg = h(
@@ -130,7 +130,7 @@ export default {
                 );                
 
                this.$bvToast.toast([vNodesMsg], {
-                title: 'Notification',
+                title: `${toastTitle}`,
                 variant: `${type}`,
                 solid: true,
                 autoHideDelay: 5000
@@ -153,19 +153,19 @@ export default {
             if(user.level < item.level) {
                 const message = 'Your current level is lower than item requires.';
 
-                this.pushToast(imgURL, item.title, message, 'warning');
+                this.pushToast(imgURL, 'Notification', item.title, message, 'warning');
             }
 
             else if(item.stock < 1) {
                 const message = 'Currently this item is out of stock.';
 
-                this.pushToast(imgURL, item.title, message, 'warning');                
+                this.pushToast(imgURL, 'Notification', item.title, message, 'warning');                
             }
 
             else if(user.gold < item.price) {
                 const message = 'You do not have enough gold to buy this item.';
 
-                this.pushToast(imgURL, item.title, message, 'warning');
+                this.pushToast(imgURL, 'Notification', item.title, message, 'warning');
             } else {
                 const payload = {
                     itemID: item._id
@@ -173,7 +173,7 @@ export default {
                 this.$store.dispatch('buyItem', payload).then(data => {
                     
                     if(data.successMsg){
-                        this.pushToast(imgURL, item.title, data.successMsg, 'success'); 
+                        this.pushToast(imgURL, 'Order confirmed', item.title, data.successMsg, 'success'); 
  
                         if(this.storedUserItems.length < 14) {
                             this.storedUserItems.push(data.item);

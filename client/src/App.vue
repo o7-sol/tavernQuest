@@ -14,6 +14,7 @@
         <router-link to="/game">Home</router-link>
         <router-link to="/arena">Arena</router-link>
         <router-link to="/market">Market</router-link>   
+        <router-link to="/stack-exchange">Stack Exchange</router-link>
         <b-nav-item-dropdown text="Guilds">
           <router-link to="/guilds" class="dropdown-item">Guilds List</router-link>
           <router-link to="/guild" class="dropdown-item">My Guild</router-link>

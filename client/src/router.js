@@ -101,6 +101,12 @@ export default new Router({
       name: 'bank',
       component: () => import(/* webpackChunkName: "bank" */ './views/Bank.vue'),
       beforeEnter: isLoggedIn
+    },
+    {
+      path: '/stack-exchange',
+      name: 'stack-exchange',
+      component: () => import(/* webpackChunkName: "stack-exchange" */ './views/StackExchange.vue'),
+      beforeEnter: isLoggedIn
     }
   ],
 });
