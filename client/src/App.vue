@@ -174,6 +174,6 @@ body {
   background: #04d61e !important;
 }
 .b-toast-secondary .toast-body {
-  background: black !important;
+  background: #ff5555 !important;
 }
 </style>

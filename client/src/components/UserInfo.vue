@@ -344,7 +344,7 @@ export default {
     border-radius: 5px;
 }
 .selectedItemStats {
-    background: #ff5555;
+    background: #4d2094;
     padding: 14px;
     border-radius: 5px;
     margin-left: -3px;
@@ -352,7 +352,14 @@ export default {
     border-bottom-left-radius: 0;
 }
 #btnPlaceToBank {
-  margin-top: 5px;
+    margin-top: 5px;
+    color: #fff;
+    background-color: #271c1d;
+    border-color: #3e1e21;
+}
+#btnPlaceToBank:hover {
+    background: #7337d2;
+    border-color: #7337d2;
 }
 @media only screen and (max-width: 768px) {
     #userInfo {
