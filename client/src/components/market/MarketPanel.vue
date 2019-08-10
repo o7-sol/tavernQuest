@@ -1,51 +1,51 @@
 <template>
   <div class="col-md-4">
     <div class="panelBody">
-      <h1 class="panelTitle"><img src="../assets/board.png" class="board">  Market</h1>
+      <h1 class="panelTitle"><img src="../../assets/board.png" class="board">  Market</h1>
       <ul class="list-unstyled latestMarket">
         <li>
           <span>2019-08-01 21:25</span><br>
-          <img src="../assets/hero/barbarian.png" class="latestFightHero">
+          <img src="../../assets/hero/barbarian.png" class="latestFightHero">
           &nbsp;<strong>Feknaz</strong>
           &nbsp;<span style="vertical-align: middle">bought</span>
-          <img src="../assets/items/health/potion.png">
+          <img src="../../assets/items/health/potion.png">
           <strong style="vertical-align: middle">Life Elixir</strong>
           &nbsp;<span style="vertical-align: middle">for</span>
           &nbsp;<strong style="vertical-align: middle">300</strong>
-          <img src="../assets/gold.png" class="latestMarketGold">
+          <img src="../../assets/gold.png" class="latestMarketGold">
         </li>
         <li>
           <span>2019-08-01 21:25</span><br>
-          <img src="../assets/hero/barbarian.png" class="latestFightHero">
+          <img src="../../assets/hero/barbarian.png" class="latestFightHero">
           &nbsp;<strong>Feknaz</strong>
           &nbsp;<span style="vertical-align: middle">bought</span>
-          <img src="../assets/items/health/potion.png">
+          <img src="../../assets/items/health/potion.png">
           <strong style="vertical-align: middle">Life Elixir</strong>
           &nbsp;<span style="vertical-align: middle">for</span>
           &nbsp;<strong style="vertical-align: middle">300</strong>
-          <img src="../assets/gold.png" class="latestMarketGold">
+          <img src="../../assets/gold.png" class="latestMarketGold">
         </li>
         <li>
           <span>2019-08-01 21:25</span><br>
-          <img src="../assets/hero/barbarian.png" class="latestFightHero">
+          <img src="../../assets/hero/barbarian.png" class="latestFightHero">
           &nbsp;<strong>Feknaz</strong>
           &nbsp;<span style="vertical-align: middle">bought</span>
-          <img src="../assets/items/health/potion.png">
+          <img src="../../assets/items/health/potion.png">
           <strong style="vertical-align: middle">Life Elixir</strong>
           &nbsp;<span style="vertical-align: middle">for</span>
           &nbsp;<strong style="vertical-align: middle">300</strong>
-          <img src="../assets/gold.png" class="latestMarketGold">
+          <img src="../../assets/gold.png" class="latestMarketGold">
         </li>
         <li>
           <span>2019-08-01 21:25</span><br>
-          <img src="../assets/hero/barbarian.png" class="latestFightHero">
+          <img src="../../assets/hero/barbarian.png" class="latestFightHero">
           &nbsp;<strong>Feknaz</strong>
           &nbsp;<span style="vertical-align: middle">bought</span>
-          <img src="../assets/items/health/potion.png">
+          <img src="../../assets/items/health/potion.png">
           <strong style="vertical-align: middle">Life Elixir</strong>
           &nbsp;<span style="vertical-align: middle">for</span>
           &nbsp;<strong style="vertical-align: middle">300</strong>
-          <img src="../assets/gold.png" class="latestMarketGold">
+          <img src="../../assets/gold.png" class="latestMarketGold">
         </li>
       </ul>
     </div>

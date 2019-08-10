@@ -365,6 +365,10 @@ export default {
     -webkit-box-shadow: 0px 0px 7px 3px rgba(250,0,0);
     box-shadow: 0px 0px 7px 3px rgba(250,0,0);      
 }
+.itemInBankElite:hover {
+    cursor: pointer;
+    background: #7337d2;    
+}
 .itemInBank:hover {
     cursor: pointer;
     background: #7337d2;

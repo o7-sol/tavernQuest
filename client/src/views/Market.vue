@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import MarketCats from '../components/MarketCats';
+import MarketCats from '../components/market/MarketCats';
 import { mapGetters } from 'vuex';
 export default {
     name: 'market',

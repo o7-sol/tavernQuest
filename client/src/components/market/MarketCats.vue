@@ -1,19 +1,19 @@
 <template>
   <div class="marketCats row">
     <p id="strMarket" @click="toStrMarket">
-        <img src="../assets/fist.png" class="skillImg">
+        <img src="../../assets/fist.png" class="skillImg">
         Strength Market
     </p>
     <p id="aglMarket" @click="toAglMarket">
-        <img src="../assets/shoes.png" class="skillImg">
+        <img src="../../assets/shoes.png" class="skillImg">
         Agility Market
     </p>
     <p id="vitMarket" @click="toVitMarket">
-        <img src="../assets/heart.png" class="skillImg">
+        <img src="../../assets/heart.png" class="skillImg">
         Vitality Market
     </p>
     <p id="intMarket" @click="toIntMarket">
-        <img src="../assets/book.png" class="skillImg">
+        <img src="../../assets/book.png" class="skillImg">
         Intellect Market
     </p>
   </div>

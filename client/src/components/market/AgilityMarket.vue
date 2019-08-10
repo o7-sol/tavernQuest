@@ -2,29 +2,29 @@
     <div id="market">
         <div class="col-md-12">
             <div class="panelBody">
-                <h1 class="panelTitle"><img src="../assets/board.png" class="board"> Strength Market</h1>                
+                <h1 class="panelTitle"><img src="../../assets/board.png" class="board"> Agility Market</h1>                
                 <div class="marketCats row">
-                    <p id="strMarket">
-                        <img src="../assets/fist.png" class="skillImg">
+                    <p @click="toStrMarket" id="strMarket">
+                        <img src="../../assets/fist.png" class="skillImg">
                         Strength Market
                     </p>                        
-                    <p @click="toAglMarket" id="aglMarket">
-                        <img src="../assets/shoes.png" class="skillImg">
+                    <p id="aglMarket">
+                        <img src="../../assets/shoes.png" class="skillImg">
                         Agility Market
                     </p>                        
                     <p @click="toVitMarket" id="vitMarket">
-                        <img src="../assets/heart.png" class="skillImg">
+                        <img src="../../assets/heart.png" class="skillImg">
                         Vitality Market
                     </p>
                     <p @click="toIntMarket" id="intMarket">
-                        <img src="../assets/book.png" class="skillImg">
+                        <img src="../../assets/book.png" class="skillImg">
                         Intellect Market
                     </p>
                 </div>
                     <p class="text-center">
-                        <img src="../assets/board.png" style="margin-top: -3px;">
+                        <img src="../../assets/board.png" style="margin-top: -3px;">
                         &nbsp;<span style="color: red; font-weight: bold">TIP</span>:
-                        This market is suited for characters which main ability is strength.
+                        This market is suited for characters which main ability is agility.
                     </p> 
                     <br>                           
                 <div class="row">
@@ -33,14 +33,15 @@
                         <li style="padding-right: 30px; width: 15%; padding-bottom: 30px;" v-for="item in items" class="list-item">
                         <div class="item">
                         <span v-if="item.elite === true">
-                        <img class="eliteItemImg" :src="require('../assets/items/strength/'+item.img)"> 
+                        <img class="eliteItemImg" :src="require('../../assets/items/agility/'+item.img)"> 
                         </span>
                         <span v-else>
-                        <img class="itemImg" :src="require('../assets/items/strength/'+item.img)"> 
+                        <img class="itemImg" :src="require('../../assets/items/agility/'+item.img)"> 
                        </span> 
                         <p>
                             {{item.title}}<br>
-                            <img src="../assets/fist.png" style="height: 25px">
+                            <img src="../../assets/shoes.png" style="height: 25px; image-rendering: pixelated">
+
                             +{{item.power}}<br>     
                             <small>Stock: {{item.stock}} / {{item.max_stock}}<br>
                             Level Required: <span style="color: red">{{item.level}}</span> 
@@ -48,13 +49,13 @@
                         </p>  
                             <span class="itemBuyBtn">
                             <b-button @click="buyItem(item)" variant="danger">
-                            <img src="../assets/gold.png" class="buyBtnGold">
+                            <img src="../../assets/gold.png" class="buyBtnGold">
                             {{item.price}}
                             </b-button>
                             </span>  
                             </div> 
                         </li>                      
-                    </ul>                          
+                    </ul>   
                 </div>  
                 </div>                                      
             </div>
@@ -64,6 +65,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+
 export default {
     name: 'market',
     data() {
@@ -74,13 +76,13 @@ export default {
     },
     beforeRouteEnter(to, from, next) {
         next(vm => {
-            vm.$store.dispatch('getStrengthItems').then((items) => {
+            vm.$store.dispatch('getAgilityItems').then((items) => {
                 items.forEach(e => {
                     vm.items.push(e);
                 });
             });
         });
-    },    
+    },      
     methods: {
         pushToast(imgURL, toastTitle, title, message, type) {
                 const h = this.$createElement
@@ -102,18 +104,18 @@ export default {
                 solid: true,
                 autoHideDelay: 3000
                 }); 
-        },
+        },           
         buyItem(item) {
 
-            let imgURL = '';
+            var imgURL = '';
             if(item.strength === true) {
-                imgURL = require("../assets/items/strength/"+item.img);
+                imgURL = require("../../assets/items/strength/"+item.img);
             } else if (item.agility === true) {
-                imgURL = require("../assets/items/agility/"+item.img);
+                imgURL = require("../../assets/items/agility/"+item.img);
             } else if (item.vitality === true) {
-                imgURL = require("../assets/items/vitality/"+item.img);
+                imgURL = require("../../assets/items/vitality/"+item.img);
             } else {
-                imgURL = require("../assets/items/intellect/"+item.img);
+                imgURL = require("../../assets/items/intellect/"+item.img);
             }
 
             const user = JSON.parse(this.$cookie.get('user'));
@@ -127,14 +129,13 @@ export default {
             else if(item.stock < 1) {
                 const message = 'Currently this item is out of stock.';
 
-                this.pushToast(imgURL, 'Notification', item.title, message, 'warning');                
+                this.pushToast(imgURL, 'Notification', item.title, message, 'warning');                 
             }
 
             else if(user.gold < item.price) {
                 const message = 'You do not have enough gold to buy this item.';
 
-                this.pushToast(imgURL, 'Notification', item.title, message, 'warning'); 
-
+                this.pushToast(imgURL, 'Notification', item.title, message, 'warning');
             } else {
                 const payload = {
                     itemID: item._id
@@ -150,9 +151,9 @@ export default {
                     }                 
                 });                
             }
-        },        
-        toAglMarket() {
-            this.$router.push({name: 'agilityMarket'});
+        },         
+        toStrMarket() {
+            this.$router.push({name: 'strengthMarket'});
         },
         toVitMarket() {
             this.$router.push({name: 'vitalityMarket'});
@@ -162,10 +163,10 @@ export default {
         }
     },
     computed: {
-      ...mapGetters([
-        'storedUserItems'
-      ])
-    } 
+        ...mapGetters([
+            'storedUserItems'
+        ])
+    }
 }
 </script>
 
@@ -208,17 +209,17 @@ export default {
   #strMarket {
       padding: 4px;
       border-radius: 5px;
-      background: #212f69;
-  }
-  #aglMarket {
-      padding: 4px;
-      border-radius: 5px;
       filter: grayscale(100%);
   }
-  #aglMarket:hover {
+  #strMarket:hover {
       background: #212f69;
       cursor: pointer;
       filter: none;
+  }  
+  #aglMarket {
+      padding: 4px;
+      border-radius: 5px;
+      background: #212f69;
   }
   #vitMarket {
       padding: 4px;
@@ -246,7 +247,6 @@ export default {
   #marketInfo h1 {
       font-size: 1rem;
   }
-
 .item {
     background: #050813;
     padding: 14px;
@@ -259,6 +259,7 @@ export default {
     padding: 8px;
     border-radius: 11px;
 }
+
 .eliteItemImg {
     background: #ff4949;
     border-radius: 11px;
@@ -266,6 +267,7 @@ export default {
     -webkit-box-shadow: 0px 0px 7px 3px rgba(250,0,0);
     box-shadow: 0px 0px 7px 3px rgba(250,0,0);
 }
+
   .itemBuyBtn {
     background: #dc3545;
     padding: 14px;

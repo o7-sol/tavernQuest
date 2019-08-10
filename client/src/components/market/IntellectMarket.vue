@@ -2,27 +2,27 @@
     <div id="market">
         <div class="col-md-12">
             <div class="panelBody">
-                <h1 class="panelTitle"><img src="../assets/board.png" class="board"> Intellect Market</h1>                
+                <h1 class="panelTitle"><img src="../../assets/board.png" class="board"> Intellect Market</h1>                
                 <div class="marketCats row">
                     <p @click="toStrMarket" id="strMarket">
-                        <img src="../assets/fist.png" class="skillImg">
+                        <img src="../../assets/fist.png" class="skillImg">
                         Strength Market
                     </p>                        
                     <p @click="toAglMarket" id="aglMarket">
-                        <img src="../assets/shoes.png" class="skillImg">
+                        <img src="../../assets/shoes.png" class="skillImg">
                         Agility Market
                     </p>                        
                     <p  @click="toVitMarket" id="vitMarket">
-                        <img src="../assets/heart.png" class="skillImg">
+                        <img src="../../assets/heart.png" class="skillImg">
                         Vitality Market
                     </p>
                     <p id="intMarket">
-                        <img src="../assets/book.png" class="skillImg">
+                        <img src="../../assets/book.png" class="skillImg">
                         Intellect Market
                     </p>
                 </div>
                     <p class="text-center">
-                        <img src="../assets/board.png" style="margin-top: -3px;">
+                        <img src="../../assets/board.png" style="margin-top: -3px;">
                         &nbsp;<span style="color: red; font-weight: bold">TIP</span>:
                         This market is suited for characters which main ability is intellect.
                     </p> 
@@ -33,14 +33,14 @@
                         <li style="padding-right: 30px; width: 15%; padding-bottom: 30px;" v-for="item in items" class="list-item">
                         <div class="item">
                         <span v-if="item.elite === true">
-                        <img class="eliteItemImg" :src="require('../assets/items/intellect/'+item.img)"> 
+                        <img class="eliteItemImg" :src="require('../../assets/items/intellect/'+item.img)"> 
                         </span>
                         <span v-else>
-                        <img class="itemImg" :src="require('../assets/items/intellect/'+item.img)"> 
+                        <img class="itemImg" :src="require('../../assets/items/intellect/'+item.img)"> 
                        </span>  
                         <p>
                             {{item.title}}<br>
-                            <img src="../assets/book.png" style="height: 25px; image-rendering: pixelated">
+                            <img src="../../assets/book.png" style="height: 25px; image-rendering: pixelated">
                             +{{item.power}}<br>     
                             <small>Stock: {{item.stock}} / {{item.max_stock}}<br>
                             Level Required: <span style="color: red">{{item.level}}</span> 
@@ -48,7 +48,7 @@
                         </p>  
                             <span class="itemBuyBtn">
                             <b-button @click="buyItem(item)" variant="danger">
-                            <img src="../assets/gold.png" class="buyBtnGold">
+                            <img src="../../assets/gold.png" class="buyBtnGold">
                             {{item.price}}
                             </b-button>
                             </span>  
@@ -107,13 +107,13 @@ export default {
 
             var imgURL = '';
             if(item.strength === true) {
-                imgURL = require("../assets/items/strength/"+item.img);
+                imgURL = require("../../assets/items/strength/"+item.img);
             } else if (item.agility === true) {
-                imgURL = require("../assets/items/agility/"+item.img);
+                imgURL = require("../../assets/items/agility/"+item.img);
             } else if (item.vitality === true) {
-                imgURL = require("../assets/items/vitality/"+item.img);
+                imgURL = require("../../assets/items/vitality/"+item.img);
             } else {
-                imgURL = require("../assets/items/intellect/"+item.img);
+                imgURL = require("../../assets/items/intellect/"+item.img);
             }
 
             const user = JSON.parse(this.$cookie.get('user'));

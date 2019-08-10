@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import ArenaPanel from '../components/ArenaPanel';
-import MarketPanel from '../components/MarketPanel';
-import OpponentPanel from '../components/OpponentPanel';
+import ArenaPanel from '../components/arena/ArenaPanel';
+import MarketPanel from '../components/market/MarketPanel';
+import OpponentPanel from '../components/arena/OpponentPanel';
 export default {
     components: {
         appArenaPanel: ArenaPanel,

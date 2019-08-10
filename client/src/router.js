@@ -57,25 +57,25 @@ export default new Router({
     {
       path: '/market/strength',
       name: 'strengthMarket',
-      component: () => import(/* webpackChunkName: "strengthMarket" */ './components/StrengthMarket.vue'),
+      component: () => import(/* webpackChunkName: "strengthMarket" */ './components/market/StrengthMarket.vue'),
       beforeEnter: isLoggedIn
     },
     {
       path: '/market/agility',
       name: 'agilityMarket',
-      component: () => import(/* webpackChunkName: "agilityMarket" */ './components/AgilityMarket.vue'),
+      component: () => import(/* webpackChunkName: "agilityMarket" */ './components/market/AgilityMarket.vue'),
       beforeEnter: isLoggedIn
     },
     {
       path: '/market/vitality',
       name: 'vitalityMarket',
-      component: () => import(/* webpackChunkName: "agilityMarket" */ './components/VitalityMarket.vue'),
+      component: () => import(/* webpackChunkName: "agilityMarket" */ './components/market/VitalityMarket.vue'),
       beforeEnter: isLoggedIn
     },
     {
       path: '/market/intellect',
       name: 'intellectMarket',
-      component: () => import(/* webpackChunkName: "agilityMarket" */ './components/IntellectMarket.vue'),
+      component: () => import(/* webpackChunkName: "agilityMarket" */ './components/market/IntellectMarket.vue'),
       beforeEnter: isLoggedIn
     },  
     {

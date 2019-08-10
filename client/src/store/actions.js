@@ -254,6 +254,14 @@ const getStackExchangeEliteItems = async({commit}, payload) => {
     }
 };
 
+const placeItemToExchange = async({commit}, payload) => {
+    try {
+        console.log(payload);
+    } catch (error) {
+        
+    }
+};
+
 export default {
     createAccount,
     authenticate,
@@ -270,5 +278,6 @@ export default {
     placeItemToInventoryFromBank,
     placeItemToBankFromInventory,
     getStackExchangeItems,
-    getStackExchangeEliteItems
+    getStackExchangeEliteItems,
+    placeItemToExchange
 }

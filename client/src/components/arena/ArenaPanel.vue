@@ -1,17 +1,17 @@
 <template>
   <div class="col-md-4">
     <div class="panelBody">
-      <h1 class="panelTitle"><img src="../assets/board.png" class="board"> Arena</h1>
+      <h1 class="panelTitle"><img src="../../assets/board.png" class="board"> Arena</h1>
       <ul class="list-unstyled latestFights">
         <li class="row fight">
           <span class="col-md-3 text-center" style="padding-top: 10px;">
             <span style="color: #02ff02">WINNER</span><br>
-            <img src="../assets/hero/necromancer.png" class="latestFightHero"><br>
+            <img src="../../assets/hero/necromancer.png" class="latestFightHero"><br>
             Zlotte
           </span>
           <span class="col-md-6 text-center winGoods">
             2019-08-01 20:58<br>
-            <img src="../assets/gold.png" style="height: 25px;"> 300
+            <img src="../../assets/gold.png" style="height: 25px;"> 300
             <br>
             <strong style="color: red">EXP</strong>&nbsp; 
             <span style="margin-right: 2px;">200</span>
@@ -19,19 +19,19 @@
           <span class="col-md-3 text-center" style="padding-top: 10px;">
             <span style="color: red">LOSER</span>
             <br>
-            <img src="../assets/hero/barbarian.png" class="latestFightHero">
+            <img src="../../assets/hero/barbarian.png" class="latestFightHero">
             Feknaz
           </span>
         </li>
         <li class="row fight">
           <span class="col-md-3 text-center" style="padding-top: 10px;">
             <span style="color: #02ff02">WINNER</span><br>
-            <img src="../assets/hero/necromancer.png" class="latestFightHero"><br>
+            <img src="../../assets/hero/necromancer.png" class="latestFightHero"><br>
             Zlotte
           </span>
           <span class="col-md-6 text-center winGoods">
             2019-08-01 20:58<br>
-            <img src="../assets/gold.png" style="height: 25px;"> 300
+            <img src="../../assets/gold.png" style="height: 25px;"> 300
             <br>
             <strong style="color: red">EXP</strong>&nbsp; 
             <span style="margin-right: 2px;">200</span>
@@ -39,19 +39,19 @@
           <span class="col-md-3 text-center" style="padding-top: 10px;">
             <span style="color: red">LOSER</span>
             <br>
-            <img src="../assets/hero/barbarian.png" class="latestFightHero">
+            <img src="../../assets/hero/barbarian.png" class="latestFightHero">
             Feknaz
           </span>
         </li>
         <li class="row fight">
           <span class="col-md-3 text-center" style="padding-top: 10px;">
             <span style="color: #02ff02">WINNER</span><br>
-            <img src="../assets/hero/necromancer.png" class="latestFightHero"><br>
+            <img src="../../assets/hero/necromancer.png" class="latestFightHero"><br>
             Zlotte
           </span>
           <span class="col-md-6 text-center winGoods">
             2019-08-01 20:58<br>
-            <img src="../assets/gold.png" style="height: 25px;"> 300
+            <img src="../../assets/gold.png" style="height: 25px;"> 300
             <br>
             <strong style="color: red">EXP</strong>&nbsp; 
             <span style="margin-right: 2px;">200</span>
@@ -59,7 +59,7 @@
           <span class="col-md-3 text-center" style="padding-top: 10px;">
             <span style="color: red">LOSER</span>
             <br>
-            <img src="../assets/hero/barbarian.png" class="latestFightHero">
+            <img src="../../assets/hero/barbarian.png" class="latestFightHero">
             Feknaz
           </span>
         </li>

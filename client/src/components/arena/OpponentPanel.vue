@@ -1,11 +1,11 @@
 <template>
   <div class="col-md-4">
     <div class="panelBody">
-      <h1 class="panelTitle"><img src="../assets/board.png" class="board">  Opponents</h1>
+      <h1 class="panelTitle"><img src="../../assets/board.png" class="board">  Opponents</h1>
       <ul class="list-unstyled opponentsList">
         <li>
           <p>
-            <img src="../assets/hero/pirate.png">
+            <img src="../../assets/hero/pirate.png">
             Zlotte (Pirate)
             <b-button variant="danger">FIGHT</b-button>
             <span class="float-right">
@@ -15,7 +15,7 @@
               <tbody>
                 <td>
                   <tr>
-                    <img src="../assets/fist.png" class="opponentImg">
+                    <img src="../../assets/fist.png" class="opponentImg">
                     Strength
                   </tr>
                   <tr style="margin-right: 19px; float: right;">15</tr>
@@ -23,7 +23,7 @@
                 &nbsp;&nbsp;
                 <td>
                   <tr>
-                    <img src="../assets/shoes.png" class="opponentImg">
+                    <img src="../../assets/shoes.png" class="opponentImg">
                     Agility
                   </tr>
                   <tr style="margin-right: 11px; float: right;">25</tr>
@@ -31,7 +31,7 @@
                 &nbsp;&nbsp;
                 <td>
                   <tr>
-                    <img src="../assets/heart.png" class="opponentImg">
+                    <img src="../../assets/heart.png" class="opponentImg">
                     Vitality
                   </tr>
                   <tr style="margin-right: 12px; float: right;">25</tr>
@@ -39,19 +39,19 @@
                 &nbsp;&nbsp;
                 <td>
                   <tr>
-                    <img src="../assets/book.png" class="opponentImg">
+                    <img src="../../assets/book.png" class="opponentImg">
                     Intellect
                   </tr>
                   <tr style="margin-right: 17px; float: right;">25</tr>
                 </td>
               </tbody>
             </table>
-            <img src="../assets/items/health/potion.png" alt="">
+            <img src="../../assets/items/health/potion.png" alt="">
           </p>
         </li>
         <li>
           <p>
-            <img src="../assets/hero/pirate.png">
+            <img src="../../assets/hero/pirate.png">
             Zlotte (Pirate)
             <b-button variant="danger">FIGHT</b-button>
             <span class="float-right">
@@ -61,7 +61,7 @@
               <tbody>
                 <td>
                   <tr>
-                    <img src="../assets/fist.png" class="opponentImg">
+                    <img src="../../assets/fist.png" class="opponentImg">
                     Strength
                   </tr>
                   <tr style="margin-right: 19px; float: right;">15</tr>
@@ -69,7 +69,7 @@
                 &nbsp;&nbsp;
                 <td>
                   <tr>
-                    <img src="../assets/shoes.png" class="opponentImg">
+                    <img src="../../assets/shoes.png" class="opponentImg">
                     Agility
                   </tr>
                   <tr style="margin-right: 11px; float: right;">25</tr>
@@ -77,7 +77,7 @@
                 &nbsp;&nbsp;
                 <td>
                   <tr>
-                    <img src="../assets/heart.png" class="opponentImg">
+                    <img src="../../assets/heart.png" class="opponentImg">
                     Vitality
                   </tr>
                   <tr style="margin-right: 12px; float: right;">25</tr>
@@ -85,14 +85,14 @@
                 &nbsp;&nbsp;
                 <td>
                   <tr>
-                    <img src="../assets/book.png" class="opponentImg">
+                    <img src="../../assets/book.png" class="opponentImg">
                     Intellect
                   </tr>
                   <tr style="margin-right: 17px; float: right;">25</tr>
                 </td>
               </tbody>
             </table>
-            <img src="../assets/items/health/potion.png" alt="">
+            <img src="../../assets/items/health/potion.png" alt="">
           </p>
         </li>
       </ul>
