@@ -3,6 +3,8 @@ const router = express.Router();
 const dayjs = require('dayjs');
 const uuidv1 = require('uuid/v1');
 const _ = require('lodash');
+const striptags = require('striptags');
+const validator = require('validator');
 
 // Models
 const Item = require('../models/Item');
@@ -17,26 +19,65 @@ const getLatestItems = (items) => {
     return items.slice(0, 14);
 };
 
+router.get('/api/grand-exchange-items', Authenticated, async(req, res) => {
+    try {
+        const user = await req.user;
+        const items = await StackExchangeItems.find({user: user.username});
+        res.json({items});
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 router.post('/api/place-item-to-stack-exchange', Authenticated, async(req, res) => {
     try {
         const itemID = await req.body.itemID;
-        const price = await req.body.price;
+        const price = await striptags(req.body.price);
         const user = await req.user;
         const userHasItem = await user.items.find(item => item.id === itemID);
+        const userHasItemInBank = await user.bank.find(item => item.id === itemID);
         let type;
         let elite;
+        let sellingItem;
 
-        if(!userHasItem) {
-            console.log('User does not have this item');
+        if(!validator.isNumeric(price)) {
+            return console.log('Problem with price');
         }
 
-        const itemInMarket = await Item.findOne({title: userHasItem.title});
+        if(!userHasItem && !userHasItemInBank) {
+            return console.log('User does not have this item');
+        }
 
-        if(userHasItem.strength) {
+        if(userHasItem) {
+            sellingItem = userHasItem;
+
+            _.remove(user.items, userItem => userItem.id === sellingItem.id);
+            const newArray = user.items;
+
+            user.items = [];
+            user.items = newArray;
+
+        } else if(userHasItemInBank) {
+            sellingItem = userHasItemInBank;
+
+            _.remove(user.bank, userItem => userItem.id === sellingItem.id);
+            const newArray = user.items;
+
+            user.bank = [];
+            user.bank = newArray;            
+        }
+
+        const itemInMarket = await Item.findOne({title: sellingItem.title});
+
+        if(!itemInMarket) {
+            return console.log('Item is not in the market');
+        }
+
+        if(sellingItem.strength) {
             type = 'Strength';
-        } else if(userHasItem.agility) {
+        } else if(sellingItem.agility) {
             type = 'Agility';
-        } else if(userHasItem.vitality) {
+        } else if(sellingItem.vitality) {
             type = 'Vitality';
         } else {
             type = 'Intellect';
@@ -44,16 +85,18 @@ router.post('/api/place-item-to-stack-exchange', Authenticated, async(req, res) 
 
         if(itemInMarket.elite) {
             elite = true;
+        } else {
+            elite = false;
         }
 
         const itemPayload = {
-            title: userHasItem.title,
-            img: userHasItem.img,
+            title: sellingItem.title,
+            img: sellingItem.img,
             user: user.username,
             userImg: user.heroImg,
             type,
             level: itemInMarket.level,
-            power: userHasItem.power,
+            power: sellingItem.power,
             price,
             elite,
             createdAt: dayjs().format('YYYY MM DD h:mm:ss A') 
@@ -61,8 +104,11 @@ router.post('/api/place-item-to-stack-exchange', Authenticated, async(req, res) 
 
         const newStackExchangeItem = StackExchangeItems(itemPayload);
         newStackExchangeItem.save().then(item => {
-            console.log(item)
-        })
+            if(item) {
+                user.save();
+                res.json({item, successMsg: 'Item was successfully placed in stack exchange.'});
+            }
+        });
 
     } catch (error) {
         console.log(error);   

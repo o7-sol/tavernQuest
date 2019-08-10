@@ -262,11 +262,28 @@ const placeItemToExchange = async({commit}, payload) => {
        const response = await API.post('/place-item-to-stack-exchange', {
            itemID, price
        });
-       console.log(response)
+       if(response.status === 200 && response.data.successMsg && response.data.item) {
+            const data = {
+                item: response.data.item,
+                message: response.data.successMsg
+            }
+            return data;
+       }
     } catch (error) {
         
     }
 };
+
+const getMyStackExchangeItems = async({commit}, payload) => {
+    try {
+        const response = await API.get('/grand-exchange-items');
+        if(response.status === 200 && response.data.items) {
+            return response.data.items;
+        }
+    } catch (error) {
+        
+    }
+}
 
 export default {
     createAccount,
@@ -285,5 +302,6 @@ export default {
     placeItemToBankFromInventory,
     getStackExchangeItems,
     getStackExchangeEliteItems,
-    placeItemToExchange
+    placeItemToExchange,
+    getMyStackExchangeItems
 }

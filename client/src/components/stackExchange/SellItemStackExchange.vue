@@ -1,9 +1,19 @@
 <template>
     <div>
+
             <span v-if="!itemPicked">
             <b-button variant="success" @click="sellItem">
                 Sell Item
             </b-button>
+
+            <div class="animated bounceIn" style="margin-left: 35%" v-if="successMsg.length > 0">
+                <br>
+                <span class="alert alert-success">
+                    {{successMsg}}
+                </span>
+                <br><br>
+            </div>
+
             </span>
 
             <span v-else>
@@ -18,8 +28,17 @@
             <br><br>
 
             <div class="text-center animated fadeIn" id="sellCard" v-show="itemPicked">
+              
+            <span v-if="error.length > 0">
+                <br>
+                <span class="alert alert-danger">
+                    {{error}}
+                </span>
+                <br><br>
+            </span>
+
                 <template v-if="type === 'strength'">
-                     <img :src="require('../../assets/items/strength/'+img)">
+                     <img :src="require('../../assets/items/strength/'+img)" class="itemPowerImg">
                 </template>
                 <template v-if="type === 'agility'">
                     <img :src="require('../../assets/items/agility/'+img)" class="itemPowerImg">
@@ -35,12 +54,12 @@
                      <span id="eliteWord" v-if="elite">
                          ELITE
                      </span><br>
-
-                     &nbsp;<span id="sellItemPower">
-                     <img v-if="type === 'strength'" src="../../assets/fist.png" class="itemPowerImg">
-                     <img v-if="type === 'vitality'" src="../../assets/heart.png" class="itemPowerImg">
-                     <img v-if="type === 'agility'" src="../../assets/shoes.png" class="itemPowerImg">
-                     <img v-if="type === 'intellect'" src="../../assets/book.png" class="itemPowerImg">
+                     <br>
+                     <span id="sellItemPower">
+                     <img v-if="type === 'strength'" src="../../assets/fist.png" class="itemTypeImg">
+                     <img v-if="type === 'vitality'" src="../../assets/heart.png" class="itemTypeImg">
+                     <img v-if="type === 'agility'" src="../../assets/shoes.png" class="itemTypeImg">
+                     <img v-if="type === 'intellect'" src="../../assets/book.png" class="itemTypeImg">
                      
                      +{{power}}
                      </span>
@@ -70,7 +89,7 @@
                             <span v-else>
                             <img class="itemInBank" :src="require('../../assets/items/strength/'+item.img)">
                             </span>
-                            &nbsp;<img src="../../assets/fist.png" class="itemPowerImg"> +{{item.power}}
+                            &nbsp;<img src="../../assets/fist.png" class="itemTypeImg"> +{{item.power}}
                             </template>
                             <template v-if="item.agility">
                             <span v-if="item.elite">
@@ -79,7 +98,7 @@
                             <span v-else>
                             <img class="itemInBank" :src="require('../../assets/items/agility/'+item.img)">
                             </span>              
-                            &nbsp;<img src="../../assets/shoes.png" class="itemPowerImg"> +{{item.power}}                            
+                            &nbsp;<img src="../../assets/shoes.png" class="itemTypeImg"> +{{item.power}}                            
                             </template>
                             <template v-if="item.vitality">
                             <span v-if="item.elite">
@@ -88,7 +107,7 @@
                             <span v-else>
                             <img class="itemInBank" :src="require('../../assets/items/vitality/'+item.img)">
                             </span>              
-                            &nbsp;<img src="../../assets/heart.png" class="itemPowerImg"> +{{item.power}}                            
+                            &nbsp;<img src="../../assets/heart.png" class="itemTypeImg"> +{{item.power}}                            
                             </template>
                             <template v-if="item.intellect">
                             <span v-if="item.elite">
@@ -97,7 +116,7 @@
                             <span v-else>
                             <img class="itemInBank" :src="require('../../assets/items/intellect/'+item.img)">
                             </span>              
-                            &nbsp;<img src="../../assets/book.png" class="itemPowerImg"> +{{item.power}}                            
+                            &nbsp;<img src="../../assets/book.png" class="itemTypeImg"> +{{item.power}}                            
                             </template>  
                             <p class="itemTitle">{{item.title}}</p>
                         </li>
@@ -109,7 +128,7 @@
                             <span v-else>
                             <img class="itemInBank" :src="require('../../assets/items/strength/'+item.img)">
                             </span>
-                            &nbsp;<img src="../../assets/fist.png" class="itemPowerImg"> +{{item.power}}
+                            &nbsp;<img src="../../assets/fist.png" class="itemTypeImg"> +{{item.power}}
                             </template>
                             <template v-if="item.agility">
                             <span v-if="item.elite">
@@ -118,7 +137,7 @@
                             <span v-else>
                             <img class="itemInBank" :src="require('../../assets/items/agility/'+item.img)">
                             </span> 
-                            &nbsp;<img src="../../assets/shoes.png" class="itemPowerImg"> +{{item.power}}
+                            &nbsp;<img src="../../assets/shoes.png" class="itemTypeImg"> +{{item.power}}
                             </template>
                             <template v-if="item.vitality">
                             <span v-if="item.elite">
@@ -127,7 +146,7 @@
                             <span v-else>
                             <img class="itemInBank" :src="require('../../assets/items/vitality/'+item.img)">
                             </span>
-                            &nbsp;<img src="../../assets/heart.png" class="itemPowerImg"> +{{item.power}}
+                            &nbsp;<img src="../../assets/heart.png" class="itemTypeImg"> +{{item.power}}
                             </template>
                             <template v-if="item.intellect">
                             <span v-if="item.elite">
@@ -136,7 +155,7 @@
                             <span v-else>
                             <img class="itemInBank" :src="require('../../assets/items/intellect/'+item.img)">
                             </span>  
-                            &nbsp;<img src="../../assets/book.png" class="itemPowerImg"> +{{item.power}}
+                            &nbsp;<img src="../../assets/book.png" class="itemTypeImg"> +{{item.power}}
                             </template>  
                             <p class="itemTitle">{{item.title}}</p>
                         </li>
@@ -162,7 +181,9 @@ export default {
             price: '',
             elite: false,
             sellPrice: '',
-            itemID: ''
+            itemID: '',
+            error: '',
+            successMsg: ''
         }
     },
     methods: {
@@ -188,6 +209,8 @@ export default {
 
             if(item.elite) {
                 this.elite = true;
+            } else {
+                this.elite = false;
             }
 
             if(item.strength) {
@@ -201,11 +224,46 @@ export default {
             }
         },
         placeToExchange() {
+            this.error = '';
+
+            function isNumber(input) {
+                return /^\d+$/.test(input);
+            }
+
+            if(this.sellPrice > 99999) {
+                return this.error = 'Price is too high.';
+            }
+
+            if(this.sellPrice < 1) {
+                return this.error = 'Price is too low.';
+            }
+
             const payload = {
               itemID: this.itemID,
               price: this.sellPrice
             }
-            this.placeItemToExchange(payload);
+            this.placeItemToExchange(payload).then(data => {
+                this.successMsg = data.message;
+                this.itemPicked = false;
+
+                if(this.interval) {
+                    clearInterval(this.interval);
+                }
+
+                this.interval = setInterval(() => {
+                    this.successMsg = '';
+                }, 3000);
+
+                this.img = '';
+                this.type = '';
+                this.power = '';
+                this.title = '';
+                this.price = '';
+                this.elite = false;
+                this.sellPrice = '';
+                this.itemID = '';
+
+            });
         },
         ...mapActions([
             'placeItemToExchange'
@@ -263,7 +321,13 @@ export default {
     margin-left: 50px;
 }
 .itemPowerImg {
-    height: 35px;
+    image-rendering: pixelated;
+    background: #7236d1;
+    padding: 6px;
+    border-radius: 5px;   
+}
+.itemTypeImg {
+    height: 25px;
     image-rendering: pixelated;
 }
 #eliteWord {

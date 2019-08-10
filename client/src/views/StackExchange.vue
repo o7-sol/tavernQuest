@@ -2,6 +2,8 @@
     <div id="stackExchange">
         <div class="col-md-12">
 
+        <app-my-items></app-my-items>
+
         <app-sell-item></app-sell-item>
         <br>
           <div class="input-group col-md-4" style="margin: 0 auto">
@@ -34,6 +36,7 @@ import { mapActions, mapMutations, mapGetters } from 'vuex';
 import SellItem from '../components/stackExchange/SellItemStackExchange';
 import AllItems from '../components/stackExchange/AllItemsStackExchange';
 import EliteItems from '../components/stackExchange/EliteItems';
+import MyItems from '../components/stackExchange/MyItems';
 
 export default {
     data() {
@@ -58,7 +61,8 @@ export default {
     components: {
         appSellItem: SellItem,
         appAllItems: AllItems,
-        appEliteItems: EliteItems
+        appEliteItems: EliteItems,
+        appMyItems: MyItems
     }
 }
 </script>

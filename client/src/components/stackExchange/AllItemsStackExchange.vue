@@ -14,12 +14,22 @@
                                 </span><br>
                                 
                                 <img v-if="item.type === 'Strength'" class="itemImg" 
-                                :src="require('../../assets/items/strength/'+item.img)">  
+                                :src="require('../../assets/items/strength/'+item.img)"> 
+                                <img v-if="item.type === 'Agility'" class="itemImg" 
+                                :src="require('../../assets/items/agility/'+item.img)"> 
+                                <img v-if="item.type === 'Vitality'" class="itemImg" 
+                                :src="require('../../assets/items/vitality/'+item.img)"> 
+                                <img v-if="item.type === 'Intellect'" class="itemImg" 
+                                :src="require('../../assets/items/intellect/'+item.img)"> 
+                                                                                                                                    
                                 <span style="font-size: 13px; margin-left: 10px">
                                     {{item.title}}
                                 </span>                          
                                 <div class="itemPrice">
                                 <img v-if="item.type === 'Strength'" src="../../assets/fist.png" style="height: 20px">
+                                <img v-if="item.type === 'Agility'" src="../../assets/shoes.png" style="height: 20px">
+                                <img v-if="item.type === 'Vitality'" src="../../assets/heart.png" style="height: 20px">
+                                <img v-if="item.type === 'Intellect'" src="../../assets/book.png" style="height: 20px">                        
                                 <span class="itemPower">
                                 +{{item.power}}
                                 </span>
@@ -36,6 +46,7 @@
                 </ul> 
 
                 <b-pagination
+                v-if="stackExchangeItems.length > 12"
                 v-model="currentPage"
                 :total-rows="rows"
                 :per-page="perPage"

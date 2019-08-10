@@ -45,6 +45,7 @@
     </ul>
 
                 <b-pagination
+                v-if="stackExchangeEliteItems.length > 12"
                 v-model="currentPage"
                 :total-rows="eliteRows"
                 :per-page="perPage"

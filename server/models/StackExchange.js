@@ -35,7 +35,8 @@ const stackExchangeSchema = mongoose.Schema({
     price: {
         type: Number,
         required: true,
-        min: 0
+        min: 1,
+        max: 99999
     },
     elite: {
         type: Boolean
