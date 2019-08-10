@@ -15,11 +15,20 @@
             </span><br>
             <img v-if="item.type === 'Strength'" class="latestItemImg"
               :src="require('../../assets/items/strength/'+item.img)">
+            <img v-if="item.type === 'Vitality'" class="latestItemImg"
+              :src="require('../../assets/items/vitality/'+item.img)">  
+            <img v-if="item.type === 'Agility'" class="latestItemImg"
+              :src="require('../../assets/items/agility/'+item.img)">  
+            <img v-if="item.type === 'Intellect'" class="latestItemImg"
+              :src="require('../../assets/items/intellect/'+item.img)">                                      
             <span style="font-size: 13px; margin-left: 10px">
               {{item.title}} <br>
             </span>
             <div class="latestItemPrice">
               <img v-if="item.type === 'Strength'" src="../../assets/fist.png" style="height: 25px">
+              <img v-if="item.type === 'Vitality'" src="../../assets/heart.png" style="height: 25px">
+              <img v-if="item.type === 'Agility'" src="../../assets/shoes.png" style="height: 25px">
+              <img v-if="item.type === 'Intellect'" src="../../assets/book.png" style="height: 25px">
               <span class="itemPower">
                 +{{item.power}}
               </span>

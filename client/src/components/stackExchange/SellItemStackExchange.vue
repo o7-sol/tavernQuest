@@ -5,39 +5,49 @@
                 Sell Item
             </b-button>
             </span>
+
             <span v-else>
             <b-button variant="success" @click="sellItem">
                 Another Item
-            </b-button>                
+            </b-button>     
+
+            <b-button class="float-right" @click="itemPicked = !itemPicked" variant="danger">
+                Close
+            </b-button>    
             </span>
             <br><br>
 
-            <div class="text-center animated fadeIn" v-show="itemPicked">
+            <div class="text-center animated fadeIn" id="sellCard" v-show="itemPicked">
                 <template v-if="type === 'strength'">
                      <img :src="require('../../assets/items/strength/'+img)">
                 </template>
                 <template v-if="type === 'agility'">
-                    <img src="../../assets/shoes.png" class="itemPowerImg">
+                    <img :src="require('../../assets/items/agility/'+img)" class="itemPowerImg">
                 </template>   
                 <template v-if="type === 'vitality'">
-                    <img src="../../assets/heart.png" class="itemPowerImg">
+                    <img :src="require('../../assets/items/vitality/'+img)" class="itemPowerImg">
                 </template>  
                 <template v-if="type === 'intellect'">
-                    <img src="../../assets/book.png" class="itemPowerImg">
+                    <img :src="require('../../assets/items/intellect/'+img)" class="itemPowerImg">
                 </template>   
-
-                     &nbsp;<span id="sellItemPower">
-                     <img src="../../assets/fist.png" class="itemPowerImg">
-                     +{{power}}
-                     </span>
-                     <br>
+                        <br>
                      {{title}}
                      <span id="eliteWord" v-if="elite">
                          ELITE
                      </span><br>
-                     Bought For: <img src="../../assets/gold.png" id="boughtFor"> {{price}}
+
+                     &nbsp;<span id="sellItemPower">
+                     <img v-if="type === 'strength'" src="../../assets/fist.png" class="itemPowerImg">
+                     <img v-if="type === 'vitality'" src="../../assets/heart.png" class="itemPowerImg">
+                     <img v-if="type === 'agility'" src="../../assets/shoes.png" class="itemPowerImg">
+                     <img v-if="type === 'intellect'" src="../../assets/book.png" class="itemPowerImg">
+                     
+                     +{{power}}
+                     </span>
+                     <br><br>
+                     Market Price: <img src="../../assets/gold.png" id="boughtFor"> {{price}}
                      <br>                    
-                     Sell For: <input min="1" max="99999" v-model="sellPrice" type="number" style="width: 7%" placeholder="Your price">                                               
+                     Sell For: <input min="1" max="99999" v-model="sellPrice" type="number" style="width: 30%" placeholder="Your price">                                               
                      <br>
                      <small>Minimum price: 1 Maximum price: 99999</small>
                      <br><br>
@@ -91,7 +101,7 @@
                             </template>  
                             <p class="itemTitle">{{item.title}}</p>
                         </li>
-                        <li class="col-md-2" v-for="item in bankItems">
+                        <li @click="pickItem(item, index)" class="col-md-2" v-for="(item, index) in bankItems">
                             <template v-if="item.strength">
                             <span v-if="item.elite">
                             <img class="itemInBankElite" :src="require('../../assets/items/strength/'+item.img)">
@@ -152,7 +162,7 @@ export default {
             price: '',
             elite: false,
             sellPrice: '',
-            id: ''
+            itemID: ''
         }
     },
     methods: {
@@ -174,7 +184,7 @@ export default {
             this.title = item.title;
             this.img = item.img;
             this.price = item.price;
-            this.id = item.id;
+            this.itemID = item.id;
 
             if(item.elite) {
                 this.elite = true;
@@ -191,8 +201,11 @@ export default {
             }
         },
         placeToExchange() {
-            const itemID = this.id;
-            this.placeToExchange(itemID);
+            const payload = {
+              itemID: this.itemID,
+              price: this.sellPrice
+            }
+            this.placeItemToExchange(payload);
         },
         ...mapActions([
             'placeItemToExchange'
@@ -250,7 +263,7 @@ export default {
     margin-left: 50px;
 }
 .itemPowerImg {
-    height: 25px;
+    height: 35px;
     image-rendering: pixelated;
 }
 #eliteWord {
@@ -266,5 +279,12 @@ export default {
     background: #7337d2;
     padding: 8px;
     border-radius: 5px;
+}
+#sellCard {
+    background: #30007b;
+    width: 30%;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 6px;
 }
 </style>

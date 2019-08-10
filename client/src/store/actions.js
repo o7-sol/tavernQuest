@@ -256,7 +256,13 @@ const getStackExchangeEliteItems = async({commit}, payload) => {
 
 const placeItemToExchange = async({commit}, payload) => {
     try {
-        console.log(payload);
+       const itemID = await payload.itemID;
+       const price = await payload.price;
+
+       const response = await API.post('/place-item-to-stack-exchange', {
+           itemID, price
+       });
+       console.log(response)
     } catch (error) {
         
     }

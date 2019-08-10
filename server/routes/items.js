@@ -17,6 +17,58 @@ const getLatestItems = (items) => {
     return items.slice(0, 14);
 };
 
+router.post('/api/place-item-to-stack-exchange', Authenticated, async(req, res) => {
+    try {
+        const itemID = await req.body.itemID;
+        const price = await req.body.price;
+        const user = await req.user;
+        const userHasItem = await user.items.find(item => item.id === itemID);
+        let type;
+        let elite;
+
+        if(!userHasItem) {
+            console.log('User does not have this item');
+        }
+
+        const itemInMarket = await Item.findOne({title: userHasItem.title});
+
+        if(userHasItem.strength) {
+            type = 'Strength';
+        } else if(userHasItem.agility) {
+            type = 'Agility';
+        } else if(userHasItem.vitality) {
+            type = 'Vitality';
+        } else {
+            type = 'Intellect';
+        }
+
+        if(itemInMarket.elite) {
+            elite = true;
+        }
+
+        const itemPayload = {
+            title: userHasItem.title,
+            img: userHasItem.img,
+            user: user.username,
+            userImg: user.heroImg,
+            type,
+            level: itemInMarket.level,
+            power: userHasItem.power,
+            price,
+            elite,
+            createdAt: dayjs().format('YYYY MM DD h:mm:ss A') 
+        }
+
+        const newStackExchangeItem = StackExchangeItems(itemPayload);
+        newStackExchangeItem.save().then(item => {
+            console.log(item)
+        })
+
+    } catch (error) {
+        console.log(error);   
+    }
+});
+
 router.get('/api/stack-exchange-elite', Authenticated, async(req, res) => {
     try {
         const items = await StackExchangeItems.find({elite: true}).sort('createdAt');
