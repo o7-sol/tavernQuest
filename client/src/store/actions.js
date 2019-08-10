@@ -232,6 +232,28 @@ const placeItemToBankFromInventory = async({commit}, payload) => {
     }
 };
 
+const getStackExchangeItems = async({commit}, payload) => {
+    try {
+        const response = await API.get('/stack-exchange');
+        if(response.status === 200 && response.data.items) {
+            commit('SET_STACK_EXCHANGE_ITEMS', response.data.items);
+        }
+    } catch (error) {
+        
+    }
+};
+
+const getStackExchangeEliteItems = async({commit}, payload) => {
+    try {
+        const response = await API.get('/stack-exchange-elite');
+        if(response.status === 200 && response.data.items) {
+            commit('SET_STACK_EXCHANGE_ELITE_ITEMS', response.data.items);
+        }
+    } catch (error) {
+        
+    }
+};
+
 export default {
     createAccount,
     authenticate,
@@ -246,5 +268,7 @@ export default {
     getUserBankItems,
     placeItemToBank,
     placeItemToInventoryFromBank,
-    placeItemToBankFromInventory
+    placeItemToBankFromInventory,
+    getStackExchangeItems,
+    getStackExchangeEliteItems
 }

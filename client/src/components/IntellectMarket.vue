@@ -32,7 +32,12 @@
                     <ul class="list-unstyled row" style="margin-right: -9%;">
                         <li style="padding-right: 30px; width: 15%; padding-bottom: 30px;" v-for="item in items" class="list-item">
                         <div class="item">
-                       <img class="itemImg" :src="require('../assets/items/intellect/'+item.img)">  
+                        <span v-if="item.elite === true">
+                        <img class="eliteItemImg" :src="require('../assets/items/intellect/'+item.img)"> 
+                        </span>
+                        <span v-else>
+                        <img class="itemImg" :src="require('../assets/items/intellect/'+item.img)"> 
+                       </span>  
                         <p>
                             {{item.title}}<br>
                             <img src="../assets/book.png" style="height: 25px; image-rendering: pixelated">
@@ -252,6 +257,15 @@ export default {
     padding: 8px;
     border-radius: 11px;
 }
+
+.eliteItemImg {
+    background: #ff4949;
+    border-radius: 11px;
+    padding: 8px;
+    -webkit-box-shadow: 0px 0px 7px 3px rgba(250,0,0);
+    box-shadow: 0px 0px 7px 3px rgba(250,0,0);
+}
+
   .itemBuyBtn {
     background: #dc3545;
     padding: 14px;

@@ -7,6 +7,7 @@ const _ = require('lodash');
 // Models
 const Item = require('../models/Item');
 const ItemDiscount = require('../models/ItemDiscount');
+const StackExchangeItems = require('../models/StackExchange');
 
 // Middlewares
 const Authenticated = require('../middlewares/authenticated');
@@ -15,6 +16,24 @@ const Authenticated = require('../middlewares/authenticated');
 const getLatestItems = (items) => {
     return items.slice(0, 14);
 };
+
+router.get('/api/stack-exchange-elite', Authenticated, async(req, res) => {
+    try {
+        const items = await StackExchangeItems.find({elite: true}).sort('createdAt');
+        res.json({items});
+    } catch (error) {
+        console(error);
+    }
+});
+
+router.get('/api/stack-exchange', Authenticated, async(req, res) => {
+    try {
+        const items = await StackExchangeItems.find({elite: false}).sort('createdAt');
+        res.json({items});
+    } catch (error) {
+        console(error);
+    }
+});
 
 router.post('/api/place-item-from-inventory-to-bank', Authenticated, async(req, res) => {
     try {
@@ -108,6 +127,7 @@ router.post('/api/buy-item/:id', Authenticated, async(req, res) => {
     try {
         const user = await req.user;
         const item = await Item.findById(req.body.itemID);
+        let elite = await false;
         if(!item) {
             return console.log('Item do not exist');
         }
@@ -116,6 +136,9 @@ router.post('/api/buy-item/:id', Authenticated, async(req, res) => {
         }
         if(item.stock < 1) {
             return console.log('Item is out of stock');
+        }
+        if(item.elite) {
+            elite = true;
         }
         if(user.gold >= item.price && user.level >= item.level && item.stock > 0) {
             const itemPayload = {
@@ -128,6 +151,7 @@ router.post('/api/buy-item/:id', Authenticated, async(req, res) => {
                 vitality: item.vitality,
                 intellect: item.intellect,
                 price: item.price,
+                elite,
                 createdAt: dayjs().format('YYYY MM DD h:mm:ss A')                
             }
             if(user.items.length < 14) {

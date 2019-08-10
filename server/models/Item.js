@@ -46,6 +46,9 @@ const itemSchema = mongoose.Schema({
         type: Number,
         min: 0
     },
+    elite: {
+        type: Boolean
+    },
     createdAt: {
         type: String
     }

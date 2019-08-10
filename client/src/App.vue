@@ -176,4 +176,11 @@ body {
 .b-toast-secondary .toast-body {
   background: #ff5555 !important;
 }
+.page-link {
+    background: #7337d2 !important;
+    border-color: black !important;
+}
+.page-link {
+  color: white !important;
+}
 </style>

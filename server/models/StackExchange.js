@@ -13,6 +13,10 @@ const stackExchangeSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    userImg: {
+        type: String,
+        required: true
+    },
     type: {
         type: String,
         required: true
@@ -33,9 +37,8 @@ const stackExchangeSchema = mongoose.Schema({
         required: true,
         min: 0
     },
-    buyer: {
-        type: String,
-        required: true
+    elite: {
+        type: Boolean
     },
     createdAt: {
         type: String,

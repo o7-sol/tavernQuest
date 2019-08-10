@@ -46,16 +46,36 @@
         <div class="itemsList"> 
           <span v-for="(item, index) in storedUserItems">  
             <template v-if="item.strength">
+              <span v-if="item.elite">
+            <img @click="itemInfo(item, index)" class="itemEliteInInventory" :src="require('../assets/items/strength/'+item.img)">
+              </span>
+              <span v-else>
             <img @click="itemInfo(item, index)" class="itemInInventory" :src="require('../assets/items/strength/'+item.img)">
+              </span>
             </template>
             <template v-if="item.agility">
+              <span v-if="item.elite">
+            <img @click="itemInfo(item, index)" class="itemEliteInInventory" :src="require('../assets/items/agility/'+item.img)">
+              </span>
+              <span v-else>
             <img @click="itemInfo(item, index)" class="itemInInventory" :src="require('../assets/items/agility/'+item.img)">
+              </span>              
             </template>
             <template v-if="item.vitality">
+              <span v-if="item.elite">
+            <img @click="itemInfo(item, index)" class="itemEliteInInventory" :src="require('../assets/items/vitality/'+item.img)">
+              </span>
+              <span v-else>
             <img @click="itemInfo(item, index)" class="itemInInventory" :src="require('../assets/items/vitality/'+item.img)">
+              </span>              
             </template>
             <template v-if="item.intellect">
+              <span v-if="item.elite">
+            <img @click="itemInfo(item, index)" class="itemEliteInInventory" :src="require('../assets/items/intellect/'+item.img)">
+              </span>
+              <span v-else>
             <img @click="itemInfo(item, index)" class="itemInInventory" :src="require('../assets/items/intellect/'+item.img)">
+              </span>              
             </template>            
           </span>
         </div>
@@ -326,6 +346,15 @@ export default {
   border-radius: 5px;
   margin-top: 15px;
   margin-right: 15px;
+}
+.itemEliteInInventory {
+  padding: 5px;
+  background: #ff4949;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-right: 15px;
+  -webkit-box-shadow: 0px 0px 7px 3px rgba(250,0,0);
+  box-shadow: 0px 0px 7px 3px rgba(250,0,0);  
 }
 .itemInInventory:hover {
   background: #7337d2;

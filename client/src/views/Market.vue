@@ -22,16 +22,33 @@
                     <div v-for="item in latestItems" :key="item._id" class="latestItemBody" @mouseover="bounceItemIcon(item._id)"
                     @mouseout="bounceOff(item._id)">
                     <span v-if="item.strength === true">
-                    <img :class="bounce" class="latestItemIcon" :src="require('../assets/items/strength/'+item.img)">
-                    </span>
+                        <span v-if="item.elite">
+                        <img :class="bounce" class="latestEliteItemIcon" :src="require('../assets/items/strength/'+item.img)">
+                        </span>
+                        <span v-else>
+                        <img :class="bounce" class="latestItemIcon" :src="require('../assets/items/strength/'+item.img)">
+                        </span>                    </span>
                     <span v-if="item.agility === true">
-                    <img :class="bounce" class="latestItemIcon" :src="require('../assets/items/agility/'+item.img)">
-                    </span> 
+                        <span v-if="item.elite">
+                        <img :class="bounce" class="latestEliteItemIcon" :src="require('../assets/items/agility/'+item.img)">
+                        </span>
+                        <span v-else>
+                        <img :class="bounce" class="latestItemIcon" :src="require('../assets/items/agility/'+item.img)">
+                        </span>                    </span> 
                     <span v-if="item.vitality === true">
-                    <img :class="bounce" class="latestItemIcon" :src="require('../assets/items/vitality/'+item.img)">
-                    </span> 
+                        <span v-if="item.elite">
+                        <img :class="bounce" class="latestEliteItemIcon" :src="require('../assets/items/vitality/'+item.img)">
+                        </span>
+                        <span v-else>
+                        <img :class="bounce" class="latestItemIcon" :src="require('../assets/items/vitality/'+item.img)">
+                        </span>                   </span> 
                     <span v-if="item.intellect === true">
-                    <img :class="bounce" class="latestItemIcon" :src="require('../assets/items/intellect/'+item.img)">
+                        <span v-if="item.elite">
+                        <img :class="bounce" class="latestEliteItemIcon" :src="require('../assets/items/intellect/'+item.img)">
+                        </span>
+                        <span v-else>
+                        <img :class="bounce" class="latestItemIcon" :src="require('../assets/items/intellect/'+item.img)">
+                        </span>
                     </span>                                                          
                     <p style="font-size: 13px;">{{item.title}}
                         <br>
@@ -239,6 +256,15 @@ export default {
       padding: 8px;
       border-radius: 19px;
   }
+
+.latestEliteItemIcon {
+    background: #ff4949;
+    padding: 8px;
+    border-radius: 19px;
+    -webkit-box-shadow: 0px 0px 7px 3px rgba(250,0,0);
+    box-shadow: 0px 0px 7px 3px rgba(250,0,0);
+}
+
   .latestItemPowerIcon {
       height: 25px;
       image-rendering: pixelated;

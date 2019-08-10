@@ -9,11 +9,39 @@
                     </h1>
                    <ul class="list-unstyled text-center row" id="bankList">
                         <li @click="putItemToPendBoxFromBank(index, item)" v-for="(item, index) in bankItems" class="col-2">
-                            <img class="itemInBank" v-if="item.strength" :src="require('../assets/items/strength/'+item.img)">
-                            <img class="itemInBank" v-if="item.agility" :src="require('../assets/items/agility/'+item.img)">
-                            <img class="itemInBank" v-if="item.vitality" :src="require('../assets/items/vitality/'+item.img)">
-                            <img class="itemInBank" v-if="item.intellect" :src="require('../assets/items/intellect/'+item.img)">
-                            <p class="itemTitle">{{item.title}}</p>
+            <template v-if="item.strength">
+              <span v-if="item.elite">
+            <img class="itemInBankElite" :src="require('../assets/items/strength/'+item.img)">
+              </span>
+              <span v-else>
+            <img class="itemInBank" :src="require('../assets/items/strength/'+item.img)">
+              </span>
+            </template>
+            <template v-if="item.agility">
+              <span v-if="item.elite">
+            <img class="itemInBankElite" :src="require('../assets/items/agility/'+item.img)">
+              </span>
+              <span v-else>
+            <img class="itemInBank" :src="require('../assets/items/agility/'+item.img)">
+              </span>              
+            </template>
+            <template v-if="item.vitality">
+              <span v-if="item.elite">
+            <img class="itemInBankElite" :src="require('../assets/items/vitality/'+item.img)">
+              </span>
+              <span v-else>
+            <img class="itemInBank" :src="require('../assets/items/vitality/'+item.img)">
+              </span>              
+            </template>
+            <template v-if="item.intellect">
+              <span v-if="item.elite">
+            <img class="itemInBankElite" :src="require('../assets/items/intellect/'+item.img)">
+              </span>
+              <span v-else>
+            <img class="itemInBank" :src="require('../assets/items/intellect/'+item.img)">
+              </span>              
+            </template>  
+             <p class="itemTitle">{{item.title}}</p>
                         </li> 
                        <!-- <li v-for="index in 100" class="col-2">
                             <div class="blankItem"></div>
@@ -39,6 +67,7 @@
                         <img class="itemPending" v-if="agility" :src="require('../assets/items/agility/'+img)">
                         <img class="itemPending" v-if="vitality" :src="require('../assets/items/vitality/'+img)">
                         <img class="itemPending" v-if="intellect" :src="require('../assets/items/intellect/'+img)">
+                        
                         <div>
                             <p>
                             {{title}}
@@ -71,11 +100,38 @@
                     </h1>
                     <ul class="list-unstyled text-center row" id="bankList">
                         <li @click="putItemToPendBoxFromInventory(index, item)" v-for="(item, index) in storedUserItems" class="col-2">
-                            <img class="itemInBank" v-if="item.strength" :src="require('../assets/items/strength/'+item.img)">
-                            <img class="itemInBank" v-if="item.agility" :src="require('../assets/items/agility/'+item.img)">
-                            <img class="itemInBank" v-if="item.vitality" :src="require('../assets/items/vitality/'+item.img)">
-                            <img class="itemInBank" v-if="item.intellect" :src="require('../assets/items/intellect/'+item.img)">
-                            <p class="itemTitle">{{item.title}}</p>
+            <template v-if="item.strength">
+              <span v-if="item.elite">
+            <img class="itemInBankElite" :src="require('../assets/items/strength/'+item.img)">
+              </span>
+              <span v-else>
+            <img class="itemInBank" :src="require('../assets/items/strength/'+item.img)">
+              </span>
+            </template>
+            <template v-if="item.agility">
+              <span v-if="item.elite">
+            <img class="itemInBankElite" :src="require('../assets/items/agility/'+item.img)">
+              </span>
+              <span v-else>
+            <img class="itemInBank" :src="require('../assets/items/agility/'+item.img)">
+              </span>              
+            </template>
+            <template v-if="item.vitality">
+              <span v-if="item.elite">
+            <img class="itemInBankElite" :src="require('../assets/items/vitality/'+item.img)">
+              </span>
+              <span v-else>
+            <img class="itemInBank" :src="require('../assets/items/vitality/'+item.img)">
+              </span>              
+            </template>
+            <template v-if="item.intellect">
+              <span v-if="item.elite">
+            <img class="itemInBankElite" :src="require('../assets/items/intellect/'+item.img)">
+              </span>
+              <span v-else>
+            <img class="itemInBank" :src="require('../assets/items/intellect/'+item.img)">
+              </span>              
+            </template>                              <p class="itemTitle">{{item.title}}</p>
                         </li>                                                                  
                     </ul>
                 </div>
@@ -102,6 +158,7 @@ export default {
             intellect: false,
             power: '',
             index: '',
+            elite: false,
             id: ''
 
         }
@@ -117,7 +174,7 @@ export default {
     },
     methods: {
         setItem(price, title, img, strength, agility, vitality, intellect,
-        power, index, id) {
+        power, index, elite, id) {
             this.price = price;
             this.title = title;
             this.img = img;
@@ -127,6 +184,7 @@ export default {
             this.intellect = intellect;
             this.power = power;
             this.index = index;
+            this.elite = elite;
             this.id = id;
         },
         putItemToPendBoxFromInventory(index, item) {
@@ -134,7 +192,7 @@ export default {
             this.itemFromInventory = true;
             this.itemFromBank = false;
             this.setItem(item.price, item.title, item.img, item.strength,
-            item.agility, item.vitality, item.intellect, item.power, index, item.id)
+            item.agility, item.vitality, item.intellect, item.power, index, item.elite, item.id)
 
         },
         putItemToPendBoxFromBank(index, item) {
@@ -142,7 +200,7 @@ export default {
             this.itemFromInventory = false;
             this.itemFromBank = true;
             this.setItem(item.price, item.title, item.img, item.strength,
-            item.agility, item.vitality, item.intellect, item.power, index, item.id)
+            item.agility, item.vitality, item.intellect, item.power, index, item.elite, item.id)
 
         },        
         addToBank(index) {
@@ -155,6 +213,7 @@ export default {
                 vitality: this.vitality,
                 intellect: this.intellect,
                 power: this.power,
+                elite: this.elite,
                 id: this.id
             });
             this.itemInPendingBox = false;
@@ -186,6 +245,7 @@ export default {
                 vitality: this.vitality,
                 intellect: this.intellect,
                 power: this.power,
+                elite: this.elite,
                 id: this.id
             });
             this.itemInPendingBox = false;
@@ -296,6 +356,14 @@ export default {
     padding: 5px;
     margin-bottom: 5px;
     border-radius: 5px;
+}
+.itemInBankElite {
+    background: #ff4949;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 7px 3px rgba(250,0,0);
+    box-shadow: 0px 0px 7px 3px rgba(250,0,0);      
 }
 .itemInBank:hover {
     cursor: pointer;
