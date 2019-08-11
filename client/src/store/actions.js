@@ -276,14 +276,37 @@ const placeItemToExchange = async({commit}, payload) => {
 
 const getMyStackExchangeItems = async({commit}, payload) => {
     try {
-        const response = await API.get('/grand-exchange-items');
+        const response = await API.get('/stack-exchange-items');
         if(response.status === 200 && response.data.items) {
             return response.data.items;
         }
     } catch (error) {
         
     }
-}
+};
+
+const getMyStackExchangeItemBack = async({commit}, payload) => {
+    try {
+        const response = await API.post('/get-item-back-from-stack-exchange', {
+            itemID: payload.itemID
+        });
+        if(response.status === 200 && response.data.successMsg) {
+            const data = {
+                title: response.data.item.title,
+                image: response.data.item.img,
+                type: response.data.item.type,
+                itemIndex: response.data.itemIndex,
+                elite: response.data.item.elite,
+                item: response.data.item,
+                message: response.data.successMsg
+            }
+
+            return data;
+        }
+    } catch (error) {
+        
+    }
+};
 
 export default {
     createAccount,
@@ -303,5 +326,6 @@ export default {
     getStackExchangeItems,
     getStackExchangeEliteItems,
     placeItemToExchange,
-    getMyStackExchangeItems
+    getMyStackExchangeItems,
+    getMyStackExchangeItemBack
 }

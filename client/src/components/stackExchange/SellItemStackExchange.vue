@@ -81,7 +81,7 @@
                         Select Item
                     </h1>
                     <ul class="col-md-12 row list-unstyled" id="userItems">
-                        <li @click="pickItem(item, index)" class="col-md-2" v-for="(item, index) in storedUserItems">
+                        <li @click="pickItem(item, index)" class="col-md-2" v-for="(item, index) in concatedItems">
                             <template v-if="item.strength">
                             <span v-if="item.elite">
                             <img class="itemInBankElite" :src="require('../../assets/items/strength/'+item.img)">
@@ -120,45 +120,6 @@
                             </template>  
                             <p class="itemTitle">{{item.title}}</p>
                         </li>
-                        <li @click="pickItem(item, index)" class="col-md-2" v-for="(item, index) in bankItems">
-                            <template v-if="item.strength">
-                            <span v-if="item.elite">
-                            <img class="itemInBankElite" :src="require('../../assets/items/strength/'+item.img)">
-                            </span>
-                            <span v-else>
-                            <img class="itemInBank" :src="require('../../assets/items/strength/'+item.img)">
-                            </span>
-                            &nbsp;<img src="../../assets/fist.png" class="itemTypeImg"> +{{item.power}}
-                            </template>
-                            <template v-if="item.agility">
-                            <span v-if="item.elite">
-                            <img class="itemInBankElite" :src="require('../../assets/items/agility/'+item.img)">
-                            </span>
-                            <span v-else>
-                            <img class="itemInBank" :src="require('../../assets/items/agility/'+item.img)">
-                            </span> 
-                            &nbsp;<img src="../../assets/shoes.png" class="itemTypeImg"> +{{item.power}}
-                            </template>
-                            <template v-if="item.vitality">
-                            <span v-if="item.elite">
-                            <img class="itemInBankElite" :src="require('../../assets/items/vitality/'+item.img)">
-                            </span>
-                            <span v-else>
-                            <img class="itemInBank" :src="require('../../assets/items/vitality/'+item.img)">
-                            </span>
-                            &nbsp;<img src="../../assets/heart.png" class="itemTypeImg"> +{{item.power}}
-                            </template>
-                            <template v-if="item.intellect">
-                            <span v-if="item.elite">
-                            <img class="itemInBankElite" :src="require('../../assets/items/intellect/'+item.img)">
-                            </span>
-                            <span v-else>
-                            <img class="itemInBank" :src="require('../../assets/items/intellect/'+item.img)">
-                            </span>  
-                            &nbsp;<img src="../../assets/book.png" class="itemTypeImg"> +{{item.power}}
-                            </template>  
-                            <p class="itemTitle">{{item.title}}</p>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -175,6 +136,7 @@ export default {
             itemPicked: false,
             bankItems: [],
             img: '',
+            concatedItems: [],
             type: '',
             power: '',
             title: '',
@@ -183,19 +145,28 @@ export default {
             sellPrice: '',
             itemID: '',
             error: '',
-            successMsg: ''
+            successMsg: '',
+            index: ''
         }
+    },
+    created() {
+        this.$store.dispatch('getUserBankItems').then(items => {
+            items.forEach(e => {
+                this.bankItems.push(e);
+            });
+
+        const allItems = this.storedUserItems.concat(this.bankItems);
+        allItems.forEach(e => {
+            this.concatedItems.push(e)
+        })
+
+        }); 
     },
     methods: {
         sellItem() {
             this.bankItems = [];
             this.showForm = !this.showForm;
             this.itemPicked = false;
-            this.$store.dispatch('getUserBankItems').then(items => {
-                items.forEach(e => {
-                    this.bankItems.push(e);
-                });
-            });
         },
         pickItem(item, index) {
             this.showForm = !this.showForm;
@@ -206,6 +177,7 @@ export default {
             this.img = item.img;
             this.price = item.price;
             this.itemID = item.id;
+            this.index = index;
 
             if(item.elite) {
                 this.elite = true;
@@ -243,35 +215,43 @@ export default {
               price: this.sellPrice
             }
             this.placeItemToExchange(payload).then(data => {
-                this.successMsg = data.message;
-                this.itemPicked = false;
+                if(data.message) {
 
-                if(this.interval) {
-                    clearInterval(this.interval);
+                    this.concatedItems.splice(this.index, 1);
+
+                    this.successMsg = data.message;
+                    this.itemPicked = false;
+
+                    if(this.interval) {
+                        clearInterval(this.interval);
+                    }
+
+                    this.interval = setInterval(() => {
+                        this.successMsg = '';
+                    }, 3000);
+
+                    this.img = '';
+                    this.type = '';
+                    this.power = '';
+                    this.title = '';
+                    this.price = '';
+                    this.elite = false;
+                    this.sellPrice = '';
+                    this.itemID = '';
                 }
-
-                this.interval = setInterval(() => {
-                    this.successMsg = '';
-                }, 3000);
-
-                this.img = '';
-                this.type = '';
-                this.power = '';
-                this.title = '';
-                this.price = '';
-                this.elite = false;
-                this.sellPrice = '';
-                this.itemID = '';
-
             });
         },
         ...mapActions([
-            'placeItemToExchange'
+            'placeItemToExchange',
+            'getStackExchangeItems',
+            'getStackExchangeEliteItems'
         ])
     },
     computed: {
         ...mapGetters([
-            'storedUserItems'
+            'storedUserItems',
+            'stackExchangeItems',
+            'stackExchangeEliteItems'
         ]) 
     }
 }

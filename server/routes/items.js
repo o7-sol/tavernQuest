@@ -19,7 +19,7 @@ const getLatestItems = (items) => {
     return items.slice(0, 14);
 };
 
-router.get('/api/grand-exchange-items', Authenticated, async(req, res) => {
+router.get('/api/stack-exchange-items', Authenticated, async(req, res) => {
     try {
         const user = await req.user;
         const items = await StackExchangeItems.find({user: user.username});
@@ -27,6 +27,79 @@ router.get('/api/grand-exchange-items', Authenticated, async(req, res) => {
     } catch (error) {
         console.log(error);
     }
+});
+
+router.post('/api/get-item-back-from-stack-exchange', Authenticated, async(req, res) => {
+    try {
+        const item = await StackExchangeItems.findById(req.body.itemID);
+        const eliteItems = await StackExchangeItems.find({elite: true});
+        const regularItems = await StackExchangeItems.find({elite: false});
+        const itemInMarket = await Item.findOne({title: item.title});
+        const user = await req.user;
+        let index;
+
+        if(item.elite) {
+           index = await _.findIndex(eliteItems, {_id: item._id});
+        } else {
+           index = await _.findIndex(regularItems, {_id: item._id});
+        }
+
+        let strength = await false;
+        let agility = await false;
+        let vitality = await false;
+        let intellect = await false;
+
+        if(item.type === 'Strength') {
+            strength = true;
+        } else if (item.type === 'Agility') {
+            agility = true;
+        } else if (item.type === 'Vitality') {
+            vitality = true;
+        } else {
+            intellect = true;
+        }
+
+        if(!item) {
+            return console.log('Item does not exist');
+        }
+
+        if(item.user === user.username) {
+
+            const itemPayload = {
+                id: uuidv1(),
+                title: item.title,
+                img: item.img,
+                power: item.power,
+                strength,
+                agility,
+                vitality,
+                intellect,
+                price: itemInMarket.price,
+                elite: item.elite,
+                createdAt: dayjs().format('YYYY MM DD h:mm:ss A')                
+            }
+
+            const itemTitle = item.title;
+            const itemImg = item.img;
+            const itemType = item.type;
+
+            user.bank.push(itemPayload);
+
+            user.save().then(() => {
+                item.remove();
+                res.json({
+                    item,
+                    itemIndex: index,
+                    successMsg: 'Item was successfully sent back to the bank.'
+                });
+            });
+
+        } else {
+            return console.log('User does not have this item');
+        }
+    } catch (error) {
+        console.log(error);
+    } 
 });
 
 router.post('/api/place-item-to-stack-exchange', Authenticated, async(req, res) => {
@@ -61,7 +134,7 @@ router.post('/api/place-item-to-stack-exchange', Authenticated, async(req, res) 
             sellingItem = userHasItemInBank;
 
             _.remove(user.bank, userItem => userItem.id === sellingItem.id);
-            const newArray = user.items;
+            const newArray = user.bank;
 
             user.bank = [];
             user.bank = newArray;            
@@ -103,6 +176,7 @@ router.post('/api/place-item-to-stack-exchange', Authenticated, async(req, res) 
         }
 
         const newStackExchangeItem = StackExchangeItems(itemPayload);
+
         newStackExchangeItem.save().then(item => {
             if(item) {
                 user.save();

@@ -356,6 +356,10 @@ export default {
   -webkit-box-shadow: 0px 0px 7px 3px rgba(250,0,0);
   box-shadow: 0px 0px 7px 3px rgba(250,0,0);  
 }
+.itemEliteInInventory:hover {
+  background: #7337d2;
+  cursor: pointer;
+}
 .itemInInventory:hover {
   background: #7337d2;
   cursor: pointer;
