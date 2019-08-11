@@ -1,11 +1,5 @@
 <template>
     <div>
-
-            <span v-if="!itemPicked">
-            <b-button variant="success" @click="sellItem">
-                Sell Item
-            </b-button>
-
             <div class="animated bounceIn" style="margin-left: 35%" v-if="successMsg.length > 0">
                 <br>
                 <span class="alert alert-success">
@@ -14,21 +8,12 @@
                 <br><br>
             </div>
 
-            </span>
-
-            <span v-else>
-            <b-button variant="success" @click="sellItem">
-                Another Item
-            </b-button>     
-
-            <b-button class="float-right" @click="itemPicked = !itemPicked" variant="danger">
-                Close
-            </b-button>    
-            </span>
-            <br><br>
-
             <div class="text-center animated fadeIn" id="sellCard" v-show="itemPicked">
-              
+
+            <b-button class="float-left" v-if="itemPicked" @click="itemPicked = false" variant="danger">
+                Close
+            </b-button>  
+
             <span v-if="error.length > 0">
                 <br>
                 <span class="alert alert-danger">
@@ -38,16 +23,16 @@
             </span>
 
                 <template v-if="type === 'strength'">
-                     <img :src="require('../../assets/items/strength/'+img)" class="itemPowerImg">
+                     <img style="margin-left: -4.3em" :src="require('../../assets/items/strength/'+img)" class="itemPowerImg">
                 </template>
                 <template v-if="type === 'agility'">
-                    <img :src="require('../../assets/items/agility/'+img)" class="itemPowerImg">
+                    <img style="margin-left: -4.3em" :src="require('../../assets/items/agility/'+img)" class="itemPowerImg">
                 </template>   
                 <template v-if="type === 'vitality'">
-                    <img :src="require('../../assets/items/vitality/'+img)" class="itemPowerImg">
+                    <img style="margin-left: -4.3em" :src="require('../../assets/items/vitality/'+img)" class="itemPowerImg">
                 </template>  
                 <template v-if="type === 'intellect'">
-                    <img :src="require('../../assets/items/intellect/'+img)" class="itemPowerImg">
+                    <img style="margin-left: -4.3em" :src="require('../../assets/items/intellect/'+img)" class="itemPowerImg">
                 </template>   
                         <br>
                      {{title}}
@@ -133,6 +118,7 @@ export default {
     data() {
         return {
             showForm: false,
+            sellBtnText: 'Sell Item',
             itemPicked: false,
             bankItems: [],
             img: '',
@@ -166,6 +152,7 @@ export default {
         sellItem() {
             this.bankItems = [];
             this.showForm = !this.showForm;
+            this.sellBtnText = 'Close';
             this.itemPicked = false;
         },
         pickItem(item, index) {
@@ -218,6 +205,10 @@ export default {
                 if(data.message) {
 
                     this.concatedItems.splice(this.index, 1);
+                    
+                    if(data.indexOfItemInItems === 0 || data.indexOfItemInItems > 0) {
+                        this.storedUserItems.splice(data.indexOfItemInItems, 1);
+                    }
 
                     this.successMsg = data.message;
                     this.itemPicked = false;
@@ -238,6 +229,12 @@ export default {
                     this.elite = false;
                     this.sellPrice = '';
                     this.itemID = '';
+
+                    if(data.item.elite) {
+                        this.stackExchangeEliteItems.push(data.item);
+                    } else {
+                        this.stackExchangeItems.push(data.item);
+                    }
                 }
             });
         },

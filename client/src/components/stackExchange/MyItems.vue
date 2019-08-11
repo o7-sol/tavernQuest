@@ -1,31 +1,34 @@
 <template>
     <div>
-        <b-button v-if="!myItems.length" @click="myExchangeItems" variant="danger">
-            My Items
-        </b-button>
-
-        <div v-if="myItems.length" class="panelBody"> 
-            <h1 class="panelTitle">My Items</h1>
+        <div v-if="myItems.length" class="animated slideInLeft panelBody">            
+            <h1 class="panelTitle"><img src="../../assets/board.png" class="board"> My Items</h1>
+        <br>
+        <b-button v-if="myItems.length" @click="clearMyItems" variant="danger">
+            Close
+        </b-button> 
 
             <ul id="userItems" class="row list-unstyled col-md-12">
                 <li class="col-md-2" v-for="(item, index) in myItems">
 
   <b-dropdown class="float-right" size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
-    <template slot="button-content">&#9881;<span class="sr-only">Search</span></template>
+    <template slot="button-content">&#9881;</template>
     <b-dropdown-item @click="takeItemBack(item, index)">Take Back</b-dropdown-item>
   </b-dropdown>
 
-                    <img v-if="item.type === 'Strength'" :src="require('../../assets/items/strength/'+item.img)">
-                    <img v-if="item.type === 'Agility'" :src="require('../../assets/items/agility/'+item.img)">
-                    <img v-if="item.type === 'Vitality'" :src="require('../../assets/items/vitality/'+item.img)">
-                    <img v-if="item.type === 'Intellect'" :src="require('../../assets/items/intellect/'+item.img)">
-                   
+                    <img class="selectedItemImg" v-if="item.type === 'Strength'" :src="require('../../assets/items/strength/'+item.img)">
+                    <img class="selectedItemImg" v-if="item.type === 'Agility'" :src="require('../../assets/items/agility/'+item.img)">
+                    <img class="selectedItemImg" v-if="item.type === 'Vitality'" :src="require('../../assets/items/vitality/'+item.img)">
+                    <img class="selectedItemImg" v-if="item.type === 'Intellect'" :src="require('../../assets/items/intellect/'+item.img)">
+
+                    <span class="itemInfo">
                     <img v-if="item.type === 'Strength'" src="../../assets/fist.png" class="itemPowerImg">
                     <img v-if="item.type === 'Agility'" src="../../assets/shoes.png" class="itemPowerImg">
                     <img v-if="item.type === 'Vitality'" src="../../assets/heart.png" class="itemPowerImg">
                     <img v-if="item.type === 'Intellect'" src="../../assets/book.png" class="itemPowerImg">
-
                     +{{item.power}}  
+                    </span>
+
+                    <img src="../../assets/gold.png" style="height: 25px; margin-top: -2px">{{item.price}}
 
                     <p style="font-size: 13px">
                         {{item.title}}
@@ -61,7 +64,7 @@ export default {
                 itemID: item._id
             }
             this.getMyStackExchangeItemBack(payload).then(data => {
-                
+
             if(data.message) {
 
             this.myItems.splice(this.index, 1);
@@ -120,6 +123,9 @@ export default {
                 });
             });
         },
+        clearMyItems() {
+            this.myItems = [];
+        },
         ...mapActions([
             'getMyStackExchangeItems',
             'getMyStackExchangeItemBack',
@@ -164,5 +170,22 @@ export default {
     color: red;
     text-shadow: 0px 0px 5px rgba(255, 0, 0, 1);
     font-weight: bolder;
+}
+.selectedItemImg {
+    background: #b655ff;
+    padding: 4px;
+    border-radius: 3px;
+    margin-top: -2.5px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-bottom: 4px;
+}
+.itemInfo {
+    background: #7337d2;
+    padding: 11px;
+    border-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    padding-bottom: 12px;
 }
 </style>

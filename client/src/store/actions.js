@@ -265,7 +265,9 @@ const placeItemToExchange = async({commit}, payload) => {
        if(response.status === 200 && response.data.successMsg && response.data.item) {
             const data = {
                 item: response.data.item,
-                message: response.data.successMsg
+                message: response.data.successMsg,
+                indexOfItemInBank: response.data.indexOfItemInBank,
+                indexOfItemInItems: response.data.indexOfItemInItems
             }
             return data;
        }

@@ -2,9 +2,16 @@
     <div id="stackExchange">
         <div class="col-md-12">
 
-        <app-my-items></app-my-items>
+        <button class="btn btn-danger" @click="showMyItems">My Items</button>
+        &nbsp;
+        <button class="btn btn-success" @click="sellItems">
+            Sell Item
+        </button>
 
-        <app-sell-item></app-sell-item>
+        <app-my-items ref="myItems"></app-my-items>
+        
+        <app-sell-item ref="allItems"></app-sell-item>
+
         <br>
           <div class="input-group col-md-4" style="margin: 0 auto">
             <input style="font-size: 13px;" type="text" class="form-control"
@@ -44,6 +51,8 @@ export default {
             perPage: 12,
             elitePerPage: 6,
             currentPage: 1,
+            sellItem: false,
+            itemPicked: false
         }
     },
     beforeRouteEnter(to, from, next) {
@@ -53,6 +62,13 @@ export default {
         });
     },
     methods: {
+        showMyItems() {
+            this.$refs.myItems.myExchangeItems();
+        },
+        sellItems() {
+            this.$refs.allItems.sellItem();
+            this.sellItem = !this.sellItem;
+        },
         ...mapActions([
             'getStackExchangeItems',
             'getStackExchangeEliteItems',

@@ -111,6 +111,8 @@ router.post('/api/place-item-to-stack-exchange', Authenticated, async(req, res) 
         const userHasItemInBank = await user.bank.find(item => item.id === itemID);
         let type;
         let elite;
+        let indexOfItemInItems;
+        let indexOfItemInBank;
         let sellingItem;
 
         if(!validator.isNumeric(price)) {
@@ -124,20 +126,16 @@ router.post('/api/place-item-to-stack-exchange', Authenticated, async(req, res) 
         if(userHasItem) {
             sellingItem = userHasItem;
 
-            _.remove(user.items, userItem => userItem.id === sellingItem.id);
-            const newArray = user.items;
+            indexOfItemInItems = _.findIndex(user.items, {id: sellingItem.id});
 
-            user.items = [];
-            user.items = newArray;
+            user.items.splice(indexOfItemInItems, 1);
 
         } else if(userHasItemInBank) {
             sellingItem = userHasItemInBank;
-
-            _.remove(user.bank, userItem => userItem.id === sellingItem.id);
-            const newArray = user.bank;
-
-            user.bank = [];
-            user.bank = newArray;            
+            
+            indexOfItemInBank = _.findIndex(user.bank, {id: sellingItem.id});
+            
+            user.bank.splice(indexOfItemInBank, 1);
         }
 
         const itemInMarket = await Item.findOne({title: sellingItem.title});
@@ -180,7 +178,12 @@ router.post('/api/place-item-to-stack-exchange', Authenticated, async(req, res) 
         newStackExchangeItem.save().then(item => {
             if(item) {
                 user.save();
-                res.json({item, successMsg: 'Item was successfully placed in stack exchange.'});
+                res.json({
+                    item, 
+                    indexOfItemInBank,
+                    indexOfItemInItems,
+                    successMsg: 'Item was successfully placed in stack exchange.'
+                });
             }
         });
 
