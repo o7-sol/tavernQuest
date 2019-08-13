@@ -310,6 +310,83 @@ const getMyStackExchangeItemBack = async({commit}, payload) => {
     }
 };
 
+const checkUserLevel = async({commit}, level) => {
+    try {
+        const response = await API.post('/check-user-level', {
+            level
+        });
+        if(response.status === 200 && response.data.level) {
+            return response.data.level;
+        }
+    } catch (error) {
+        
+    }
+};
+
+const getGuildTitle = async({commit}, title) => {
+    try {
+        const response = await API.post('/create-guild', {
+            title
+        });
+        if(response.status === 200 && response.data.successMsg) {
+            const data = {
+                success: response.data.successMsg
+            }
+            return data;
+        } else if (response.status === 200 && response.data.errMsg) {
+            const data = {
+                errMsg: response.data.errMsg
+            }
+            return data;
+        }
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+const getGuildInfo = async({commit}) => {
+    try {
+        const response = await API.get('/guild-info');
+        if(response.status === 200 && response.data.guild) {
+            commit('SET_GUILD', response.data.guild);
+        }
+    } catch (error) {
+        
+    }
+};
+
+const postGuildAnnouncement = async({commit}, announcement) => {
+    try {
+        const response = await API.post('/guild-announcement', {
+            announcement
+        });
+        if(response.status === 200 && response.data.success) {
+            const data = {
+                successMsg: 'Announcement was updated successfully'
+            }
+            return data;
+        }
+    } catch (error) {
+        
+    }
+};
+
+const fillTheBank = async({commit}, gold) => {
+    try {
+        const response = await API.post('/fill-guild-bank', {
+            gold
+        });
+        if(response.status === 200 && response.data.success) {
+            const data = {
+                successMsg: 'You filled the bank of the guild!'
+            }
+            return data;
+        }
+    } catch (error) {
+        
+    }
+};
+
 export default {
     createAccount,
     authenticate,
@@ -329,5 +406,10 @@ export default {
     getStackExchangeEliteItems,
     placeItemToExchange,
     getMyStackExchangeItems,
-    getMyStackExchangeItemBack
+    getMyStackExchangeItemBack,
+    checkUserLevel,
+    getGuildTitle,
+    getGuildInfo,
+    postGuildAnnouncement,
+    fillTheBank
 }

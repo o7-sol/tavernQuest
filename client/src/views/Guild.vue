@@ -1,35 +1,56 @@
 <template>
-    <div id="guild">
+    <div class="gameScreen">
             <div class="panelBody">
                 <h1 class="panelTitle">
                     <img src="../assets/board.png" class="board"> Guild
                 </h1>
                 <div class="col-md-12">
+
+                   <app-admin :user="user" :guild="guild"></app-admin>
+
+                   <ul v-if="errors.length" class="list-unstyled">
+                       <li class="alert alert-danger" v-for="e in errors">
+                           {{e}}
+                       </li>
+                   </ul>
+
+                   <div v-if="fillBankForm" class="col-md-2 mx-auto text-center">
+                       <h5>
+                           Fill The Bank
+                        </h5>
+                       <div id="bankBox">
+                       <input v-model.trim="amountOfGold" class="form-control" type="number" min="1" :max="user.gold" placeholder="Amount of gold">
+                       <small>Max: {{user.gold}}</small><br>
+                       <b-button @click="fillBank()">
+                           Fill
+                       </b-button>
+                       </div>
+                   </div>
+
                     <div id="guildInfo">
-                        <img src="../assets/altor.png" style="vertical-align: bottom;"> Saint Taverners
-                        <img src="../assets/gold.png" style="height: 30px; margin-top: -3px;"> 185400
-                        &nbsp;<strong style="color: red">EXPERIENCE</strong> 485000 <br>
-                        <img src="../assets/hero/necromancer.png" id="leaderImg"> 
-                        &nbsp;<strong>Zlotte</strong> (<span style="color: red">LEADER</span>)
+                        <img src="../assets/altor.png" style="vertical-align: bottom;"> {{guild.title}}
+                        <img src="../assets/gold.png" style="height: 30px; margin-top: -3px;"> {{guild.gold}}
+                        &nbsp;<strong style="color: red">EXPERIENCE</strong> {{guild.experience}} <br>
+                        <img :src="require('../assets/hero/'+guild.leaderImg)" id="leaderImg"> 
+                        &nbsp;<strong>{{guild.leader}}</strong> (<span style="color: red">LEADER</span>)
                         <br><br>
                         <span id="announcement">
                             <img src="../assets/msgboard.png" style="margin-top: -4px"> 
                             ANNOUNCEMENT
                         </span>
                         <span id="announcementText">
-                        <small style="vertical-align: text-bottom;">2019-08-04 20:16</small>
-                        Some text flying in from leader of the guild
-                        Some text flying in from leader of the guild
+                        <small style="vertical-align: text-bottom;">{{guild.announcement_createdAt}}</small>
+                        {{guild.announcement}}
                         </span>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <p><img src="../assets/board.png" style="margin-top: -4px;"> Statistic</p>
                             <p>
-                                Wins: <span id="wins">30</span>
-                                Loses: <span id="loses">54</span>
-                                Rank: <span id="rank">#13</span>
-                                Members: <span id="members">38 / 50</span>
+                                Wins: <span id="wins">{{guild.wins}}</span>
+                                Loses: <span id="loses">{{guild.loses}}</span>
+                                Rank: <span id="rank">#{{guild.rank}}</span>
+                                Members: <span id="members">{{guild.members.length}} / 50</span>
                             </p>   
                             <p><img src="../assets/board.png" style="margin-top: -4px;"> Items Exchange</p>
                             
@@ -46,81 +67,11 @@
                                     <strong>Zlotte</strong>
                                 </span>                             
                             </div>
-                            <br>
-                            <div>
-                                <span class="item">
-                                <img src="../assets/items/strength/W_Mace005.png">
-                                <span>Light Mace</span>
-                                </span>
-                                <span class="forItem">
-                                <img src="../assets/items/strength/W_Sword017.png">
-                                <span>Desolator</span>
-                                </span>
-                                <span class="userExchange">
-                                    <strong>Zlotte</strong>
-                                </span>                             
-                            </div>
-                            <br>
-                            <div>
-                                <span class="item">
-                                <img src="../assets/items/strength/W_Mace005.png">
-                                <span>Light Mace</span>
-                                </span>
-                                <span class="forItem">
-                                <img src="../assets/items/strength/W_Sword017.png">
-                                <span>Desolator</span>
-                                </span>
-                                <span class="userExchange">
-                                    <strong>Zlotte</strong>
-                                </span>                             
-                            </div>
-                            <br>
-                            <div>
-                                <span class="item">
-                                <img src="../assets/items/strength/W_Mace005.png">
-                                <span>Light Mace</span>
-                                </span>
-                                <span class="forItem">
-                                <img src="../assets/items/strength/W_Sword017.png">
-                                <span>Desolator</span>
-                                </span>
-                                <span class="userExchange">
-                                    <strong>Zlotte</strong>
-                                </span>                             
-                            </div>
-                            <br>
-                            <div>
-                                <span class="item">
-                                <img src="../assets/items/strength/W_Mace005.png">
-                                <span>Light Mace</span>
-                                </span>
-                                <span class="forItem">
-                                <img src="../assets/items/strength/W_Sword017.png">
-                                <span>Desolator</span>
-                                </span>
-                                <span class="userExchange">
-                                    <strong>Zlotte</strong>
-                                </span>                             
-                            </div>
-                            <br>  
-                            <div>
-                                <span class="item">
-                                <img src="../assets/items/strength/W_Mace005.png">
-                                <span>Light Mace</span>
-                                </span>
-                                <span class="forItem">
-                                <img src="../assets/items/strength/W_Sword017.png">
-                                <span>Desolator</span>
-                                </span>
-                                <span class="userExchange">
-                                    <strong>Zlotte</strong>
-                                </span>                             
-                            </div>
-                            <br>                                                                                                              
+                            <br>                                                                                                          
                         </div>                      
                         <div class="col-md-4">
                             <p><img src="../assets/board.png" style="margin-top: -4px;"> Actions</p>
-                            <b-button variant="danger" style="background: #ff0000;"> 
+                            <b-button @click="fillBankForm = !fillBankForm" variant="danger" style="background: #ff0000;"> 
                                 Fill The Bank
                             </b-button>&nbsp;
                             <b-button variant="warning"> 
@@ -133,12 +84,12 @@
                             <p style="margin-top: 1px;">
                             <img src="../assets/board.png" style="margin-top: -4px;"> Latest Activity</p>
                             <ul class="list-unstyled" style="margin-top: -7px;">
-                                <li class="bankFill">
-                                    <small class="actDateBank">2019-08-04</small>&nbsp;
-                                    <img src="../assets/hero/pirate.png" class="activityHero">
-                                    &nbsp;<span class="actText">Zlotte <strong>filled the bank with</strong>
+                                <li v-if="activity.gold === true" v-for="activity in guild.latestActivity.slice().reverse()" class="bankFill">
+                                    <small class="actDateBank">{{activity.createdAt}}</small>&nbsp;
+                                    <img :src="require('../assets/hero/'+activity.img)" class="activityHero">
+                                    &nbsp;<span class="actText">{{activity.username}} <strong>filled the bank with</strong>
                                     &nbsp;<img src="../assets/gold.png" class="actGold">
-                                    305</span>
+                                    {{activity.amount}}</span>
                                 </li>
                                 <li class="borrowGold">
                                     <small class="actDateBorrow">2019-08-04</small>&nbsp;
@@ -153,87 +104,12 @@
                                     &nbsp;<span class="actText">Zlotte <strong>posted exchange</strong>
                                     </span>
                                 </li>
-                                <li class="bankFill">
-                                    <small class="actDateBank">2019-08-04</small>&nbsp;
-                                    <img src="../assets/hero/pirate.png" class="activityHero">
-                                    &nbsp;<span class="actText">Zlotte <strong>filled the bank with</strong>
-                                    &nbsp;<img src="../assets/gold.png" class="actGold">
-                                    305</span>
-                                </li>
-                                <li class="borrowGold">
-                                    <small class="actDateBorrow">2019-08-04</small>&nbsp;
-                                    <img src="../assets/hero/pirate.png" class="activityHero">
-                                    &nbsp;<span class="actText">Zlotte <strong>borrowed</strong>
-                                    &nbsp;<img src="../assets/gold.png" class="actGold">
-                                    305</span>
-                                </li>
-                                <li class="exchangeItem">
-                                    <small class="actDateExchange">2019-08-04</small>&nbsp;
-                                    <img src="../assets/hero/pirate.png" class="activityHero">
-                                    &nbsp;<span class="actText">Zlotte <strong>posted exchange</strong>
-                                    </span>
-                                </li>
-                                <li class="bankFill">
-                                    <small class="actDateBank">2019-08-04</small>&nbsp;
-                                    <img src="../assets/hero/pirate.png" class="activityHero">
-                                    &nbsp;<span class="actText">Zlotte <strong>filled the bank with</strong>
-                                    &nbsp;<img src="../assets/gold.png" class="actGold">
-                                    305</span>
-                                </li>
-                                <li class="borrowGold">
-                                    <small class="actDateBorrow">2019-08-04</small>&nbsp;
-                                    <img src="../assets/hero/pirate.png" class="activityHero">
-                                    &nbsp;<span class="actText">Zlotte <strong>borrowed</strong>
-                                    &nbsp;<img src="../assets/gold.png" class="actGold">
-                                    305</span>
-                                </li>                                                                                                                               
+                                                                                                                          
                             </ul>                                                        
                         </div>
                         <div class="col-md-4">
                             <p><img src="../assets/board.png" style="margin-top: -4px;"> Chatroom</p>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <small class="msgDate">2019-08-04 20:06 Zlotte</small><br>
-                                    <small class="msgText">
-                                        Some lorem ipsum text coming home
-                                        Some lorem ipsum text coming home
-                                    </small>
-                                </li>
-                                <li>
-                                    <small class="msgDate">2019-08-04 20:06 Zlotte</small><br>
-                                    <small class="msgText">
-                                        Some lorem ipsum text coming home
-                                        Some lorem ipsum text coming home
-                                    </small>
-                                </li>
-                                <li>
-                                    <small class="msgDate">2019-08-04 20:06 Zlotte</small><br>
-                                    <small class="msgText">
-                                        Some lorem ipsum text coming home
-                                        Some lorem ipsum text coming home
-                                    </small>
-                                </li>
-                                <li>
-                                    <small class="msgDate">2019-08-04 20:06 Zlotte</small><br>
-                                    <small class="msgText">
-                                        Some lorem ipsum text coming home
-                                        Some lorem ipsum text coming home
-                                    </small>
-                                </li>                                 
-                                <li>
-                                    <small class="msgDate">2019-08-04 20:06 Zlotte</small><br>
-                                    <small class="msgText">
-                                        Some lorem ipsum text coming home
-                                        Some lorem ipsum text coming home
-                                    </small>
-                                </li>
-                                <li>
-                                    <small class="msgDate">2019-08-04 20:06 Zlotte</small><br>
-                                    <small class="msgText">
-                                        Some lorem ipsum text coming home
-                                        Some lorem ipsum text coming home
-                                    </small>
-                                </li>                                 
+                            <ul class="list-unstyled">         
                                 <li>
                                     <small class="msgDate">2019-08-04 20:06 Zlotte</small><br>
                                     <small class="msgText">
@@ -259,24 +135,73 @@
 </template>
 
 <script>
-export default {
+import { mapActions, mapGetters } from 'vuex';
+import Admin from '../components/guild/Admin';
 
+export default {
+    data() {
+        return {
+            fillBankForm: false,
+            amountOfGold: '',
+            errors: []
+        }
+    },
+    created() {
+        if(this.$cookie.get('guildCreated')) {
+            this.$bvToast.toast('Guild was created successfully', {
+            title: 'Notification',
+            variant: 'success',
+            solid: true,
+            autoHideDelay: 5000
+          });             
+        }
+        this.getGuildInfo();
+    },
+    methods: {
+        fillBank() {
+            this.errors = [];
+            if(this.amountOfGold === 0 || this.amountOfGold < 1) {
+                return this.errors.push('Zero is not aceptable amount.');
+            } else if(this.amountOfGold > this.user.gold) {
+                return this.errors.push('This amount is over you current gold limit.');
+            } else {
+                this.fillTheBank(this.amountOfGold).then(data => {
+                    if(data.successMsg) {
+                        this.$bvToast.toast(`${data.successMsg}`, {
+                        title: 'Notification',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 10000
+                    });      
+                    this.guild.gold += parseInt(this.amountOfGold); 
+                    this.amountOfGold = '';
+                    this.fillBankForm = false;                     
+                    }
+                });
+            }
+        },
+        ...mapActions([
+            'getGuildInfo',
+            'fillTheBank'
+        ])
+    },
+    computed: {
+        user() {
+            return JSON.parse(this.$cookie.get('user'));
+        },
+        ...mapGetters([
+            'guild'
+        ])
+    },
+    components: {
+        appAdmin: Admin
+    }
 }
 </script>
 
 <style scoped>
-#guild {
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-top: 30px;
-    padding-bottom: 8px;
-    color: #D5C8FF;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    position: relative;
-}
 .panelTitle {
-    background-color: #7337d2;
+    background-color: #512597;
     height: 40px;
     margin-bottom: 0;
     padding: 13px;
@@ -419,5 +344,11 @@ export default {
 .msgText {
     padding: 5px;
     background: black;
+}
+#bankBox {
+    background: #7337d2;
+    padding: 10px;
+    border-radius: 5px;    
+    border-top-right-radius: 0;
 }
 </style>

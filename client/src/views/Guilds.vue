@@ -1,6 +1,9 @@
 <template>
     <div id="guilds" class="col-md-12">
-          <div class="input-group col-md-4" style="margin: 0 auto">
+        <b-button @click="createGuild" class="float-left">
+            Create Guild
+        </b-button>
+          <div class="input-group col-md-4" style="margin-left: 33.2%">
             <input style="font-size: 13px;" type="text" class="form-control"
               id="inlineFormInputGroupMessage" placeholder="Search for guild">
               &nbsp;
@@ -37,158 +40,51 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 guildCard">
-            <div class="panelBody">
-                <h1 class="panelTitle">
-                    <img src="../assets/board.png" class="board"> Drunk Taverners
-                </h1>
-                <h5 class="title">Drunk Taverners</h5>
-                <div class="row">
-                <p class="col-md-4 text-center">
-                    <img src="../assets/hero/necromancer.png">
-                    <br>
-                    <span class="leader">
-                    <img src="../assets/crown.png" class="crown"> 
-                    Zlotte<br>
-                    Level: 25
-                    </span>
-                </p>
-                <p class="col-md-4 guildInfo">
-                    Level: 20<br>
-                    Members: 38 / 50<br>
-                    <img src="../assets/gold.png" class="guildGold"> 18000
-                </p>
-                <div class="col-md-4 applyBtn">
-                    <b-button variant="success">
-                        Apply Now
-                    </b-button>
-                </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 guildCard">
-            <div class="panelBody">
-                <h1 class="panelTitle">
-                    <img src="../assets/board.png" class="board"> Drunk Taverners
-                </h1>
-                <h5 class="title">Drunk Taverners</h5>
-                <div class="row">
-                <p class="col-md-4 text-center">
-                    <img src="../assets/hero/necromancer.png">
-                    <br>
-                    <span class="leader">
-                    <img src="../assets/crown.png" class="crown"> 
-                    Zlotte<br>
-                    Level: 25
-                    </span>
-                </p>
-                <p class="col-md-4 guildInfo">
-                    Level: 20<br>
-                    Members: 38 / 50<br>
-                    <img src="../assets/gold.png" class="guildGold"> 18000
-                </p>
-                <div class="col-md-4 applyBtn">
-                    <b-button variant="success">
-                        Apply Now
-                    </b-button>
-                </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 guildCard">
-            <div class="panelBody">
-                <h1 class="panelTitle">
-                    <img src="../assets/board.png" class="board"> Drunk Taverners
-                </h1>
-                <h5 class="title">Drunk Taverners</h5>
-                <div class="row">
-                <p class="col-md-4 text-center">
-                    <img src="../assets/hero/necromancer.png">
-                    <br>
-                    <span class="leader">
-                    <img src="../assets/crown.png" class="crown"> 
-                    Zlotte<br>
-                    Level: 25
-                    </span>
-                </p>
-                <p class="col-md-4 guildInfo">
-                    Level: 20<br>
-                    Members: 38 / 50<br>
-                    <img src="../assets/gold.png" class="guildGold"> 18000
-                </p>
-                <div class="col-md-4 applyBtn">
-                    <b-button variant="success">
-                        Apply Now
-                    </b-button>
-                </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 guildCard">
-            <div class="panelBody">
-                <h1 class="panelTitle">
-                    <img src="../assets/board.png" class="board"> Drunk Taverners
-                </h1>
-                <h5 class="title">Drunk Taverners</h5>
-                <div class="row">
-                <p class="col-md-4 text-center">
-                    <img src="../assets/hero/necromancer.png">
-                    <br>
-                    <span class="leader">
-                    <img src="../assets/crown.png" class="crown"> 
-                    Zlotte<br>
-                    Level: 25
-                    </span>
-                </p>
-                <p class="col-md-4 guildInfo">
-                    Level: 20<br>
-                    Members: 38 / 50<br>
-                    <img src="../assets/gold.png" class="guildGold"> 18000
-                </p>
-                <div class="col-md-4 applyBtn">
-                    <b-button variant="success">
-                        Apply Now
-                    </b-button>
-                </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 guildCard">
-            <div class="panelBody">
-                <h1 class="panelTitle">
-                    <img src="../assets/board.png" class="board"> Drunk Taverners
-                </h1>
-                <h5 class="title">Drunk Taverners</h5>
-                <div class="row">
-                <p class="col-md-4 text-center">
-                    <img src="../assets/hero/necromancer.png">
-                    <br>
-                    <span class="leader">
-                    <img src="../assets/crown.png" class="crown"> 
-                    Zlotte<br>
-                    Level: 25
-                    </span>
-                </p>
-                <p class="col-md-4 guildInfo">
-                    Level: 20<br>
-                    Members: 38 / 50<br>
-                    <img src="../assets/gold.png" class="guildGold"> 18000
-                </p>
-                <div class="col-md-4 applyBtn">
-                    <b-button variant="success">
-                        Apply Now
-                    </b-button>
-                </div>
-                </div>
-            </div>
-        </div>                
-      </div>                                 
+              
+      </div>   
+
+    <b-toast id="example-toast" title="BootstrapVue" static no-auto-hide>
+      Hello, world! This is a toast message.
+    </b-toast>      
+
     </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
-
+    data() {
+        return {
+            user: ''
+        }
+    },
+    methods: {
+        createGuild() {
+            if(this.user.level < 15) {
+                this.$bvToast.toast('Level 15 is required to be able to create a guild.', {
+                title: 'Notification',
+                autoHideDelay: 5000,
+                appendToast: false,
+                variant: 'warning'
+                });
+            } else {
+                const userLevel = this.user.level;
+                this.checkUserLevel(userLevel).then(data => {
+                    if(data >= 15) {
+                        this.$router.push({name: 'create-guild'});
+                    }
+                });
+            }
+        },
+        ...mapActions([
+            'checkUserLevel'
+        ])
+    },
+    created() {
+        if(this.$cookie.get('user')) {
+            this.user = JSON.parse(this.$cookie.get('user'));
+        }
+    }
 }
 </script>
 

@@ -147,7 +147,7 @@ export default {
         })
 
         }); 
-    },
+    },  
     methods: {
         sellItem() {
             this.bankItems = [];

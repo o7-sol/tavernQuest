@@ -1,6 +1,6 @@
 <template>
     <div class="game">
-        <div id="gameScreen" class="row">
+        <div class="gameScreen row">
         <div class="d-flex flex-wrap" style="width: 100%">
         <app-arena-panel></app-arena-panel>
         <app-market-panel></app-market-panel>
@@ -22,16 +22,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-#gameScreen {
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-top: 30px;
-    padding-bottom: 8px;
-    color: #D5C8FF;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    position: relative;
-}
-</style>

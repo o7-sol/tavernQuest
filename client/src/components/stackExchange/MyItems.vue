@@ -3,10 +3,10 @@
         <div v-if="myItems.length" class="animated slideInLeft panelBody">            
             <h1 class="panelTitle"><img src="../../assets/board.png" class="board"> My Items</h1>
         <br>
-        <b-button v-if="myItems.length" @click="clearMyItems" variant="danger">
+        <b-button style="margin-left: 10px" v-if="myItems.length" @click="clearMyItems" variant="danger">
             Close
         </b-button> 
-
+        <br><br>
             <ul id="userItems" class="row list-unstyled col-md-12">
                 <li class="col-md-2" v-for="(item, index) in myItems">
 

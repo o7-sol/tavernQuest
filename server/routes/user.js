@@ -12,8 +12,23 @@ const capitalize = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+// Middlewares
+const Authenticated = require('../middlewares/authenticated');
+
 // Models
 const User = require('../models/User');
+
+router.post('/api/check-user-level', Authenticated, async(req, res) => {
+    try {
+        const user = await req.user;
+        if(!user) {
+            return console.log('User does not exist');
+        }
+        res.json({level: user.level});
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 router.post('/api/create-account', async(req, res) => {
     try {

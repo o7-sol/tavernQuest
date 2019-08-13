@@ -1,5 +1,5 @@
 <template>
-    <div id="market">
+    <div class="gameScreen">
         <div class="col-md-12">
             <div class="panelBody">
                 <h1 class="panelTitle"><img src="../assets/board.png" class="board"> Market</h1>
@@ -219,16 +219,6 @@ export default {
 </script>
 
 <style scoped>
-  #market {
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-top: 30px;
-    padding-bottom: 8px;
-    color: #D5C8FF;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    position: relative;
-  }
   .panelTitle {
     color: #fff;
     background-color: #7337d2;

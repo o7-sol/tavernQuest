@@ -183,4 +183,14 @@ body {
 .page-link {
   color: white !important;
 }
+.gameScreen {
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 30px;
+  padding-bottom: 8px;
+  color: #D5C8FF;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  position: relative;
+}
 </style>

@@ -61,6 +61,18 @@ const userSchema = mongoose.Schema({
         type: Number,
         min: 0
     },
+    wins: {
+        type: Number,
+        min: 0
+    },
+    loses: {
+        type: Number,
+        min: 0
+    },
+    rank: {
+        type: Number,
+        min: 0
+    },
     gold: {
         type: Number,
         min: 0

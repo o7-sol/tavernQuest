@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import multiguard from 'vue-router-multiguard';
 import Home from './views/Home.vue';
 import VueCookie from 'vue-cookie';
+import API from './api';
 
 const isNotLoggedIn = (to, from, next) => {
   if(!VueCookie.get('user')) {
@@ -17,6 +19,26 @@ const isLoggedIn = (to, from, next) => {
   } else {
     next('/');
   }
+}
+
+const playerIsLeaderOfGuild = (to, from, next) => {
+ return API.post('/leader-of-guild').then(response => {
+    if(response.status === 200 && response.data.success) {
+     return next('/guild');
+    } else if(response.data.notLeader) {
+      return next();
+    }
+  });
+}
+
+const isMemberOfGuild = (to, from, next) => {
+  return API.get('/guild-member').then(response => {
+    if(response.status === 200 && response.data.success) {
+      return next();
+    } else if(response.data.notMember) {
+      return next('/');
+    }
+  });
 }
 
 Vue.use(Router);
@@ -88,7 +110,7 @@ export default new Router({
       path: '/guild',
       name: 'guild',
       component: () => import(/* webpackChunkName: "guild" */ './views/Guild.vue'),
-      beforeEnter: isLoggedIn
+      beforeEnter: multiguard([isLoggedIn, isMemberOfGuild])
     },
     {
       path: '/achievements',
@@ -107,6 +129,12 @@ export default new Router({
       name: 'stack-exchange',
       component: () => import(/* webpackChunkName: "stack-exchange" */ './views/StackExchange.vue'),
       beforeEnter: isLoggedIn
+    },
+    {
+      path: '/create-guild',
+      name: 'create-guild',
+      component: () => import(/* webpackChunkName: "create-guild" */ './components/guild/CreateGuild.vue'),
+      beforeEnter: multiguard([isLoggedIn, playerIsLeaderOfGuild])
     }
   ],
 });

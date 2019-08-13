@@ -88,7 +88,16 @@ export default {
         },        
         eliteRows() {
             return this.stackExchangeEliteItems.length;
-        }
+        },
+        itemsSearched(){
+          var self = this;
+          if( this.searchText == ''){
+            return this.stackExchangeEliteItems;
+          }
+          return this.stackExchangeEliteItems.filter(function(item){
+            return item.indexOf(self.searchText) >= 0;
+          });
+        }        
     },
 }
 

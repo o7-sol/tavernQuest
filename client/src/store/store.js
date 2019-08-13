@@ -12,6 +12,7 @@ export default new Vuex.Store({
     user_items: '',
     stack_exchange_items: '',
     stack_exchange_elite_items: '',
+    guild: ''
 
   },
   actions,
@@ -21,13 +22,16 @@ export default new Vuex.Store({
       return state.token;
     },
     storedUserItems: state => {
-      return state.user_items
+      return state.user_items;
     },
     stackExchangeItems: state => {
-      return state.stack_exchange_items
+      return state.stack_exchange_items;
     },
     stackExchangeEliteItems: state => {
-      return state.stack_exchange_elite_items
+      return state.stack_exchange_elite_items;
+    },
+    guild: state => {
+      return state.guild;
     }
   }
 });

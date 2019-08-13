@@ -1,6 +1,6 @@
 <template>
     <div id="bank">
-        <div id="gameScreen" class="row">
+        <div class="gameScreen row">
             <div class="col-md-5">
                 <div class="panelBody">
                     <h1 class="panelTitle">
@@ -321,17 +321,6 @@ export default {
 </script>
 
 <style scoped>
-#gameScreen {
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-top: 30px;
-    padding-bottom: 8px;
-    color: #D5C8FF;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    position: relative;
-}
-
 .panelTitle {
     color: #fff;
     background-color: #7337d2;

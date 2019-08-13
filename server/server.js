@@ -19,28 +19,11 @@ app.use(morgan('tiny'));
 // Routers
 const userRouter = require('./routes/user');
 const itemsRouter = require('./routes/items');
-
-/*for(let i = 0; i < 20; i++) {
-
-    const newStackExchangeItem = StackExchange({
-        title: 'Elite Weapon',
-        img: 'W_Sword016.png',
-        user: 'Feknaz',
-        userImg: 'necromancer.png',
-        type: 'Strength',
-        level: 100,
-        power: 70,
-        price: 2900,
-        elite: true,
-        createdAt: dayjs().format('YYYY MM DD h:mm:ss A')
-    });
-    
-
-newStackExchangeItem.save();
-}*/
+const guildRouter = require('./routes/guild');
 
 app.use(userRouter);
 app.use(itemsRouter);
+app.use(guildRouter);
 
 app.listen(port, () => {
     console.log('server running on port: ' + port);
