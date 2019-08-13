@@ -60,6 +60,7 @@
 <script>
 import Footer from './components/Footer';
 import UserInfo from './components/UserInfo';
+import { mapGetters } from 'vuex';
 export default {
     data() {
       return {

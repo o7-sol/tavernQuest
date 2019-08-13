@@ -6,6 +6,7 @@
                 </h1>
                 <div class="col-md-12">
 
+
                    <app-admin :user="user" :guild="guild"></app-admin>
 
                    <ul v-if="errors.length" class="list-unstyled">
@@ -84,24 +85,28 @@
                             <p style="margin-top: 1px;">
                             <img src="../assets/board.png" style="margin-top: -4px;"> Latest Activity</p>
                             <ul class="list-unstyled" style="margin-top: -7px;">
-                                <li v-if="activity.gold === true" v-for="activity in guild.latestActivity.slice().reverse()" class="bankFill">
+                                <li v-for="activity in guild.latestActivity.slice().reverse()" class="activityInfo">
+                                    <span v-if="activity.gold">
                                     <small class="actDateBank">{{activity.createdAt}}</small>&nbsp;
                                     <img :src="require('../assets/hero/'+activity.img)" class="activityHero">
                                     &nbsp;<span class="actText">{{activity.username}} <strong>filled the bank with</strong>
                                     &nbsp;<img src="../assets/gold.png" class="actGold">
                                     {{activity.amount}}</span>
-                                </li>
-                                <li class="borrowGold">
-                                    <small class="actDateBorrow">2019-08-04</small>&nbsp;
-                                    <img src="../assets/hero/pirate.png" class="activityHero">
-                                    &nbsp;<span class="actText">Zlotte <strong>borrowed</strong>
+                                    </span>
+
+                                    <span v-if="activity.borrowGold">
+                                    <small class="actDateBorrow">{{activity.createdAt}}</small>&nbsp;
+                                    <img :src="require('../assets/hero/'+activity.img)" class="activityHero">
+                                    &nbsp;<span class="actText">{{activity.username}} <strong>borrowed</strong>
                                     &nbsp;<img src="../assets/gold.png" class="actGold">
-                                    305</span>
-                                </li>
-                                <li class="exchangeItem">
-                                    <small class="actDateExchange">2019-08-04</small>&nbsp;
-                                    <img src="../assets/hero/pirate.png" class="activityHero">
-                                    &nbsp;<span class="actText">Zlotte <strong>posted exchange</strong>
+                                    {{activity.amount}}</span>                                            
+                                    </span>
+
+                                    <span v-if="activity.exchangeItem">
+                                    <small class="actDateExchange">{{activity.createdAt}}</small>&nbsp;
+                                    <img :src="require('../assets/hero/'+activity.img)" class="activityHero">
+                                    &nbsp;<span class="actText">{{activity.username}} <strong>posted exchange</strong>
+                                    </span>
                                     </span>
                                 </li>
                                                                                                                           
@@ -143,7 +148,7 @@ export default {
         return {
             fillBankForm: false,
             amountOfGold: '',
-            errors: []
+            errors: [],
         }
     },
     created() {
@@ -159,12 +164,14 @@ export default {
     },
     methods: {
         fillBank() {
+            
             this.errors = [];
             if(this.amountOfGold === 0 || this.amountOfGold < 1) {
                 return this.errors.push('Zero is not aceptable amount.');
             } else if(this.amountOfGold > this.user.gold) {
                 return this.errors.push('This amount is over you current gold limit.');
             } else {
+
                 this.fillTheBank(this.amountOfGold).then(data => {
                     if(data.successMsg) {
                         this.$bvToast.toast(`${data.successMsg}`, {
@@ -175,7 +182,8 @@ export default {
                     });      
                     this.guild.gold += parseInt(this.amountOfGold); 
                     this.amountOfGold = '';
-                    this.fillBankForm = false;                     
+                    this.fillBankForm = false;        
+                    this.user.gold -= data.userGold;
                     }
                 });
             }
@@ -194,7 +202,7 @@ export default {
         ])
     },
     components: {
-        appAdmin: Admin
+        appAdmin: Admin,
     }
 }
 </script>
@@ -295,15 +303,7 @@ export default {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
-.bankFill {
-    background: black;
-    padding: 5px;
-}
-.borrowGold {
-    background: black;
-    padding: 5px;
-}
-.exchangeItem {
+.activityInfo {
     background: black;
     padding: 5px;
 }
@@ -312,19 +312,7 @@ export default {
     image-rendering: pixelated;
 }
 .actDateBank {
-    background: #bf1515;
-    padding: 14px;
-    margin-left: -6px;
-    padding-top: 13px;
-}
-.actDateBorrow {
-    background: #c5c01f;
-    padding: 14px;
-    margin-left: -6px;
-    padding-top: 13px;
-}
-.actDateExchange {
-    background: #17a2b8;
+    background: #7337d2;
     padding: 14px;
     margin-left: -6px;
     padding-top: 13px;

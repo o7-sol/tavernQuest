@@ -35,6 +35,7 @@ router.post('/api/fill-guild-bank', Authenticated, async(req, res) => {
         } 
 
         guild.gold += parseInt(gold);
+        user.gold -= parseInt(gold);
         guild.latestActivity.push({
             username: user.username,
             img: user.heroImg,
@@ -43,6 +44,7 @@ router.post('/api/fill-guild-bank', Authenticated, async(req, res) => {
             createdAt: dayjs().format('YYYY-MM-DD'),
         });
         guild.save().then(() => {
+            user.save();
             res.json({success: true});
         });
     } catch (error) {

@@ -378,7 +378,7 @@ const fillTheBank = async({commit}, gold) => {
         });
         if(response.status === 200 && response.data.success) {
             const data = {
-                successMsg: 'You filled the bank of the guild!'
+                successMsg: 'You filled the bank of the guild!',
             }
             return data;
         }
