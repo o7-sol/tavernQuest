@@ -62,7 +62,7 @@ export default {
           password: this.password
         }
         this.$store.dispatch('authenticate', payload).then((data) => {
-          this.$router.go('/game')
+          this.$router.push('/game')
           if(data.error) {
             this.errors.push(data.error);
           }

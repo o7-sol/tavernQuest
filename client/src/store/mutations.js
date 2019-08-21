@@ -2,8 +2,8 @@ const SET_TOKEN = (state, payload) => {
     state.token = payload;
 };
 
-const SET_USER_ITEMS = (state, payload) => {
-    state.user_items = payload;
+const SET_USER = (state, payload) => {
+    state.user = payload;
 };
 
 const SET_STACK_EXCHANGE_ITEMS = (state, payload) => {
@@ -18,10 +18,15 @@ const SET_GUILD = (state, payload) => {
     state.guild = payload;
 };
 
+const SET_GOLD = (state, payload) => {
+    state.user.gold = payload; 
+}
+
 export default {
     SET_TOKEN,
-    SET_USER_ITEMS,
     SET_STACK_EXCHANGE_ITEMS,
     SET_STACK_EXCHANGE_ELITE_ITEMS,
-    SET_GUILD
+    SET_GUILD,
+    SET_GOLD,
+    SET_USER
 }

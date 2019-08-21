@@ -141,7 +141,7 @@ export default {
                 this.bankItems.push(e);
             });
 
-        const allItems = this.storedUserItems.concat(this.bankItems);
+        const allItems = this.user.items.concat(this.bankItems);
         allItems.forEach(e => {
             this.concatedItems.push(e)
         })
@@ -207,7 +207,7 @@ export default {
                     this.concatedItems.splice(this.index, 1);
                     
                     if(data.indexOfItemInItems === 0 || data.indexOfItemInItems > 0) {
-                        this.storedUserItems.splice(data.indexOfItemInItems, 1);
+                        this.user.items.splice(data.indexOfItemInItems, 1);
                     }
 
                     this.successMsg = data.message;
@@ -246,7 +246,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'storedUserItems',
+            'user',
             'stackExchangeItems',
             'stackExchangeEliteItems'
         ]) 

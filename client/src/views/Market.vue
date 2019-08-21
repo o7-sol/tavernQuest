@@ -166,7 +166,7 @@ export default {
                 imgURL = require("../assets/items/intellect/"+item.img);
             }
 
-            const user = JSON.parse(this.$cookie.get('user'));
+            const user = this.user;
             if(user.level < item.level) {
                 const message = 'Your current level is lower than item requires.';
 
@@ -192,8 +192,8 @@ export default {
                     if(data.successMsg){
                         this.pushToast(imgURL, 'Order confirmed', item.title, data.successMsg, 'success'); 
  
-                        if(this.storedUserItems.length < 14) {
-                            this.storedUserItems.push(data.item);
+                        if(this.user.items.length < 14) {
+                            this.user.items.push(data.item);
                         }
                     }                 
                 });                
@@ -209,7 +209,7 @@ export default {
      },
     computed: {
         ...mapGetters([
-            'storedUserItems'
+            'user'
         ])
     },
     components: {

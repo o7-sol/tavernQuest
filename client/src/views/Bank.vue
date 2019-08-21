@@ -96,10 +96,10 @@
                 <div class="panelBody">
                     <h1 class="panelTitle">
                         <img src="../assets/board.png" style="margin-top: -3px">
-                        Inventory <span class="itemCount">{{storedUserItems.length}} / 14</span>
+                        Inventory <span class="itemCount">{{user.items.length}} / 14</span>
                     </h1>
                     <ul class="list-unstyled text-center row" id="bankList">
-                        <li @click="putItemToPendBoxFromInventory(index, item)" v-for="(item, index) in storedUserItems" class="col-2">
+                        <li @click="putItemToPendBoxFromInventory(index, item)" v-for="(item, index) in user.items" class="col-2">
             <template v-if="item.strength">
               <span v-if="item.elite">
             <img class="itemInBankElite" :src="require('../assets/items/strength/'+item.img)">
@@ -204,7 +204,7 @@ export default {
 
         },        
         addToBank(index) {
-            this.storedUserItems.splice(index, 1);
+            this.user.items.splice(index, 1);
             this.bankItems.push({
                 img: this.img,
                 title: this.title,
@@ -235,9 +235,9 @@ export default {
             });
         },
         addToInventory(index) {
-            if(this.storedUserItems.length < 14) {
+            if(this.user.items.length < 14) {
             this.bankItems.splice(index, 1);
-            this.storedUserItems.push({
+            this.user.items.push({
                 img: this.img,
                 title: this.title,
                 strength: this.strength,
@@ -314,7 +314,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'storedUserItems'
+            'user'
         ])
     }
 }

@@ -181,10 +181,9 @@ export default {
                         autoHideDelay: 10000
                     });      
                     this.guild.gold += parseInt(this.amountOfGold); 
-                    this.amountOfGold = '';
                     this.fillBankForm = false;        
-                    this.user.gold -= data.userGold;
-                    }
+                    this.amountOfGold = '';                    
+                    } 
                 });
             }
         },
@@ -195,10 +194,11 @@ export default {
     },
     computed: {
         user() {
-            return JSON.parse(this.$cookie.get('user'));
+            return this.$store.getter.user;
         },
         ...mapGetters([
-            'guild'
+            'guild',
+            'user'
         ])
     },
     components: {

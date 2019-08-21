@@ -137,7 +137,7 @@ export default {
         ...mapGetters([
             'stackExchangeEliteItems',
             'stackExchangeItems',
-            'storedUserItems'
+            'user'
         ]),
     }    
 }

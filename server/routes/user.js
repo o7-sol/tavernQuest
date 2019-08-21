@@ -18,6 +18,20 @@ const Authenticated = require('../middlewares/authenticated');
 // Models
 const User = require('../models/User');
 
+router.post('/api/get-user-info', Authenticated, async(req, res) => {
+    try {
+        const token = await req.body.token;
+        const decoded = await JWT.verify(token, process.env.SECRET_KEY);
+        const user = await User.findOne({_id: decoded.userid, username: decoded.username});
+        if(!user) {
+            return console.log('User was not found after page refresh');
+        }
+        res.json({user});
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 router.post('/api/check-user-level', Authenticated, async(req, res) => {
     try {
         const user = await req.user;

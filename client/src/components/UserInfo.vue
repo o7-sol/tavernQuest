@@ -44,7 +44,7 @@
       <div class="p-2 flex-fill userItems">
         <p>Inventory</p>
         <div class="itemsList"> 
-          <span v-for="(item, index) in storedUserItems">  
+          <span v-for="(item, index) in user.items">  
             <template v-if="item.strength">
               <span v-if="item.elite">
             <img @click="itemInfo(item, index)" class="itemEliteInInventory" :src="require('../assets/items/strength/'+item.img)">
@@ -180,16 +180,10 @@ export default {
     name: 'userInfo',
     data() {
         return {
-            user: '',
-            items: [],
             selectedItem: '',
             selectedItemIndex: '',
             seconds: 0
         }
-    },
-    created() {
-        this.user = JSON.parse(this.$cookie.get('user'));
-        this.getUserItems();
     },
     methods: {
       itemInfo(item, index) {
@@ -251,18 +245,15 @@ export default {
                 autoHideDelay: 3000
                 }); 
 
-            this.storedUserItems.splice(payload.index, 1);
+            this.user.items.splice(payload.index, 1);
             this.$bvToast.hide('my-toast');
           }
         });
-      },
-      ...mapActions([
-        'getUserItems',
-      ])
+      }
     },
     computed: {
       ...mapGetters([
-        'storedUserItems'
+        'user'
       ])
     }
 }

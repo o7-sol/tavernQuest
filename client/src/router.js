@@ -6,7 +6,7 @@ import VueCookie from 'vue-cookie';
 import API from './api';
 
 const isNotLoggedIn = (to, from, next) => {
-  if(!VueCookie.get('user')) {
+  if(!VueCookie.get('token')) {
     next();
   } else {
     next('/game');
@@ -14,7 +14,7 @@ const isNotLoggedIn = (to, from, next) => {
 }
 
 const isLoggedIn = (to, from, next) => {
-  if(VueCookie.get('user')) {
+  if(VueCookie.get('token')) {
     next();
   } else {
     next('/');

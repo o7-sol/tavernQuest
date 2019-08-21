@@ -45,7 +45,7 @@ router.post('/api/fill-guild-bank', Authenticated, async(req, res) => {
         });
         guild.save().then(() => {
             user.save();
-            res.json({success: true});
+            res.json({success: true, gold: user.gold, user});
         });
     } catch (error) {
         console.log(error);

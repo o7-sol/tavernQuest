@@ -33,22 +33,8 @@ const authenticate = async({commit}, payload) => {
         if(response.status === 200 && response.data.success && response.data.token) {
             const user = response.data.user;
 
-            const userInfo = {
-                username: user.username,
-                class: user.class,
-                heroImg: user.heroImg,
-                strength: user.strength,
-                vitality: user.vitality,
-                agility: user.agility,
-                intellect: user.intellect,
-                level: user.level,
-                gold: user.gold,
-                experience: user.experience,
-            }
-
             VueCookie.set('token', response.data.token);
-            VueCookie.set('user', JSON.stringify(userInfo));
-
+            commit('SET_USER', user);
             commit('SET_TOKEN', response.data.token);
 
         } else if (response.data.error) {
@@ -64,6 +50,19 @@ const authenticate = async({commit}, payload) => {
         }
         return data;
     }    
+};
+
+const reAuthenticate = async({commit}, payload) => {
+    try {
+        const response = await API.post('/get-user-info', {
+            token: payload
+        });
+        if(response.status === 200 && response.data.user) {
+            commit('SET_USER', response.data.user);
+        }
+    } catch (error) {
+        
+    }
 };
 
 const getStrengthItems = async ({commit}) => {
@@ -147,23 +146,13 @@ const buyItem = async({commit}, payload) => {
             itemID: payload.itemID
         });     
         if(response.status === 200 && response.data.successMsg) {
+            commit('SET_GOLD', response.data.gold);
             const data = {
                 successMsg: response.data.successMsg,
                 item: response.data.item
             }
             return data;
         }   
-    } catch (error) {
-        
-    }
-};
-
-const getUserItems = async({commit}, payload) => {
-    try {
-        const response = await API.get('/user-items');
-        if(response.status === 200 && response.data.items) {
-            commit('SET_USER_ITEMS', response.data.items);
-        }
     } catch (error) {
         
     }
@@ -376,7 +365,25 @@ const fillTheBank = async({commit}, gold) => {
         const response = await API.post('/fill-guild-bank', {
             gold
         });
+        console.log(response)
         if(response.status === 200 && response.data.success) {
+            commit('SET_GOLD', response.data.gold);
+            const user = response.data.user;
+            const userInfo = {
+                username: user.username,
+                class: user.class,
+                heroImg: user.heroImg,
+                strength: user.strength,
+                vitality: user.vitality,
+                agility: user.agility,
+                intellect: user.intellect,
+                level: user.level,
+                gold: user.gold,
+                experience: user.experience,
+            }
+
+            VueCookie.set('user', JSON.stringify(userInfo));
+
             const data = {
                 successMsg: 'You filled the bank of the guild!',
             }
@@ -397,7 +404,6 @@ export default {
     getLatestItems,
     getItemsDiscounts,
     buyItem,
-    getUserItems,
     getUserBankItems,
     placeItemToBank,
     placeItemToInventoryFromBank,
@@ -411,5 +417,6 @@ export default {
     getGuildTitle,
     getGuildInfo,
     postGuildAnnouncement,
-    fillTheBank
+    fillTheBank,
+    reAuthenticate
 }

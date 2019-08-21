@@ -334,8 +334,13 @@ router.post('/api/buy-item/:id', Authenticated, async(req, res) => {
             } else {
                 user.bank.push(itemPayload);
             }
+            user.gold -= item.price;
             user.save();
-            res.json({successMsg: 'Gold transaction successful. Item was shipped.', item: itemPayload});
+            res.json({
+                successMsg: 'Gold transaction successful. Item was shipped.', 
+                item: itemPayload,
+                gold: user.gold
+            });
             console.log('Item bought successfully');
         } else {
             console.log('User do not have enough gold to buy item');

@@ -9,7 +9,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     token: VueCookie.get('token') || '',
-    user_items: '',
+    user: '',
     stack_exchange_items: '',
     stack_exchange_elite_items: '',
     guild: ''
@@ -18,11 +18,11 @@ export default new Vuex.Store({
   actions,
   mutations,
   getters: {
+    user: state => {
+      return state.user;
+    },
     token: state => {
       return state.token;
-    },
-    storedUserItems: state => {
-      return state.user_items;
     },
     stackExchangeItems: state => {
       return state.stack_exchange_items;

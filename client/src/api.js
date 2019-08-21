@@ -18,7 +18,7 @@ axiosInstance.interceptors.request.use(
   error => Promise.reject(error),
 );
 
-/* axiosInstance.interceptors.response.use((response) => {
+/*axiosInstance.interceptors.response.use((response) => {
   // NProgress.done();
   return response;
 }); */

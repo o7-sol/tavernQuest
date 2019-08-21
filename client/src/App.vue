@@ -7,10 +7,10 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <template v-if="!$cookie.get('user')">
+        <template v-if="!user">
         <router-link to="/">Sign in</router-link>
         </template>
-        <template v-if="$cookie.get('user')">
+        <template v-if="user">
         <router-link to="/game">Home</router-link>
         <router-link to="/arena">Arena</router-link>
         <router-link to="/market">Market</router-link>   
@@ -33,7 +33,7 @@
         </b-nav-form>
 
       <b-navbar-nav class="ml-auto">
-        <span v-if="$cookie.get('user')">
+        <span v-if="user">
         <b-nav-item>
         <span style="vertical-align: middle">
         <img src="./assets/gold.png" style="height: 25px; vertical-align: bottom">
@@ -50,7 +50,7 @@
   </b-navbar>
 
   <div class="container-fluid">
-        <app-user-info></app-user-info>
+        <app-user-info v-if="user"></app-user-info>
         <router-view/>
   </div>
     <app-footer></app-footer>
@@ -60,20 +60,24 @@
 <script>
 import Footer from './components/Footer';
 import UserInfo from './components/UserInfo';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
-    data() {
-      return {
-        user: ''
-      }
-    },
-    created() {
-      this.user = JSON.parse(this.$cookie.get('user'));
-    },
     methods: {
       logOut() {
-        this.$cookie.delete('user');
-        this.$router.go({name: 'home'});
+        this.$cookie.delete('token');
+        this.$store.state.user = '';
+        this.$router.push({name: 'home'});
+      },
+      ...mapActions([
+        'reAuthenticate',
+      ])
+    },
+    created() {
+      this.reAuthenticate(this.$cookie.get('token'));
+    },
+    computed: {
+      user() {
+        return this.$store.getters.user;
       }
     },
     components: {
@@ -86,7 +90,8 @@ export default {
 <style>
 body {
   font-family: 'Roboto Condensed', sans-serif !important;
-  background-color: #070e29 !important;
+  /*background-color: #070e29 !important;*/
+  background: #0e0e0e !important;
   height: 100%;
   position: relative;
   text-rendering: optimizeLegibility !important; 
