@@ -394,6 +394,28 @@ const fillTheBank = async({commit}, gold) => {
     }
 };
 
+const borrowTheGold = async({commit}, payload) => {
+    try {
+        const response = await API.post('/borrow-guild-gold', {
+            gold: payload
+        });
+        if(response.status === 200 && response.data.error) {
+            const data = {
+                error: response.data.error
+            }
+            return data;
+        } else if(response.status === 200 && response.data.success) {
+            commit('SET_GOLD', response.data.gold);
+            const data = {
+                success: response.data.success
+            }
+            return data;            
+        }
+    } catch (error) {
+        
+    }
+};
+
 export default {
     createAccount,
     authenticate,
@@ -418,5 +440,6 @@ export default {
     getGuildInfo,
     postGuildAnnouncement,
     fillTheBank,
-    reAuthenticate
+    reAuthenticate,
+    borrowTheGold
 }

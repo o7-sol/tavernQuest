@@ -16,6 +16,50 @@ const Authenticated = require('../middlewares/authenticated');
 // Models
 const Guild = require('../models/Guild');
 
+router.post('/api/borrow-guild-gold', Authenticated, async(req, res) => {
+    try {
+        const user = await req.user;
+        const todayDate = await dayjs().format('YYYY-MM-DD');
+        const goldAmount = await striptags(req.body.gold);
+        const guild = await Guild.findOne({"members.username": user.username});
+        const borrowedToday = await Guild.find({
+                                "latestActivity.username": user.username, 
+                                "latestActivity.borrowGold": true,
+                                "latestActivity.createdAt": todayDate
+                            });
+        console.log(borrowedToday.length);
+
+        if(!validator.isNumeric(goldAmount)) {
+            return console.log('Data is not numbers!');
+        }
+
+        if(parseInt(goldAmount) > 150 || parseInt(goldAmount) < 1) {
+            return res.json({error: 'You cannot borrow more than 150 gold!'});
+        }
+
+        guild.gold -= parseInt(goldAmount);
+        user.gold += parseInt(goldAmount);
+
+        guild.latestActivity.push({
+            username: user.username,
+            img: user.heroImg,
+            borrowGold: true,
+            amount: goldAmount,
+            createdAt: dayjs().format('YYYY-MM-DD'),
+        });
+
+       guild.save().then(() => {
+        user.save().then(() => {
+            res.json({success: 'You have borrowed gold successfully', gold: user.gold});
+        });
+       });
+
+        console.log(typeof(goldAmount)) // string
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 router.post('/api/fill-guild-bank', Authenticated, async(req, res) => {
     try {
         const user = await req.user;

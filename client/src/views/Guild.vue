@@ -6,7 +6,6 @@
                 </h1>
                 <div class="col-md-12">
 
-
                    <app-admin :user="user" :guild="guild"></app-admin>
 
                    <ul v-if="errors.length" class="list-unstyled">
@@ -14,19 +13,6 @@
                            {{e}}
                        </li>
                    </ul>
-
-                   <div v-if="fillBankForm" class="col-md-2 mx-auto text-center">
-                       <h5>
-                           Fill The Bank
-                        </h5>
-                       <div id="bankBox">
-                       <input v-model.trim="amountOfGold" class="form-control" type="number" min="1" :max="user.gold" placeholder="Amount of gold">
-                       <small>Max: {{user.gold}}</small><br>
-                       <b-button @click="fillBank()">
-                           Fill
-                       </b-button>
-                       </div>
-                   </div>
 
                     <div id="guildInfo">
                         <img src="../assets/altor.png" style="vertical-align: bottom;"> {{guild.title}}
@@ -75,12 +61,41 @@
                             <b-button @click="fillBankForm = !fillBankForm" variant="danger" style="background: #ff0000;"> 
                                 Fill The Bank
                             </b-button>&nbsp;
-                            <b-button variant="warning"> 
+                            <b-button @click="borrowGoldForm = !borrowGoldForm" variant="warning"> 
                                 Borrow Gold
                             </b-button>&nbsp;
                             <b-button variant="info"> 
                                 Exchange Item
                             </b-button>  
+
+                   <div v-if="borrowGoldForm" class="col-md-6 mx-auto text-center">
+                       <br>
+                       <h5>
+                           Borrow Gold From The Bank
+                        </h5>
+                       <div id="bankBox">
+                       <input v-model.trim="borrowAmount" class="form-control" type="number" min="1" :max="150" placeholder="Amount of gold">
+                       <small>Max: 150</small><br>
+                       <b-button @click="borrowGold()">
+                          <img src="../assets/gold.png" style="height: 25px; vertical-align: bottom"> Borrow
+                       </b-button>
+                       </div>
+                   </div>
+
+                   <div v-if="fillBankForm" class="col-md-6 mx-auto text-center">
+                       <br>
+                       <h5>
+                           Fill The Bank
+                        </h5>
+                       <div id="bankBox">
+                       <input v-model.trim="amountOfGold" class="form-control" type="number" min="1" :max="user.gold" placeholder="Amount of gold">
+                       <small>Max: {{user.gold}}</small><br>
+                       <b-button @click="fillBank()">
+                          <img src="../assets/gold.png" style="height: 25px; vertical-align: bottom"> Fill
+                       </b-button>
+                       </div>
+                   </div>
+
                             <br>
                             <p style="margin-top: 1px;">
                             <img src="../assets/board.png" style="margin-top: -4px;"> Latest Activity</p>
@@ -89,7 +104,7 @@
                                     <span v-if="activity.gold">
                                     <small class="actDateBank">{{activity.createdAt}}</small>&nbsp;
                                     <img :src="require('../assets/hero/'+activity.img)" class="activityHero">
-                                    &nbsp;<span class="actText">{{activity.username}} <strong>filled the bank with</strong>
+                                    &nbsp;<span class="actText">{{activity.username}} <strong>filled</strong> the bank with
                                     &nbsp;<img src="../assets/gold.png" class="actGold">
                                     {{activity.amount}}</span>
                                     </span>
@@ -147,7 +162,9 @@ export default {
     data() {
         return {
             fillBankForm: false,
+            borrowGoldForm: false,
             amountOfGold: '',
+            borrowAmount: '',
             errors: [],
         }
     },
@@ -163,8 +180,29 @@ export default {
         this.getGuildInfo();
     },
     methods: {
+        borrowGold() {
+            this.errors = [];
+            if(this.guild.gold === 0) {
+                return this.errors.push('Your guild does not have any gold in the bank currently.');
+            }
+            this.borrowTheGold(this.borrowAmount).then(data => {
+                if(data.error) {
+                    this.errors.push(data.error);
+                } else if(data.success) {
+                        this.$bvToast.toast(`${data.success}`, {
+                        title: 'Notification',
+                        variant: 'success',
+                        solid: true,
+                        autoHideDelay: 5000
+                    });
+                    this.guild.gold -= parseInt(this.borrowAmount); 
+                    this.borrowGoldForm = false;        
+                    this.borrowAmount = '';   
+                    this.getGuildInfo();
+                }
+            });
+        },
         fillBank() {
-            
             this.errors = [];
             if(this.amountOfGold === 0 || this.amountOfGold < 1) {
                 return this.errors.push('Zero is not aceptable amount.');
@@ -178,18 +216,20 @@ export default {
                         title: 'Notification',
                         variant: 'success',
                         solid: true,
-                        autoHideDelay: 10000
+                        autoHideDelay: 5000
                     });      
                     this.guild.gold += parseInt(this.amountOfGold); 
                     this.fillBankForm = false;        
-                    this.amountOfGold = '';                    
+                    this.amountOfGold = '';     
+                    this.getGuildInfo();              
                     } 
                 });
             }
         },
         ...mapActions([
             'getGuildInfo',
-            'fillTheBank'
+            'fillTheBank',
+            'borrowTheGold'
         ])
     },
     computed: {
@@ -316,6 +356,13 @@ export default {
     padding: 14px;
     margin-left: -6px;
     padding-top: 13px;
+}
+.actDateBorrow {
+    background: yellow;
+    padding: 14px;
+    margin-left: -6px;
+    padding-top: 13px;
+    color: black;
 }
 .actGold {
     height: 25px;
