@@ -187,7 +187,12 @@ export default {
             }
             this.borrowTheGold(this.borrowAmount).then(data => {
                 if(data.error) {
-                    this.errors.push(data.error);
+                        this.$bvToast.toast(`${data.error}`, {
+                        title: 'Notification',
+                        variant: 'warning',
+                        solid: true,
+                        autoHideDelay: 5000
+                    });   
                 } else if(data.success) {
                         this.$bvToast.toast(`${data.success}`, {
                         title: 'Notification',
