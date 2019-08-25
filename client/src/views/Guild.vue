@@ -100,7 +100,7 @@
                             <p style="margin-top: 1px;">
                             <img src="../assets/board.png" style="margin-top: -4px;"> Latest Activity</p>
                             <ul class="list-unstyled" style="margin-top: -7px;">
-                                <li v-for="activity in guild.latestActivity.slice().reverse()" class="activityInfo">
+                                <li v-for="activity in guild.latestActivity.slice(0, 5).reverse()" class="activityInfo">
                                     <span v-if="activity.gold">
                                     <small class="actDateBank">{{activity.createdAt}}</small>&nbsp;
                                     <img :src="require('../assets/hero/'+activity.img)" class="activityHero">
@@ -129,22 +129,28 @@
                         </div>
                         <div class="col-md-4">
                             <p><img src="../assets/board.png" style="margin-top: -4px;"> Chatroom</p>
-                            <ul class="list-unstyled">         
-                                <li>
-                                    <small class="msgDate">2019-08-04 20:06 Zlotte</small><br>
+                            <ul class="list-unstyled">      
+                                <li v-for="message in socketMessages.slice(0, 5).reverse()">
+                                    <small class="msgDate">{{message.createdAt}} {{message.username}}</small><br>
                                     <small class="msgText">
-                                        Some lorem ipsum text coming home
-                                        Some lorem ipsum text coming home
+                                       {{message.message}}
+                                    </small>
+                                </li>                                   
+                                <li v-for="message in guildMessages.slice(0, 5).reverse()">
+                                    <small class="msgDate">{{message.createdAt}} {{message.username}}</small><br>
+                                    <small class="msgText">
+                                       {{message.message}}
                                     </small>
                                 </li>
                                 <br>                                                            
                             <div class="input-group" style="margin-top: 5px;">
                                 <div class="input-group-prepend">
-                                <div style="font-size: 15px;" class="input-group-text" id="sendBtn">Send</div>
+                                <div @click="sendMessage" style="font-size: 15px;" class="input-group-text" id="sendBtn">Send</div>
                                 </div>
-                                <input style="font-size: 15px;" type="text" class="form-control"
+                                <input v-on:keyup="maxchars--" v-on:keyup.delete="maxchars++" v-model="message" style="font-size: 15px;" type="text" class="form-control"
                                 id="inlineFormInputGroupMessage" placeholder="Type message...">
-                            </div>                                                                                                
+                            </div>  
+                                <small>Chars left: {{maxchars}}</small>                                                                                                                          
                             </ul>
                         </div>
                     </div>
@@ -165,6 +171,9 @@ export default {
             borrowGoldForm: false,
             amountOfGold: '',
             borrowAmount: '',
+            message: '',
+            maxchars: 100,
+            socketMessages: [],
             errors: [],
         }
     },
@@ -178,8 +187,37 @@ export default {
           });             
         }
         this.getGuildInfo();
+        this.getGuildMessages();
+    },
+    sockets: {
+        connect: function () {
+            console.log('socket connected')
+        },
     },
     methods: {
+        errorToast(text) {
+            this.$bvToast.toast(text, {
+                title: 'Notification',
+                variant: 'warning',
+                solid: true,
+                autoHideDelay: 5000
+            })
+        },
+        sendMessage() {
+            this.sendGuildMessage(this.message).then(data => {
+
+                if(data.error) {
+                    return this.errorToast(data.error);
+                } 
+
+                if(data.message) {
+                    this.$socket.emit('guildMsgToServer', {
+                        message: data.message
+                    }); 
+                }
+
+            });           
+        },
         borrowGold() {
             this.errors = [];
             if(this.guild.gold === 0) {
@@ -187,12 +225,7 @@ export default {
             }
             this.borrowTheGold(this.borrowAmount).then(data => {
                 if(data.error) {
-                        this.$bvToast.toast(`${data.error}`, {
-                        title: 'Notification',
-                        variant: 'warning',
-                        solid: true,
-                        autoHideDelay: 5000
-                    });   
+                        this.errorToast(data.error);
                 } else if(data.success) {
                         this.$bvToast.toast(`${data.success}`, {
                         title: 'Notification',
@@ -234,16 +267,31 @@ export default {
         ...mapActions([
             'getGuildInfo',
             'fillTheBank',
-            'borrowTheGold'
+            'borrowTheGold',
+            'sendGuildMessage',
+            'getGuildMessages'
         ])
+    },
+    sockets: {
+        guildMsgToGuild: function(data) {
+           this.socketMessages.push({
+               username: data.message.username,
+               message: data.message.message,
+               createdAt: data.message.createdAt
+           });
+        }
     },
     computed: {
         user() {
             return this.$store.getter.user;
         },
+        messages() {
+            return this.$store.getter.guildMessages
+        },
         ...mapGetters([
             'guild',
-            'user'
+            'user',
+            'guildMessages'
         ])
     },
     components: {

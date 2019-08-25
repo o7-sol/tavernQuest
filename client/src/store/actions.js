@@ -416,6 +416,40 @@ const borrowTheGold = async({commit}, payload) => {
     }
 };
 
+const sendGuildMessage = async({commit}, payload) => {
+    try {
+        const response = await API.post('/send-guild-message', {
+            message: payload
+        });
+        console.log(response)
+        if(response.status === 200 && response.data.message) {
+            const data = {
+                message: response.data.message
+            }
+            return data;
+        }
+        if(response.status === 200 && response.data.error) {
+            const data = {
+                error: response.data.error
+            }
+            return data;
+        }
+    } catch (error) {
+        
+    }
+};
+
+const getGuildMessages = async({commit}, payload) => {
+    try {
+        const response = await API.get('/guild-messages');
+        if(response.status === 200 && response.data.guildMessages) {
+            commit('SET_GUILD_MESSAGES', response.data.guildMessages);
+        }
+    } catch (error) {
+        
+    }
+};
+
 export default {
     createAccount,
     authenticate,
@@ -441,5 +475,7 @@ export default {
     postGuildAnnouncement,
     fillTheBank,
     reAuthenticate,
-    borrowTheGold
+    borrowTheGold,
+    sendGuildMessage,
+    getGuildMessages
 }

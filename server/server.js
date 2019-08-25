@@ -3,11 +3,12 @@ const express = require('express');
 const connectToDB = require('./db/connect');
 const morgan = require('morgan');
 const cors = require('cors');
-const ItemDiscount = require('./models/ItemDiscount');
-const dayjs = require('dayjs');
-const StackExchange = require('./models/StackExchange');
 
 const app = express();
+
+const server = require('http').createServer(app);
+
+const io = require('socket.io')(server);
 
 const port = process.env.PORT || 3000;
 
@@ -25,6 +26,14 @@ app.use(userRouter);
 app.use(itemsRouter);
 app.use(guildRouter);
 
-app.listen(port, () => {
+io.on('connection', client => {
+    client.on('guildMsgToServer', (data) => {
+        io.emit('guildMsgToGuild', {
+            message: data.message
+        });
+    });
+});
+
+server.listen(port, () => {
     console.log('server running on port: ' + port);
 });

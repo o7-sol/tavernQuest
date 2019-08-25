@@ -20,7 +20,11 @@ const SET_GUILD = (state, payload) => {
 
 const SET_GOLD = (state, payload) => {
     state.user.gold = payload; 
-}
+};
+
+const SET_GUILD_MESSAGES = (state, payload) => {
+    state.guild_messages = payload;
+};
 
 export default {
     SET_TOKEN,
@@ -28,5 +32,6 @@ export default {
     SET_STACK_EXCHANGE_ELITE_ITEMS,
     SET_GUILD,
     SET_GOLD,
-    SET_USER
+    SET_USER,
+    SET_GUILD_MESSAGES
 }

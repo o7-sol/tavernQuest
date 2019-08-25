@@ -16,11 +16,66 @@ const Authenticated = require('../middlewares/authenticated');
 // Models
 const Guild = require('../models/Guild');
 const GuildAction = require('../models/GuildAction');
+const GuildMessage = require('../models/GuildMessage');
+
+router.get('/api/guild-messages', Authenticated, async (req, res) => { // REIKIA KAD PAGAL GUILD ID SIUSTU
+    try {
+        const guild = await Guild.findOne({"members.username": req.user.username});
+
+        if(!guild) {
+            return console.log('User does not belong to any guild');
+        }
+
+        const messages = await GuildMessage.find({guild: guild._id});
+
+        res.json({guildMessages: messages});
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.post('/api/send-guild-message', Authenticated, async (req, res) => {
+    try {
+        const user = await req.user;
+        const message = await striptags(req.body.message);
+        const guildMember = await Guild.findOne({"members.username": user.username});
+
+        if(!guildMember) {
+            return console.log('User is not a member of a guild');
+        }
+
+        if(message.length < 3) {
+            return res.json({error: 'Message is too short. Minimum length is 3 characters.'});
+        }
+
+        if(message.length > 100) {
+            return res.json({error: 'Message is too long. Maximum length is 100 characters.'});
+        }
+
+        const messagePayload = {
+            username: user.username,
+            message,
+            guild: guildMember._id,
+            createdAt: dayjs().format('YYYY-MM-DD HH:mm')
+        }
+        
+        const newMessage = GuildMessage(messagePayload);
+        newMessage.save().then((message) => {
+            if(!message) {
+               return console.log('Message was not sent.');
+            }
+            res.json({message: message});
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 router.post('/api/borrow-guild-gold', Authenticated, async (req, res) => {
     try {
         const user = await req.user;
-        const todayDate = await dayjs().format('YYYY-MM-DD');
         const goldAmount = await striptags(req.body.gold);
         const guild = await Guild.findOne({
             "members.username": user.username
