@@ -26,13 +26,21 @@ app.use(userRouter);
 app.use(itemsRouter);
 app.use(guildRouter);
 
-io.on('connection', client => {
-    client.on('guildMsgToServer', (data) => {
+io.on('connection', socket => {
+    socket.on('guildMsgToServer', (data) => {
         io.emit('guildMsgToGuild', {
             message: data.message
         });
     });
 });
+
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static(__dirname + '/public'));
+
+    app.get('/*', (req, res) => {
+        res.sendFile(__dirname+'/public/index.html');
+    });
+}
 
 server.listen(port, () => {
     console.log('server running on port: ' + port);

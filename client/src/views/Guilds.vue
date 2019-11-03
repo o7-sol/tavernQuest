@@ -11,54 +11,72 @@
           </div>
         <br>
         <div class="row">    
-        <div class="col-md-4 guildCard">
+        <div v-for="guild in guilds" :key="guild._id" class="col-md-4 guildCard">
             <div class="panelBody">
                 <h1 class="panelTitle">
-                    <img src="../assets/board.png" class="board"> Drunk Taverners
+                    <img src="../assets/board.png" class="board"> {{guild.title}}
                 </h1>
-                <h5 class="title">Drunk Taverners</h5>
+                <h5 class="title">{{guild.title}}</h5>
                 <div class="row">
                 <p class="col-md-4 text-center">
-                    <img src="../assets/hero/necromancer.png">
+                    <img :src='require("../assets/hero/"+guild.leaderImg+"")'>
                     <br>
                     <span class="leader">
                     <img src="../assets/crown.png" class="crown"> 
-                    Zlotte<br>
-                    Level: 25
+                    {{guild.leader}}<br>
+                    Level: {{guild.leaderLevel}}
                     </span>
                 </p>
                 <p class="col-md-4 guildInfo">
-                    Level: 20<br>
-                    Members: 38 / 50<br>
-                    <img src="../assets/gold.png" class="guildGold"> 18000
+                    Required Level: {{guild.requiredLevel}}<br>
+                    Members: {{guild.members.length}} / 50<br>
+                    <img src="../assets/gold.png" class="guildGold"> {{guild.gold}}
                 </p>
                 <div class="col-md-4 applyBtn">
-                    <b-button variant="success">
+                    <b-button @click="joinGuild(guild._id)" v-if="user.level >= guild.requiredLevel" variant="success">
                         Apply Now
                     </b-button>
+                    <b-button @click="lowLevel" v-else variant="light">Apply Now</b-button>
                 </div>
                 </div>
             </div>
         </div>
-              
-      </div>   
-
-    <b-toast id="example-toast" title="BootstrapVue" static no-auto-hide>
-      Hello, world! This is a toast message.
-    </b-toast>      
-
+      </div>     
     </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
-    data() {
-        return {
-            user: ''
+    created() {
+        if(this.$cookie.get('user')) {
+            this.user = JSON.parse(this.$cookie.get('user'));
         }
-    },
+        this.getGuilds();
+    },    
     methods: {
+        joinGuild(id) {
+            this.applyToGuild(id).then(data => {
+                if(data && data.success) {
+                    console.log('joined')
+                } else if(data && data.error) {
+                    this.$bvToast.toast(data.error, {
+                        title: 'Notification',
+                        variant: 'warning',
+                        solid: true,
+                        autoHideDelay: 5000
+                    })                     
+                }
+            });
+        },
+        lowLevel() {
+            this.$bvToast.toast("Your level doesn't match the guild requested level.", {
+                title: 'Notification',
+                variant: 'warning',
+                solid: true,
+                autoHideDelay: 5000
+            })            
+        },
         createGuild() {
             if(this.user.level < 15) {
                 this.$bvToast.toast('Level 15 is required to be able to create a guild.', {
@@ -77,13 +95,16 @@ export default {
             }
         },
         ...mapActions([
-            'checkUserLevel'
+            'checkUserLevel',
+            'getGuilds',
+            'applyToGuild'
         ])
     },
-    created() {
-        if(this.$cookie.get('user')) {
-            this.user = JSON.parse(this.$cookie.get('user'));
-        }
+    computed: {
+        ...mapGetters([
+            'user',
+            'guilds'
+        ])
     }
 }
 </script>

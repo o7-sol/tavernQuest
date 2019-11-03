@@ -21,6 +21,7 @@ Vue.use(Dayjs);
 Vue.use(new VueSocketIO({
   debug: true,
   connection: '127.0.0.1:3000'
+  //connection: 'https://tavernquest.herokuapp.com'
 }))
 
 new Vue({

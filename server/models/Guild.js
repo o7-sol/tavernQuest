@@ -24,6 +24,12 @@ const guildSchema = mongoose.Schema({
     leaderImg: {
         type: String
     },
+    leaderLevel: {
+        type: Number
+    },
+    required_level: {
+        type: Number
+    },
     announcement: {
         type: String,
         trim: true

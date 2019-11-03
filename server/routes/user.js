@@ -21,7 +21,7 @@ const User = require('../models/User');
 router.post('/api/get-user-info', Authenticated, async(req, res) => {
     try {
         const token = await req.body.token;
-        const decoded = await JWT.verify(token, process.env.SECRET_KEY);
+        const decoded = JWT.verify(token, process.env.SECRET_KEY);
         const user = await User.findOne({_id: decoded.userid, username: decoded.username});
         if(!user) {
             return console.log('User was not found after page refresh');
@@ -46,14 +46,14 @@ router.post('/api/check-user-level', Authenticated, async(req, res) => {
 
 router.post('/api/create-account', async(req, res) => {
     try {
-        const username = await striptags(req.body.username);
-        const password = await striptags(req.body.password);
-        const type = await striptags(req.body.type);
-        let heroImage = await '';
-        let strength = await 0;
-        let vitality = await 0;
-        let intellect = await 0;
-        let agility = await 0;
+        const username = striptags(req.body.username);
+        const password =  striptags(req.body.password);
+        const type = striptags(req.body.type);
+        let heroImage = '';
+        let strength = 0;
+        let vitality = 0;
+        let intellect = 0;
+        let agility = 0;
 
         if(type === 'Barbarian') {
             heroImage = 'barbarian.png';
@@ -118,8 +118,8 @@ router.post('/api/create-account', async(req, res) => {
 
 router.post('/api/sign-in', async(req, res) => {
     try {
-        const username = await striptags(capitalize(req.body.username));
-        const password = await striptags(req.body.password);
+        const username = striptags(capitalize(req.body.username));
+        const password = striptags(req.body.password);
         const user = await User.findOne({username});
 
         if(!user) {

@@ -39,15 +39,15 @@ router.post('/api/get-item-back-from-stack-exchange', Authenticated, async(req, 
         let index;
 
         if(item.elite) {
-           index = await _.findIndex(eliteItems, {_id: item._id});
+           index = _.findIndex(eliteItems, { _id: item._id });
         } else {
-           index = await _.findIndex(regularItems, {_id: item._id});
+           index = _.findIndex(regularItems, { _id: item._id });
         }
 
-        let strength = await false;
-        let agility = await false;
-        let vitality = await false;
-        let intellect = await false;
+        let strength = false;
+        let agility = false;
+        let vitality = false;
+        let intellect = false;
 
         if(item.type === 'Strength') {
             strength = true;
@@ -105,7 +105,7 @@ router.post('/api/get-item-back-from-stack-exchange', Authenticated, async(req, 
 router.post('/api/place-item-to-stack-exchange', Authenticated, async(req, res) => {
     try {
         const itemID = await req.body.itemID;
-        const price = await striptags(req.body.price);
+        const price = striptags(req.body.price);
         const user = await req.user;
         const userHasItem = await user.items.find(item => item.id === itemID);
         const userHasItemInBank = await user.bank.find(item => item.id === itemID);
@@ -302,7 +302,7 @@ router.post('/api/buy-item/:id', Authenticated, async(req, res) => {
     try {
         const user = await req.user;
         const item = await Item.findById(req.body.itemID);
-        let elite = await false;
+        let elite = false;
         if(!item) {
             return console.log('Item do not exist');
         }

@@ -63,10 +63,10 @@ export default {
         }
         this.$store.dispatch('authenticate', payload).then((data) => {
           this.$router.push('/game')
-          if(data.error) {
+          if(data && data.error) {
             this.errors.push(data.error);
           }
-          else if(data.errorMsg) {
+          else if(data && data.errorMsg) {
             this.errors.push(data.errorMsg);
           }
         });

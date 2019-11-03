@@ -18,7 +18,47 @@ const Guild = require('../models/Guild');
 const GuildAction = require('../models/GuildAction');
 const GuildMessage = require('../models/GuildMessage');
 
-router.get('/api/guild-messages', Authenticated, async (req, res) => { // REIKIA KAD PAGAL GUILD ID SIUSTU
+router.post('/api/apply-to-guild', Authenticated, async (req, res) => {
+    try {
+        const guildID = striptags(req.body.guildID);
+        const guild = await Guild.findById(guildID);
+        const alreadyMember = await Guild.findOne({"members.username": req.user.username});
+
+        if(!guild) {
+            return console.log('Guild does not exist.');
+        }
+
+        if(alreadyMember) {
+            return res.json({error: 'You are already member of a guild.'});
+        }
+
+        guild.members.push({
+            username: req.user.username,
+            createdAt: dayjs().format('YYYY-MM-DD hh:mm:ss')
+        });
+
+        guild.save().then(member => {
+            if(!member) {
+                return console.log('Guild member was not saved.');
+            }
+            res.json({success: true});
+        });
+        
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.get('/api/guilds', Authenticated, async (req, res) => {
+    try {
+        const guilds = await Guild.find().sort('-experience');
+        res.json({guilds});
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.get('/api/guild-messages', Authenticated, async (req, res) => {
     try {
         const guild = await Guild.findOne({"members.username": req.user.username});
 
@@ -26,7 +66,7 @@ router.get('/api/guild-messages', Authenticated, async (req, res) => { // REIKIA
             return console.log('User does not belong to any guild');
         }
 
-        const messages = await GuildMessage.find({guild: guild._id});
+        const messages = await GuildMessage.find({guild: guild._id}).sort('-createdAt').limit(10);
 
         res.json({guildMessages: messages});
 
@@ -38,7 +78,7 @@ router.get('/api/guild-messages', Authenticated, async (req, res) => { // REIKIA
 router.post('/api/send-guild-message', Authenticated, async (req, res) => {
     try {
         const user = await req.user;
-        const message = await striptags(req.body.message);
+        const message = striptags(req.body.message);
         const guildMember = await Guild.findOne({"members.username": user.username});
 
         if(!guildMember) {
@@ -73,10 +113,11 @@ router.post('/api/send-guild-message', Authenticated, async (req, res) => {
     }
 });
 
+
 router.post('/api/borrow-guild-gold', Authenticated, async (req, res) => {
     try {
         const user = await req.user;
-        const goldAmount = await striptags(req.body.gold);
+        const goldAmount = striptags(req.body.gold);
         const guild = await Guild.findOne({
             "members.username": user.username
         });
@@ -113,8 +154,10 @@ router.post('/api/borrow-guild-gold', Authenticated, async (req, res) => {
         newGuildAction.save().then(async () => {
             const timesBorrowedToday = await GuildAction.find({
                 username: user.username,
-                borrowGold: true
+                borrowGold: true,
+                createdAt: dayjs().format('YYYY-MM-DD') 
             }).countDocuments();
+
             if (timesBorrowedToday > 3) {
                 newGuildAction.remove();
                 return res.json({
@@ -141,7 +184,7 @@ router.post('/api/borrow-guild-gold', Authenticated, async (req, res) => {
 router.post('/api/fill-guild-bank', Authenticated, async (req, res) => {
     try {
         const user = await req.user;
-        const gold = await striptags(req.body.gold);
+        const gold = striptags(req.body.gold);
         const guild = await Guild.findOne({
             "members.username": user.username
         });
@@ -193,7 +236,7 @@ router.post('/api/fill-guild-bank', Authenticated, async (req, res) => {
 router.post('/api/guild-announcement', Authenticated, async (req, res) => {
     try {
         const user = await req.user;
-        const announcement = await striptags(req.body.announcement);
+        const announcement = striptags(req.body.announcement);
         const guild = await Guild.findOne({
             leader: user.username
         });
@@ -206,8 +249,8 @@ router.post('/api/guild-announcement', Authenticated, async (req, res) => {
             return console.log('Guild leader not found');
         }
 
-        guild.announcement = await capitalize(announcement);
-        guild.announcement_createdAt = await dayjs().format('YYYY-MM-DD');
+        guild.announcement = capitalize(announcement);
+        guild.announcement_createdAt = dayjs().format('YYYY-MM-DD');
         guild.save();
 
         res.json({
@@ -277,11 +320,17 @@ router.post('/api/leader-of-guild', Authenticated, async (req, res) => {
 router.post('/api/create-guild', Authenticated, async (req, res) => {
     try {
         const user = await req.user;
-        const title = await striptags(req.body.title);
+        const title = striptags(req.body.title);
         const guildsCount = await Guild.find().count();
         const guildExist = await Guild.findOne({
             title
         });
+
+        if(user.level < 15) {
+            return res.json({
+                errMsg: 'Level 15 is required to be able to create a guild.'
+            });
+        }
 
         if (guildExist) {
             return res.json({
@@ -290,7 +339,9 @@ router.post('/api/create-guild', Authenticated, async (req, res) => {
         }
 
         if (!validator.isAlphanumeric(title)) {
-            return console.log('Title is not alphanumeric');
+            return res.json({
+                errMsg: 'Title is not alphanumeric.'
+            });
         }
 
         const guildPayload = {
@@ -299,6 +350,8 @@ router.post('/api/create-guild', Authenticated, async (req, res) => {
             experience: user.experience,
             leader: user.username,
             leaderImg: user.heroImg,
+            leaderLevel: user.level,
+            requiredLevel: 0,
             announcement: '',
             announcement_createdAt: '',
             wins: user.wins,
@@ -310,7 +363,8 @@ router.post('/api/create-guild', Authenticated, async (req, res) => {
 
         const newGuild = await Guild(guildPayload);
         newGuild.members.push({
-            username: user.username
+            username: user.username,
+            createdAt: dayjs().format('YYYY-MM-DD hh:mm:ss')
         });
         newGuild.save().then(guild => {
             if (guild) {

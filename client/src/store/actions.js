@@ -22,7 +22,7 @@ const createAccount = async ({commit}, payload) => {
         }
         return data;
     }
-};
+}
 
 const authenticate = async({commit}, payload) => {
     try {
@@ -50,7 +50,7 @@ const authenticate = async({commit}, payload) => {
         }
         return data;
     }    
-};
+}
 
 const reAuthenticate = async({commit}, payload) => {
     try {
@@ -63,7 +63,7 @@ const reAuthenticate = async({commit}, payload) => {
     } catch (error) {
         
     }
-};
+}
 
 const getStrengthItems = async ({commit}) => {
     try {
@@ -75,7 +75,7 @@ const getStrengthItems = async ({commit}) => {
     } catch (error) {
         
     }
-};
+}
 
 const getAgilityItems = async ({commit}) => {
     try {
@@ -87,7 +87,7 @@ const getAgilityItems = async ({commit}) => {
     } catch (error) {
         
     }
-};
+}
 
 const getIntellectItems = async ({commit}) => {
     try {
@@ -99,7 +99,7 @@ const getIntellectItems = async ({commit}) => {
     } catch (error) {
         
     }
-};
+}
 
 const getVitalityItems = async ({commit}) => {
     try {
@@ -111,7 +111,7 @@ const getVitalityItems = async ({commit}) => {
     } catch (error) {
         
     }
-};
+}
 
 const getLatestItems = async({commit}) => {
     try {
@@ -123,7 +123,7 @@ const getLatestItems = async({commit}) => {
     } catch (error) {
         
     }
-};
+}
 
 const getItemsDiscounts = async({commit}) => {
     try {
@@ -135,7 +135,7 @@ const getItemsDiscounts = async({commit}) => {
     } catch (error) {
         
     }
-};
+}
 
 const buyItem = async({commit}, payload) => {
     try {
@@ -156,7 +156,7 @@ const buyItem = async({commit}, payload) => {
     } catch (error) {
         
     }
-};
+}
 
 const getUserBankItems = async({commit}, payload) => {
     try {
@@ -167,7 +167,7 @@ const getUserBankItems = async({commit}, payload) => {
     } catch (error) {
         
     }
-};
+}
 
 const placeItemToBank = async ({commit}, payload) => {
     try {
@@ -184,7 +184,7 @@ const placeItemToBank = async ({commit}, payload) => {
     } catch (error) {
         
     }
-};
+}
 
 const placeItemToInventoryFromBank = async ({commit}, payload) => {
     try {
@@ -201,7 +201,7 @@ const placeItemToInventoryFromBank = async ({commit}, payload) => {
     } catch (error) {
         
     }
-};
+}
 
 const placeItemToBankFromInventory = async({commit}, payload) => {
     try {
@@ -219,7 +219,7 @@ const placeItemToBankFromInventory = async({commit}, payload) => {
     } catch (error) {
         
     }
-};
+}
 
 const getStackExchangeItems = async({commit}, payload) => {
     try {
@@ -230,7 +230,7 @@ const getStackExchangeItems = async({commit}, payload) => {
     } catch (error) {
         
     }
-};
+}
 
 const getStackExchangeEliteItems = async({commit}, payload) => {
     try {
@@ -241,7 +241,7 @@ const getStackExchangeEliteItems = async({commit}, payload) => {
     } catch (error) {
         
     }
-};
+}
 
 const placeItemToExchange = async({commit}, payload) => {
     try {
@@ -263,7 +263,7 @@ const placeItemToExchange = async({commit}, payload) => {
     } catch (error) {
         
     }
-};
+}
 
 const getMyStackExchangeItems = async({commit}, payload) => {
     try {
@@ -274,7 +274,7 @@ const getMyStackExchangeItems = async({commit}, payload) => {
     } catch (error) {
         
     }
-};
+}
 
 const getMyStackExchangeItemBack = async({commit}, payload) => {
     try {
@@ -297,7 +297,7 @@ const getMyStackExchangeItemBack = async({commit}, payload) => {
     } catch (error) {
         
     }
-};
+}
 
 const checkUserLevel = async({commit}, level) => {
     try {
@@ -310,7 +310,7 @@ const checkUserLevel = async({commit}, level) => {
     } catch (error) {
         
     }
-};
+}
 
 const getGuildTitle = async({commit}, title) => {
     try {
@@ -331,7 +331,7 @@ const getGuildTitle = async({commit}, title) => {
     } catch (error) {
         console.log(error)
     }
-};
+}
 
 const getGuildInfo = async({commit}) => {
     try {
@@ -342,7 +342,7 @@ const getGuildInfo = async({commit}) => {
     } catch (error) {
         
     }
-};
+}
 
 const postGuildAnnouncement = async({commit}, announcement) => {
     try {
@@ -358,7 +358,7 @@ const postGuildAnnouncement = async({commit}, announcement) => {
     } catch (error) {
         
     }
-};
+}
 
 const fillTheBank = async({commit}, gold) => {
     try {
@@ -392,7 +392,7 @@ const fillTheBank = async({commit}, gold) => {
     } catch (error) {
         
     }
-};
+}
 
 const borrowTheGold = async({commit}, payload) => {
     try {
@@ -414,14 +414,13 @@ const borrowTheGold = async({commit}, payload) => {
     } catch (error) {
         
     }
-};
+}
 
 const sendGuildMessage = async({commit}, payload) => {
     try {
         const response = await API.post('/send-guild-message', {
             message: payload
         });
-        console.log(response)
         if(response.status === 200 && response.data.message) {
             const data = {
                 message: response.data.message
@@ -437,7 +436,7 @@ const sendGuildMessage = async({commit}, payload) => {
     } catch (error) {
         
     }
-};
+}
 
 const getGuildMessages = async({commit}, payload) => {
     try {
@@ -448,7 +447,39 @@ const getGuildMessages = async({commit}, payload) => {
     } catch (error) {
         
     }
-};
+}
+
+const getGuilds = async({commit}, payload) => {
+    try {
+        const response = await API.get('/guilds');
+        if(response.status === 200 && response.data.guilds) {
+            commit('SET_GUILDS', response.data.guilds);
+        }
+    } catch (error) {
+        
+    }
+}
+
+const applyToGuild = async({commit}, payload) => {
+    try {
+        const response = await API.post('/apply-to-guild', {
+            guildID: payload
+        });
+        if(response.status === 200 && response.data.success) {
+            const data = {
+                success: response.data.success
+            }
+            return data;
+        } else if(response.status === 200 && response.data.error) {
+            const data = {
+                error: response.data.error
+            }
+            return data;
+        }
+    } catch (error) {
+        
+    }
+}
 
 export default {
     createAccount,
@@ -477,5 +508,7 @@ export default {
     reAuthenticate,
     borrowTheGold,
     sendGuildMessage,
-    getGuildMessages
+    getGuildMessages,
+    getGuilds,
+    applyToGuild
 }

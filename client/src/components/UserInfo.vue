@@ -3,7 +3,7 @@
     <div class="d-flex flex-row">      
       <div class="p-2 flex-fill img-with-text">          
         <img :src="require('../assets/hero/'+user.heroImg)" style="margin-top: -0.5em;">
-        <p>Zlotte<br>
+        <p>{{user.username}}<br>
         <span id="userLevel">Level {{user.level}}</span>
         </p>
       </div>

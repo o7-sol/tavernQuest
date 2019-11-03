@@ -13,7 +13,8 @@ export default new Vuex.Store({
     stack_exchange_items: '',
     stack_exchange_elite_items: '',
     guild: '',
-    guild_messages: []
+    guild_messages: [],
+    guilds: []
 
   },
   actions,
@@ -36,6 +37,9 @@ export default new Vuex.Store({
     },
     guildMessages: state => {
       return state.guild_messages;
+    },
+    guilds: state => {
+      return state.guilds;
     }
   }
 });
