@@ -321,6 +321,7 @@ router.post('/api/create-guild', Authenticated, async (req, res) => {
     try {
         const user = await req.user;
         const title = striptags(req.body.title);
+        const reqLevel = striptags(req.body.reqLevel);
         const guildsCount = await Guild.find().count();
         const guildExist = await Guild.findOne({
             title
@@ -344,6 +345,10 @@ router.post('/api/create-guild', Authenticated, async (req, res) => {
             });
         }
 
+        if(!validator.isNumeric(reqLevel) || reqLevel < 1) {
+            return console.log('Required level is not numeric.');
+        }
+
         const guildPayload = {
             title: capitalize(title),
             gold: 0,
@@ -351,7 +356,7 @@ router.post('/api/create-guild', Authenticated, async (req, res) => {
             leader: user.username,
             leaderImg: user.heroImg,
             leaderLevel: user.level,
-            requiredLevel: 0,
+            required_level: reqLevel,
             announcement: '',
             announcement_createdAt: '',
             wins: user.wins,
