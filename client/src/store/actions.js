@@ -312,10 +312,11 @@ const checkUserLevel = async({commit}, level) => {
     }
 }
 
-const getGuildTitle = async({commit}, title) => {
+const getGuildTitle = async({commit}, payload) => {
     try {
         const response = await API.post('/create-guild', {
-            title
+            title: payload.title,
+            reqLevel: payload.reqLevel
         });
         if(response.status === 200 && response.data.successMsg) {
             const data = {

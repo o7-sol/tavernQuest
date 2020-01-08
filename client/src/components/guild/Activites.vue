@@ -13,11 +13,6 @@
       Borrow Gold
     </b-button>&nbsp;
     </div>
-   <!-- <b-button
-      @click="exchangeItemForm = !exchangeItemForm, fillBankForm = false, borrowGoldForm = false"
-      variant="info">
-      Exchange Item
-    </b-button>-->
 
     <div v-if="borrowGoldForm" class="col-md-6 mx-auto text-center">
       <br>
@@ -49,17 +44,6 @@
       </div>
     </div>
 
-    <!--<div v-if="exchangeItemForm" class="col-md-6 mx-auto text-center">
-      <br>
-      <h5>
-        Exchange Items
-      </h5>
-      <div id="bankBox">
-
-      </div>
-    </div>-->
-
-    <br>
     <p style="margin-top: 1px;">
       <img src="../../assets/board.png" style="margin-top: -4px;"> Latest Activity
     </p>
@@ -80,15 +64,7 @@
             &nbsp;<img src="../../assets/gold.png" class="actGold">
             {{activity.amount}}</span>
         </span>
-
-        <!--<span v-if="activity.exchangeItem">
-          <small class="actDateExchange">{{activity.createdAt}}</small>&nbsp;
-          <img :src="require('../../assets/hero/'+activity.img)" class="activityHero">
-          &nbsp;<span class="actText">{{activity.username}} <strong>posted exchange</strong>
-          </span>
-        </span>-->
       </li>
-
     </ul>
   </div>
 </template>
