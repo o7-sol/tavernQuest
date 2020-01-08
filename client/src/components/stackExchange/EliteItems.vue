@@ -22,7 +22,15 @@
             <img v-if="item.type === 'Intellect'" class="latestItemImg"
               :src="require('../../assets/items/intellect/'+item.img)">                                      
             <span style="font-size: 13px; margin-left: 10px">
-              {{item.title}} <br>
+              {{item.title}} 
+              <button
+               v-if="user.level >= item.level && item.user !== user.username" 
+               class="float-right btn btn-sm btn-success" style="margin-top: 5%"
+               @click="buyItem(item._id)"
+               >
+                BUY
+              </button>
+              <br>
             </span>
             <div class="latestItemPrice">
               <img v-if="item.type === 'Strength'" src="../../assets/fist.png" style="height: 25px">
@@ -73,12 +81,55 @@ export default {
     },
     methods: {
         ...mapActions([
-            'getStackExchangeEliteItems'
-        ])
+            'getStackExchangeEliteItems',
+            'buyItemFromStackExchange'
+        ]),
+        buyItem(id) {
+          this.buyItemFromStackExchange(id).then(data => {
+           const item = data.item;
+           const index = data.index;
+           
+           this.user.gold -= item.price; 
+
+           this.stackExchangeEliteItems.splice(index, 1);
+
+            let imgURL = '';
+            if(item.type === "Strength") {
+                imgURL = require("../../assets/items/strength/"+item.img);
+            } else if (item.type === "Agility") {
+                imgURL = require("../../assets/items/agility/"+item.img);
+            } else if (item.type === "Vitality") {
+                imgURL = require("../../assets/items/vitality/"+item.img);
+            } else {
+                imgURL = require("../../assets/items/intellect/"+item.img);
+            }
+
+           const h = this.$createElement
+
+           const vNodesMsg = h(
+            'p',
+            { class: ['text-center', 'mb-0'] },
+              [
+                h('b-img', { props: { 'src': imgURL}}),
+                h('strong', {}, `${item.title} `),
+                h('br', {}, ''),
+                `${data.message}`,
+              ]
+            );                
+
+            this.$bvToast.toast([vNodesMsg], {
+              title: 'Item bought',
+              variant: 'success',
+              solid: true,
+              autoHideDelay: 5000
+              });
+          });
+        }
     },    
     computed: {
         ...mapGetters([
             'stackExchangeEliteItems',
+            'user'
         ]),
         paginatedEliteItems() {
             return this.stackExchangeEliteItems.slice(

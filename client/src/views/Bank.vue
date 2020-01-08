@@ -218,7 +218,6 @@ export default {
             });
             this.itemInPendingBox = false;
 
-
             const payload = {
                 itemID: this.id,
                 index

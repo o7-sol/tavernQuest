@@ -105,7 +105,7 @@ export default {
         },        
         buyItem(item) {
 
-            var imgURL = '';
+            let imgURL = '';
             if(item.strength === true) {
                 imgURL = require("../../assets/items/strength/"+item.img);
             } else if (item.agility === true) {
