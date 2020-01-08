@@ -42,9 +42,7 @@
               </span>
               <span class="levelInfo">
                 Level
-                <span class="reqLevel">
                   {{item.level}}
-                </span>
               </span>
             </div>
           </div>
@@ -90,10 +88,8 @@ export default {
            const index = data.index;
            
            this.user.gold -= item.price; 
-
            this.stackExchangeEliteItems.splice(index, 1);
 
-            let imgURL = '';
             if(item.type === "Strength") {
                 imgURL = require("../../assets/items/strength/"+item.img);
             } else if (item.type === "Agility") {
