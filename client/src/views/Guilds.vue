@@ -30,7 +30,7 @@
                 <p class="col-md-5 guildInfo">
                     Required Level: {{guild.required_level}}<br>
                     Members: {{guild.members.length}} / 50<br>
-                    <img src="../assets/gold.png" class="guildGold"> {{guild.gold}}
+                    Bank: &nbsp;<img src="../assets/gold.png" class="guildGold"> {{guild.gold}}
                 </p>
                 <div class="col-md-3 applyBtn">
                     <b-button @click="joinGuild(guild._id)" v-if="user.level >= guild.required_level" variant="success">
