@@ -19,6 +19,75 @@ const getLatestItems = (items) => {
     return items.slice(0, 14);
 };
 
+router.post('/api/buy-item-from-stack-exchange', Authenticated, async(req, res) => {
+    try {
+        const user = await req.user;
+        const itemID = striptags(await req.body.itemID);
+        const itemInStackExchange = await StackExchangeItems.findById(itemID);
+        const itemInMarket = await Item.findOne({title: itemInStackExchange.title});
+        const eliteItems = await StackExchangeItems.find({elite: true});
+        const regularItems = await StackExchangeItems.find({elite: false});
+        let index;
+
+        if(itemInStackExchange.elite) {
+            index = _.findIndex(eliteItems, { _id: itemInStackExchange._id });
+            console.log(index)
+         } else {
+            index = _.findIndex(regularItems, { _id: itemInStackExchange._id });
+         }
+
+        if(!validator.isAlphanumeric(itemID)) {
+            return console.log('Item is not found.');
+        }
+        let strength = false;
+        let agility = false;
+        let vitality = false;
+        let intellect = false;
+
+        if(itemInStackExchange.type === 'Strength') {
+            strength = true;
+        } else if (itemInStackExchange.type === 'Agility') {
+            agility = true;
+        } else if (itemInStackExchange.type === 'Vitality') {
+            vitality = true;
+        } else {
+            intellect = true;
+        }
+
+        if(user.gold >= itemInStackExchange.price && user.level >= itemInStackExchange.level && itemInStackExchange.user !== user.username) {
+            const itemPayload = {
+                id: uuidv1(),
+                title: itemInStackExchange.title,
+                img: itemInStackExchange.img,
+                power: itemInStackExchange.power,
+                strength,
+                agility,
+                vitality,
+                intellect,
+                price: itemInMarket.price,
+                elite: itemInStackExchange.elite,
+                createdAt: dayjs().format('YYYY MM DD h:mm:ss A')                
+            }
+
+            user.gold -= itemInStackExchange.price;
+
+            user.bank.push(itemPayload);
+            await user.save();
+            await itemInStackExchange.remove();
+            console.log(index)
+            res.json({
+                'message': 'Item was bought successfully!',
+                item: itemInStackExchange,
+                success: true,
+                index
+            })
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 router.get('/api/stack-exchange-items', Authenticated, async(req, res) => {
     try {
         const user = await req.user;
@@ -78,10 +147,6 @@ router.post('/api/get-item-back-from-stack-exchange', Authenticated, async(req, 
                 elite: item.elite,
                 createdAt: dayjs().format('YYYY MM DD h:mm:ss A')                
             }
-
-            const itemTitle = item.title;
-            const itemImg = item.img;
-            const itemType = item.type;
 
             user.bank.push(itemPayload);
 
@@ -403,4 +468,5 @@ router.get('/api/latest-items', async(req, res) => {
         console.log(error);
     }
 });
+
 module.exports = router;

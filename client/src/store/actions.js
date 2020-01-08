@@ -481,6 +481,19 @@ const applyToGuild = async({commit}, payload) => {
     }
 }
 
+const buyItemFromStackExchange = async({commit}, payload) => {
+    try {
+        const response = await API.post('/buy-item-from-stack-exchange', {
+            itemID: payload
+        });
+        if(response.status === 200 && response.data.success) {
+            return response.data;
+        }
+    } catch (error) {
+        
+    }
+}
+
 export default {
     createAccount,
     authenticate,
@@ -510,5 +523,6 @@ export default {
     sendGuildMessage,
     getGuildMessages,
     getGuilds,
-    applyToGuild
+    applyToGuild,
+    buyItemFromStackExchange
 }
