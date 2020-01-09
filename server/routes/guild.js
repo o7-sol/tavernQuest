@@ -18,6 +18,48 @@ const Guild = require('../models/Guild');
 const GuildAction = require('../models/GuildAction');
 const GuildMessage = require('../models/GuildMessage');
 
+router.post('/api/approve-member-request', Authenticated, async (req, res) => {
+    try {
+        const requestedMember = await req.body.requestedMember;
+        const isInMembersArray = await Guild.findOne({"members.username": requestedMember, "members.approved": false});
+
+        if(!isInMembersArray) {
+            return console.log('User is not requested to join guild.');
+        }
+
+        if(!validator.isAlphanumeric(requestedMember)) {
+            return console.log('Requested user is not alphanumeric.');
+        }
+
+        userIndex = isInMembersArray.members.findIndex(user => user.username === requestedMember);
+        isInMembersArray.members[userIndex].approved = true;
+        isInMembersArray.markModified("members");
+        isInMembersArray.save();
+        res.json({success: true, user: requestedMember});
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.get('/api/guild-member-requests', Authenticated, async (req, res) => {
+    try {
+        const guild = await Guild.findOne({"leader": req.user.username});
+        const members = await guild.members;
+        const notApproved = [];
+        
+        for(let i = 0; i < members.length; i++) {
+            if(!members[i].approved) {
+                notApproved.push(members[i]);
+            }
+        }
+
+        res.json({requests: notApproved});
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 router.post('/api/apply-to-guild', Authenticated, async (req, res) => {
     try {
         const guildID = striptags(req.body.guildID);
@@ -29,11 +71,12 @@ router.post('/api/apply-to-guild', Authenticated, async (req, res) => {
         }
 
         if(alreadyMember) {
-            return res.json({error: 'You are already member of a guild.'});
+            return res.json({error: 'You are already member of a guild. Or if you have sent application wait for it to be accepted or declined.'});
         }
 
         guild.members.push({
             username: req.user.username,
+            approved: false,
             createdAt: dayjs().format('YYYY-MM-DD hh:mm:ss')
         });
 
@@ -283,7 +326,8 @@ router.get('/api/guild-member', Authenticated, async (req, res) => {
     try {
         const user = await req.user;
         const guild = await Guild.findOne({
-            "members.username": user.username
+            "members.username": user.username,
+            "members.approved": true
         });
 
         if (guild) {
