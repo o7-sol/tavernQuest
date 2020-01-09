@@ -17,10 +17,12 @@ const Authenticated = require('../middlewares/authenticated');
 const Guild = require('../models/Guild');
 const GuildAction = require('../models/GuildAction');
 const GuildMessage = require('../models/GuildMessage');
+const User = require('../models/User');
 
 router.post('/api/approve-member-request', Authenticated, async (req, res) => {
     try {
         const requestedMember = await req.body.requestedMember;
+        const experienceFromUser = await User.findOne({username: requestedMember});
         const isInMembersArray = await Guild.findOne({"members.username": requestedMember, "members.approved": false});
 
         if(!isInMembersArray) {
@@ -34,6 +36,7 @@ router.post('/api/approve-member-request', Authenticated, async (req, res) => {
         userIndex = isInMembersArray.members.findIndex(user => user.username === requestedMember);
         isInMembersArray.members[userIndex].approved = true;
         isInMembersArray.markModified("members");
+        isInMembersArray.experience += experienceFromUser.experience;
         isInMembersArray.save();
         res.json({success: true, user: requestedMember});
 
