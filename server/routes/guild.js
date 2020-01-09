@@ -413,6 +413,7 @@ router.post('/api/create-guild', Authenticated, async (req, res) => {
         const newGuild = await Guild(guildPayload);
         newGuild.members.push({
             username: user.username,
+            approved: true,
             createdAt: dayjs().format('YYYY-MM-DD hh:mm:ss')
         });
         newGuild.save().then(guild => {
