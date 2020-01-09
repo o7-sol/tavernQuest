@@ -27,18 +27,14 @@
 
       <!-- Right aligned nav items -->
 
-        <b-nav-form>
-          &nbsp;<b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-          <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-        </b-nav-form>
-
       <b-navbar-nav class="ml-auto">
         <span v-if="user">
         <b-nav-item>
-        <span style="vertical-align: middle">
+        <span style="vertical-align: top">
         <img src="./assets/gold.png" style="height: 25px; vertical-align: bottom">
         {{user.gold}}
-        <strong style="color: red">EXP</strong>&nbsp; {{user.experience}}
+        &nbsp;
+        <strong style="color: red">EXP</strong> {{user.experience}}
         <router-link to="/bank">Bank</router-link>
         <router-link to="/profile">{{user.username}}</router-link>
         <router-link @click.native="logOut" to="/">Log Out</router-link>    
