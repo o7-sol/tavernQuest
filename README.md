@@ -1,7 +1,7 @@
 # Tavern Quest
 <h4>Technology stack used: NodeJS (Express, Mongoose and MongoDB), VueJS (Vue router, VUEX, axios), SocketIO</h4>
 Tavern Quest is an RPG game that is in development state and planned to be released in 2020. This RPG will be all about fighting versus other players, making guilds,
-achieving achievements, buying items, upgrading your hero and of course sell and buy item in stack exchange. Below there are some
+achieving achievements, buying items, upgrading your hero and of course sell and buy items in stack exchange. Below there are some
 pictures.
 
 <h1>Index page</h1>
