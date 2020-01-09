@@ -26,7 +26,8 @@
              </div>
              <b-button @click="createGuild()" variant="danger">
                  Create Guild
-            </b-button>         
+            </b-button>    
+            <br>     
          </div>
 
       </div>

@@ -57,7 +57,12 @@ export default {
         joinGuild(id) {
             this.applyToGuild(id).then(data => {
                 if(data && data.success) {
-                    console.log('joined')
+                    this.$bvToast.toast('Application to guild leader was sent successfully.', {
+                    title: 'Notification',
+                    autoHideDelay: 5000,
+                    appendToast: false,
+                    variant: 'success'
+                    });
                 } else if(data && data.error) {
                     this.$bvToast.toast(data.error, {
                         title: 'Notification',

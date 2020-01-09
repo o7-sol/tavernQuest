@@ -20,7 +20,7 @@ Vue.use(Dayjs);
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: '127.0.0.1:3000'
+  connection: '127.0.0.1:4000'
 }))
 
 new Vue({
