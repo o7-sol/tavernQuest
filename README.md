@@ -1,5 +1,4 @@
 # tavernQuest
-Demo RPG game made with Node, Express, Vue (Vuex, Vue Router), Mongo, Axios
 Tavern Quest is an RPG game is in development state. This RPG will be all about fighting versus other players, making guilds
 achieving achievements, buying items, upgrading your hero and of course sell and buy item in stack exchange. Below there are some
 pictures.
