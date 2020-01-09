@@ -23,14 +23,15 @@
               :src="require('../../assets/items/intellect/'+item.img)">                                      
             <span style="font-size: 13px; margin-left: 10px">
               {{item.title}} 
+              <br>
               <button
                v-if="user.level >= item.level && item.user !== user.username" 
-               class="float-right btn btn-sm btn-success" style="margin-top: 5%"
+               class="btn btn-sm btn-success" style="margin-top: 5%"
                @click="buyItem(item._id)"
                >
                 BUY
               </button>
-              <br>
+              
             </span>
             <div class="latestItemPrice">
               <img v-if="item.type === 'Strength'" src="../../assets/fist.png" style="height: 25px">

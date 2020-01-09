@@ -10,6 +10,7 @@ const validator = require('validator');
 const Item = require('../models/Item');
 const ItemDiscount = require('../models/ItemDiscount');
 const StackExchangeItems = require('../models/StackExchange');
+const User = require('../models/User');
 
 // Middlewares
 const Authenticated = require('../middlewares/authenticated');
@@ -27,6 +28,7 @@ router.post('/api/buy-item-from-stack-exchange', Authenticated, async(req, res) 
         const itemInMarket = await Item.findOne({title: itemInStackExchange.title});
         const eliteItems = await StackExchangeItems.find({elite: true});
         const regularItems = await StackExchangeItems.find({elite: false});
+        const seller = await User.findOne({username: itemInStackExchange.user});
         let index;
 
         if(itemInStackExchange.elite) {
@@ -39,6 +41,11 @@ router.post('/api/buy-item-from-stack-exchange', Authenticated, async(req, res) 
         if(!validator.isAlphanumeric(itemID)) {
             return console.log('Item is not found.');
         }
+
+        if(!seller) {
+            return console.log('Seller not found.');
+        }
+
         let strength = false;
         let agility = false;
         let vitality = false;
@@ -70,9 +77,11 @@ router.post('/api/buy-item-from-stack-exchange', Authenticated, async(req, res) 
             }
 
             user.gold -= itemInStackExchange.price;
+            seller.gold += itemInStackExchange.price;
 
             user.bank.push(itemPayload);
             await user.save();
+            await seller.save();
             await itemInStackExchange.remove();
             console.log(index)
             res.json({
