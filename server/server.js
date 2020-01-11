@@ -31,17 +31,8 @@ const User = require('./models/User');
 io.on('connection', socket => {
     require('./sockets/guild')(socket, io);
     require('./sockets/stackExchange')(socket, io);
+    console.log(`from server: ${socket.id}`)
 
-    socket.on('loggedIn', async (data) => {
-        try {
-            const user = await User.findById(data.user._id);
-            console.log(user)
-            user.socket_id = socket.id;
-            await user.save();
-        } catch (error) {
-            console.log(error)
-        }
-    });
 });
 
 if(process.env.NODE_ENV === 'production') {

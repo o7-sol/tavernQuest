@@ -6,6 +6,8 @@ module.exports = function(socket, io) {
         const username = await data.item.user;
         const user = await User.findOne({username});
 
+        console.log(`from client: ${data.id}`)
+
         if(!user) {
             return console.log('User does not exist.');
         }
@@ -13,7 +15,7 @@ module.exports = function(socket, io) {
         if(user.socket_id === '') {
             return console.log('User has no socket ID');
         }
-        console.log(user.socket_id)
-        io.to(user.socket_id).emit('hey', 'I just met you');
+
+         io.to(data.id).emit('hey', 'I just met you');
     });
 };
