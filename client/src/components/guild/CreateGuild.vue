@@ -18,9 +18,16 @@
                  <label for="title">Guild Title</label>
                  <input v-model.trim="title" type="text" name="title" id="title" class="form-control">
              </div>
+             <div class="form-group">
+                 <label for="requiredLevel">Requred Level</label>
+                 <br>
+                 <small>Required minimal level to join your guild.</small>
+                 <input v-model.trim="level" type="number" min="1" max="100" name="level" id="level" class="form-control">
+             </div>
              <b-button @click="createGuild()" variant="danger">
                  Create Guild
-            </b-button>         
+            </b-button>    
+            <br>     
          </div>
 
       </div>
@@ -33,6 +40,7 @@ export default {
     data() {
         return {
             title: '',
+            level: '',
             regex: /^([0-9]|[a-z])+([0-9a-z]+)$/i,
             errors: []
         }
@@ -41,13 +49,13 @@ export default {
         createGuild() {
             this.errors = [];
             if(!this.title.match(this.regex)) {
-                this.errors.push({text: 'Title should only contain letters and numbers.'})
+                this.errors.push({text: 'Title should only contain letters and numbers without spaces.'})
             } else if(this.title.length < 5 || this.title.length > 15) {
                 this.errors.push({text: 'Title length cannot be less than 5 characters'
                 +' and cannot be more than 15 characters'});
             } else {
-
-                this.getGuildTitle(this.title).then(data => {
+                const payload = {title: this.title, reqLevel: this.level}
+                this.getGuildTitle(payload).then(data => {
                     if(data.success) {
                         this.$router.push('/guild');     
                         this.$cookie.set('guildCreated', 'Guild was created successfully', { expires: '5s' });                  

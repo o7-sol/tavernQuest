@@ -247,13 +247,13 @@ export default {
       border-radius: 19px;
   }
 
-.latestEliteItemIcon {
-    background: #ff4949;
-    padding: 8px;
-    border-radius: 19px;
-    -webkit-box-shadow: 0px 0px 7px 3px rgba(250,0,0);
-    box-shadow: 0px 0px 7px 3px rgba(250,0,0);
-}
+    .latestEliteItemIcon {
+        background: #ff4949;
+        padding: 8px;
+        border-radius: 19px;
+        -webkit-box-shadow: 0px 0px 7px 3px rgba(250,0,0);
+        box-shadow: 0px 0px 7px 3px rgba(250,0,0);
+    }
 
   .latestItemPowerIcon {
       height: 25px;

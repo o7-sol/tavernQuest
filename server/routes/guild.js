@@ -17,6 +17,70 @@ const Authenticated = require('../middlewares/authenticated');
 const Guild = require('../models/Guild');
 const GuildAction = require('../models/GuildAction');
 const GuildMessage = require('../models/GuildMessage');
+const User = require('../models/User');
+
+router.get('/api/guild-members', Authenticated, async (req, res) => {
+    try {
+        const guild = await Guild.findOne({
+            "members.username": req.user.username,
+            "members.approved": true
+        });
+        
+        if(!guild) {
+            return console.log('User is not in any guild.');
+        }
+
+        const members = guild.members;
+        res.json(members);
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.post('/api/approve-member-request', Authenticated, async (req, res) => {
+    try {
+        const requestedMember = await req.body.requestedMember;
+        const experienceFromUser = await User.findOne({username: requestedMember});
+        const isInMembersArray = await Guild.findOne({"members.username": requestedMember, "members.approved": false});
+
+        if(!isInMembersArray) {
+            return console.log('User is not requested to join guild.');
+        }
+
+        if(!validator.isAlphanumeric(requestedMember)) {
+            return console.log('Requested user is not alphanumeric.');
+        }
+
+        userIndex = isInMembersArray.members.findIndex(user => user.username === requestedMember);
+        isInMembersArray.members[userIndex].approved = true;
+        isInMembersArray.markModified("members");
+        isInMembersArray.experience += experienceFromUser.experience;
+        isInMembersArray.save();
+        res.json({success: true, user: requestedMember});
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.get('/api/guild-member-requests', Authenticated, async (req, res) => {
+    try {
+        const guild = await Guild.findOne({"leader": req.user.username});
+        const members = await guild.members;
+        const notApproved = [];
+        
+        for(let i = 0; i < members.length; i++) {
+            if(!members[i].approved) {
+                notApproved.push(members[i]);
+            }
+        }
+
+        res.json({requests: notApproved});
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 router.post('/api/apply-to-guild', Authenticated, async (req, res) => {
     try {
@@ -29,11 +93,12 @@ router.post('/api/apply-to-guild', Authenticated, async (req, res) => {
         }
 
         if(alreadyMember) {
-            return res.json({error: 'You are already member of a guild.'});
+            return res.json({error: 'You are already member of a guild. Or if you have sent application wait for it to be accepted or declined.'});
         }
 
         guild.members.push({
             username: req.user.username,
+            approved: false,
             createdAt: dayjs().format('YYYY-MM-DD hh:mm:ss')
         });
 
@@ -283,7 +348,8 @@ router.get('/api/guild-member', Authenticated, async (req, res) => {
     try {
         const user = await req.user;
         const guild = await Guild.findOne({
-            "members.username": user.username
+            "members.username": user.username,
+            "members.approved": true
         });
 
         if (guild) {
@@ -321,6 +387,7 @@ router.post('/api/create-guild', Authenticated, async (req, res) => {
     try {
         const user = await req.user;
         const title = striptags(req.body.title);
+        const reqLevel = striptags(req.body.reqLevel);
         const guildsCount = await Guild.find().count();
         const guildExist = await Guild.findOne({
             title
@@ -344,6 +411,10 @@ router.post('/api/create-guild', Authenticated, async (req, res) => {
             });
         }
 
+        if(!validator.isNumeric(reqLevel) || reqLevel < 1) {
+            return console.log('Required level is not numeric.');
+        }
+
         const guildPayload = {
             title: capitalize(title),
             gold: 0,
@@ -351,7 +422,7 @@ router.post('/api/create-guild', Authenticated, async (req, res) => {
             leader: user.username,
             leaderImg: user.heroImg,
             leaderLevel: user.level,
-            requiredLevel: 0,
+            required_level: reqLevel,
             announcement: '',
             announcement_createdAt: '',
             wins: user.wins,
@@ -364,6 +435,7 @@ router.post('/api/create-guild', Authenticated, async (req, res) => {
         const newGuild = await Guild(guildPayload);
         newGuild.members.push({
             username: user.username,
+            approved: true,
             createdAt: dayjs().format('YYYY-MM-DD hh:mm:ss')
         });
         newGuild.save().then(guild => {

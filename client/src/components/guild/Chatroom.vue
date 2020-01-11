@@ -93,7 +93,7 @@ export default {
     font-weight: bold;
 }
 #chatRoom {
-    height: 250px;
+    height: 350px;
     overflow-y: scroll;
 }
 #sendBtn {

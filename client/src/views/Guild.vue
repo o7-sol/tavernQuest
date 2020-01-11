@@ -72,7 +72,7 @@ export default {
             });           
         },
         ...mapActions([
-            'getGuildInfo',
+            'getGuildInfo'
         ])
     },
     computed: {

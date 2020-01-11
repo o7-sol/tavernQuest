@@ -27,16 +27,15 @@
                     Level: {{guild.leaderLevel}}
                     </span>
                 </p>
-                <p class="col-md-4 guildInfo">
-                    Required Level: {{guild.requiredLevel}}<br>
+                <p class="col-md-5 guildInfo">
+                    Required Level: {{guild.required_level}}<br>
                     Members: {{guild.members.length}} / 50<br>
-                    <img src="../assets/gold.png" class="guildGold"> {{guild.gold}}
+                    Bank: &nbsp;<img src="../assets/gold.png" class="guildGold"> {{guild.gold}}
                 </p>
-                <div class="col-md-4 applyBtn">
-                    <b-button @click="joinGuild(guild._id)" v-if="user.level >= guild.requiredLevel" variant="success">
-                        Apply Now
+                <div class="col-md-3 applyBtn">
+                    <b-button @click="joinGuild(guild._id)" v-if="user.level >= guild.required_level" variant="success">
+                        Apply
                     </b-button>
-                    <b-button @click="lowLevel" v-else variant="light">Apply Now</b-button>
                 </div>
                 </div>
             </div>
@@ -58,7 +57,12 @@ export default {
         joinGuild(id) {
             this.applyToGuild(id).then(data => {
                 if(data && data.success) {
-                    console.log('joined')
+                    this.$bvToast.toast('Application to guild leader was sent successfully.', {
+                    title: 'Notification',
+                    autoHideDelay: 5000,
+                    appendToast: false,
+                    variant: 'success'
+                    });
                 } else if(data && data.error) {
                     this.$bvToast.toast(data.error, {
                         title: 'Notification',

@@ -4,9 +4,7 @@
       Post Annoucement
     </b-button>
     &nbsp;
-    <b-button>
-      Member Requests
-    </b-button>
+    <router-link :to="{name: 'guild-member-requests'}" class="btn btn-primary">Members Requests</router-link>
     <br>
     <div v-if="errors.length">
       <ul class="list-unstyled">

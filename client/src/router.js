@@ -113,6 +113,12 @@ export default new Router({
       beforeEnter: multiguard([isLoggedIn, isMemberOfGuild])
     },
     {
+      path: '/guild/member-requests',
+      name: 'guild-member-requests',
+      component: () => import(/* webpackChunkName: "guild" */ './components/guild/memberRequests.vue'),
+      beforeEnter: multiguard([isLoggedIn, isMemberOfGuild])
+    },
+    {
       path: '/achievements',
       name: 'achievements',
       component: () => import(/* webpackChunkName: "achievements" */ './views/Achievements.vue'),

@@ -312,10 +312,11 @@ const checkUserLevel = async({commit}, level) => {
     }
 }
 
-const getGuildTitle = async({commit}, title) => {
+const getGuildTitle = async({commit}, payload) => {
     try {
         const response = await API.post('/create-guild', {
-            title
+            title: payload.title,
+            reqLevel: payload.reqLevel
         });
         if(response.status === 200 && response.data.successMsg) {
             const data = {
@@ -494,6 +495,36 @@ const buyItemFromStackExchange = async({commit}, payload) => {
     }
 }
 
+const getGuildMemberRequests = async({commit}) => {
+    try {
+        const response = await API.get('/guild-member-requests');
+        return response.data.requests;
+    } catch (error) {
+        
+    }
+}
+
+const approveMemberRequest = async({commit}, payload) => {
+    try {
+        const response = await API.post('/approve-member-request', {
+            requestedMember: payload
+        });
+        return response.data;
+    } catch (error) {
+        
+    }
+}
+
+const getGuildMembers = async({commit}, payload) => {
+    try {
+        const response = await API.get('/guild-members');
+        const users = response.data;
+        return users;
+    } catch (error) {
+        
+    }
+}
+
 export default {
     createAccount,
     authenticate,
@@ -524,5 +555,8 @@ export default {
     getGuildMessages,
     getGuilds,
     applyToGuild,
-    buyItemFromStackExchange
+    buyItemFromStackExchange,
+    getGuildMemberRequests,
+    approveMemberRequest,
+    getGuildMembers
 }
