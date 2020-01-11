@@ -515,6 +515,16 @@ const approveMemberRequest = async({commit}, payload) => {
     }
 }
 
+const getGuildMembers = async({commit}, payload) => {
+    try {
+        const response = await API.get('/guild-members');
+        const users = response.data;
+        return users;
+    } catch (error) {
+        
+    }
+}
+
 export default {
     createAccount,
     authenticate,
@@ -547,5 +557,6 @@ export default {
     applyToGuild,
     buyItemFromStackExchange,
     getGuildMemberRequests,
-    approveMemberRequest
+    approveMemberRequest,
+    getGuildMembers
 }
