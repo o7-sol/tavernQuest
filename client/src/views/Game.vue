@@ -17,11 +17,6 @@ import OpponentPanel from '../components/arena/OpponentPanel';
 import { mapGetters } from 'vuex';
 
 export default {
-    created() {
-        this.$socket.emit('loggedIn', {
-            user: this.user
-        });
-    },
     components: {
         appArenaPanel: ArenaPanel,
         appMarketPanel: MarketPanel,

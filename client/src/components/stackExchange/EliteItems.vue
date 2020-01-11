@@ -89,7 +89,8 @@ export default {
            const index = data.index;
 
           this.$socket.emit('soldStackExchangeItem', {
-            item
+            item, 
+            id: this.$socket.id
           });
            
            this.user.gold -= item.price; 
