@@ -26,11 +26,21 @@ app.use(userRouter);
 app.use(itemsRouter);
 app.use(guildRouter);
 
+const User = require('./models/User');
+
 io.on('connection', socket => {
-    socket.on('guildMsgToServer', (data) => {
-        io.emit('guildMsgToGuild', {
-            message: data.message
-        });
+    require('./sockets/guild')(socket, io);
+    require('./sockets/stackExchange')(socket, io);
+
+    socket.on('loggedIn', async (data) => {
+        try {
+            const user = await User.findById(data.user._id);
+            console.log(user)
+            user.socket_id = socket.id;
+            await user.save();
+        } catch (error) {
+            console.log(error)
+        }
     });
 });
 

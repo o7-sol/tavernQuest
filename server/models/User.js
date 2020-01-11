@@ -82,8 +82,12 @@ const userSchema = mongoose.Schema({
     token: {
         type: String
     },
-    createdAt: {
+    socket_id: {
         type: String
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 });
 
