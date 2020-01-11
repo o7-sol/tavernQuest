@@ -11,6 +11,7 @@ const Item = require('../models/Item');
 const ItemDiscount = require('../models/ItemDiscount');
 const StackExchangeItems = require('../models/StackExchange');
 const User = require('../models/User');
+const Notification = require('../models/Notifcation');
 
 // Middlewares
 const Authenticated = require('../middlewares/authenticated');
@@ -80,10 +81,17 @@ router.post('/api/buy-item-from-stack-exchange', Authenticated, async(req, res) 
             seller.gold += itemInStackExchange.price;
 
             user.bank.push(itemPayload);
+
+            const newNotification = new Notification({
+                title: 'Stack Exchange',
+                user_id: seller._id,
+                message: `Item ${itemInStackExchange.title} was sold.`
+            });
+
+            newNotification.save();
             await user.save();
             await seller.save();
             await itemInStackExchange.remove();
-            console.log(index)
             res.json({
                 'message': 'Item was bought successfully!',
                 item: itemInStackExchange,
