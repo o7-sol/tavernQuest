@@ -3,6 +3,9 @@
     <div class="col-md-12">
         <div class="panelBody">
         <h1 class="panelTitle"><img src="../../assets/board.png" class="board"> Member Requests</h1>
+        
+        <router-link :to="{name: 'guild'}" class="btn btn-primary backButton">Back to guild</router-link>
+
         <ul v-if="requests.length" class="list-unstyled">
             <li v-for="request in requests">
                 <strong>{{request.username}}</strong>&nbsp;
@@ -80,5 +83,8 @@ export default {
   }
   ul {
       padding: 10px;
+  }
+  .backButton {
+      margin: 10px 10px 10px 10px;
   }
 </style>
