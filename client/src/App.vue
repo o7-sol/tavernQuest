@@ -70,6 +70,10 @@ export default {
     },
     created() {
       this.reAuthenticate(this.$cookie.get('token'));
+
+      this.$socket.on('hey', (data) => {
+        console.log(data)
+      })
     },
     computed: {
       user() {
