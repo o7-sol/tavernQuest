@@ -19,6 +19,25 @@ const GuildAction = require('../models/GuildAction');
 const GuildMessage = require('../models/GuildMessage');
 const User = require('../models/User');
 
+router.get('/api/guild-members', Authenticated, async (req, res) => {
+    try {
+        const guild = await Guild.findOne({
+            "members.username": req.user.username,
+            "members.approved": true
+        });
+        
+        if(!guild) {
+            return console.log('User is not in any guild.');
+        }
+
+        const members = guild.members;
+        res.json(members);
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 router.post('/api/approve-member-request', Authenticated, async (req, res) => {
     try {
         const requestedMember = await req.body.requestedMember;
