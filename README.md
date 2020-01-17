@@ -3,6 +3,27 @@
 Tavern Quest is an RPG game that is in development state and planned to be released in 2020. This RPG will be all about fighting versus other players, making guilds,
 achieving achievements, buying items, upgrading your hero and of course sell and buy items in stack exchange. Below there are some
 pictures.
+<h4>Working features:</h4>
+
+- Account creation with hero selection
+
+- You can buy items from market based on your level.
+
+- You can see latest items in market and also see the discounted items
+
+- You can sell or buy items from other players in stack exchange
+
+- You can make a guild with required minimum level to apply and approve / decline members
+
+- In the guild you can fill the guild bank or to borrow money from it 3 times a day.
+
+- Theres a guild chat where guild members can communicate in real time.
+
+- Player has a working inventory it sees his items and can send items to the bank anytime.
+
+- In the bank player has 30 slots of items that he can have. Item can be added to your inventory or send to the back from inventory.
+
+- Items in the red background are known as elite items.
 
 <h1>Index page</h1>
 <p align="center">
