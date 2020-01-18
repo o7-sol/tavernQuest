@@ -525,6 +525,16 @@ const getGuildMembers = async({commit}, payload) => {
     }
 }
 
+const getNotifications = async({commit}, payload) => {
+    try {
+        const response = await API.get('/notifications');
+        const notifications = response.data;
+        commit('SET_NOTIFICATIONS', notifications);
+    } catch (error) {
+        
+    }
+}
+
 export default {
     createAccount,
     authenticate,
@@ -558,5 +568,6 @@ export default {
     buyItemFromStackExchange,
     getGuildMemberRequests,
     approveMemberRequest,
-    getGuildMembers
+    getGuildMembers,
+    getNotifications
 }

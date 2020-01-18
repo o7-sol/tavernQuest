@@ -30,6 +30,10 @@ const SET_GUILDS = (state, payload) => {
     state.guilds = payload;
 }
 
+const SET_NOTIFICATIONS = (state, payload) => {
+    state.notifications = payload;
+}
+
 export default {
     SET_TOKEN,
     SET_STACK_EXCHANGE_ITEMS,
@@ -38,5 +42,6 @@ export default {
     SET_GOLD,
     SET_USER,
     SET_GUILD_MESSAGES,
-    SET_GUILDS
+    SET_GUILDS,
+    SET_NOTIFICATIONS
 }
