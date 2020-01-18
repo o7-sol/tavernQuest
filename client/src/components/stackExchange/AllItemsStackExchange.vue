@@ -88,6 +88,10 @@ export default {
                 const index = data.index;
                 const message = data.message;
 
+            this.$socket.emit('soldStackExchangeItem', {
+                item
+            });
+                
                 this.user.gold -= item.price; 
                 this.stackExchangeItems.splice(index, 1);
 

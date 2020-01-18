@@ -84,9 +84,13 @@ export default {
             'buyItemFromStackExchange'
         ]),
         buyItem(id) {
-          this.buyItemFromStackExchange(id).then(data => {
-           const item = data.item;
+          this.buyItemFromStackExchange(id).then(async data => {
+           const item = await data.item;
            const index = data.index;
+
+          this.$socket.emit('soldStackExchangeItem', {
+            item
+          });
            
            this.user.gold -= item.price; 
            this.stackExchangeEliteItems.splice(index, 1);
@@ -122,6 +126,7 @@ export default {
               autoHideDelay: 5000
               });
           });
+
         }
     },    
     computed: {

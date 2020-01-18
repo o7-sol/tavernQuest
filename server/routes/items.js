@@ -34,7 +34,6 @@ router.post('/api/buy-item-from-stack-exchange', Authenticated, async(req, res) 
 
         if(itemInStackExchange.elite) {
             index = _.findIndex(eliteItems, { _id: itemInStackExchange._id });
-            console.log(index)
          } else {
             index = _.findIndex(regularItems, { _id: itemInStackExchange._id });
          }
@@ -85,7 +84,10 @@ router.post('/api/buy-item-from-stack-exchange', Authenticated, async(req, res) 
             const newNotification = new Notification({
                 title: 'Stack Exchange',
                 user_id: seller._id,
-                message: `Item ${itemInStackExchange.title} was sold.`
+                itemImg: itemInStackExchange.img,
+                itemType: itemInStackExchange.type,
+                message: `${itemInStackExchange.title} was sold.`,
+                created_at: dayjs().format('YYYY MM DD h:mm:ss A')
             });
 
             newNotification.save();

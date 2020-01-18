@@ -1,50 +1,6 @@
 <template>
   <div id="app">
-  <b-navbar toggleable="lg" type="dark" style="background: black !important">
-    <b-navbar-brand href="#" id="gameTitle">Tavern Quest</b-navbar-brand>
-
-    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-    <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav>
-        <template v-if="!user">
-        <router-link to="/">Sign in</router-link>
-        </template>
-        <template v-if="user">
-        <router-link to="/game">Home</router-link>
-        <router-link to="/arena">Arena</router-link>
-        <router-link to="/market">Market</router-link>   
-        <router-link to="/stack-exchange">Stack Exchange</router-link>
-        <b-nav-item-dropdown text="Guilds">
-          <router-link to="/guilds" class="dropdown-item">Guilds List</router-link>
-          <router-link to="/guild" class="dropdown-item">My Guild</router-link>
-        </b-nav-item-dropdown>        
-        <router-link to="/achievements">Achievements</router-link>
-        <router-link to="/forum">Forum</router-link>
-        </template>
-        <router-link to="/about">About</router-link>
-      </b-navbar-nav>
-
-      <!-- Right aligned nav items -->
-
-      <b-navbar-nav class="ml-auto">
-        <span v-if="user">
-        <b-nav-item>
-        <span style="vertical-align: top">
-        <img src="./assets/gold.png" style="height: 25px; vertical-align: bottom">
-        {{user.gold}}
-        &nbsp;
-        <strong style="color: red">EXP</strong> {{user.experience}}
-        <router-link to="/bank">Bank</router-link>
-        <router-link to="/profile">{{user.username}}</router-link>
-        <router-link @click.native="logOut" to="/">Log Out</router-link>    
-       </span>       
-        </b-nav-item>
-        </span>
-      </b-navbar-nav>
-    </b-collapse>
-  </b-navbar>
-
+    <Navbar :user="user"></Navbar>
   <div class="container-fluid">
         <app-user-info v-if="user"></app-user-info>
         <router-view/>
@@ -56,14 +12,10 @@
 <script>
 import Footer from './components/Footer';
 import UserInfo from './components/UserInfo';
+import Navbar from './components/Navbar';
 import { mapGetters, mapActions } from 'vuex';
 export default {
     methods: {
-      logOut() {
-        this.$cookie.delete('token');
-        this.$store.state.user = '';
-        this.$router.push({name: 'home'});
-      },
       ...mapActions([
         'reAuthenticate',
       ])
@@ -71,14 +23,50 @@ export default {
     created() {
       this.reAuthenticate(this.$cookie.get('token'));
     },
-    computed: {
-      user() {
-        return this.$store.getters.user;
+    sockets: {
+      soldStackExchangeItem: function(data) {
+        const userID = data.userID;
+        const message = data.message;
+
+        if(this.user._id === userID) {
+            let imgURL;
+            if(data.type === "Strength") {
+                imgURL = require("./assets/items/strength/"+data.itemImg);
+            } else if (data.type === "Agility") {
+                imgURL = require("./assets/items/agility/"+data.itemImg);
+            } else if (data.type === "Vitality") {
+                imgURL = require("./assets/items/vitality/"+data.itemImg);
+            } else {
+                imgURL = require("./assets/items/intellect/"+data.itemImg);
+            }
+
+           const h = this.$createElement
+
+           const vNodesMsg = h(
+            'p',
+            { class: ['text-center', 'mb-0'] },
+              [
+                h('b-img', { props: { 'src': imgURL}}),
+                h('strong', {}, message),
+              ]
+            );                
+
+            this.$bvToast.toast([vNodesMsg], {
+              title: 'Item sold',
+              variant: 'success',
+              solid: true,
+              autoHideDelay: 5000
+              });
+        }
       }
+    },
+    computed: {
+        ...mapGetters(['user', 'notifications'])
     },
     components: {
       appUserInfo: UserInfo,
-      appFooter: Footer
+      appFooter: Footer,
+      Navbar
     }
 }
 </script>
@@ -86,7 +74,6 @@ export default {
 <style>
 body {
   font-family: 'Roboto Condensed', sans-serif !important;
-  /*background-color: #070e29 !important;*/
   background: #0e0e0e !important;
   height: 100%;
   position: relative;

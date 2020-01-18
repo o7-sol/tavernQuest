@@ -26,12 +26,11 @@ app.use(userRouter);
 app.use(itemsRouter);
 app.use(guildRouter);
 
+const User = require('./models/User');
+
 io.on('connection', socket => {
-    socket.on('guildMsgToServer', (data) => {
-        io.emit('guildMsgToGuild', {
-            message: data.message
-        });
-    });
+    require('./sockets/guild')(socket, io);
+    require('./sockets/stackExchange')(socket, io);
 });
 
 if(process.env.NODE_ENV === 'production') {

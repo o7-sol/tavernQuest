@@ -14,11 +14,16 @@
 import ArenaPanel from '../components/arena/ArenaPanel';
 import MarketPanel from '../components/market/MarketPanel';
 import OpponentPanel from '../components/arena/OpponentPanel';
+import { mapGetters } from 'vuex';
+
 export default {
     components: {
         appArenaPanel: ArenaPanel,
         appMarketPanel: MarketPanel,
         appOpponentPanel: OpponentPanel
+    },
+    computed: {
+        ...mapGetters(['user'])
     }
 }
 </script>
