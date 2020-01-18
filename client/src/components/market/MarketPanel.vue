@@ -54,7 +54,11 @@
 
 <script>
 export default {
-
+  sockets: {
+    boughtItemFromMarket: function(data) {
+      console.log(data)
+    }
+  }
 }
 
 </script>
