@@ -16,11 +16,6 @@ import Navbar from './components/Navbar';
 import { mapGetters, mapActions } from 'vuex';
 export default {
     methods: {
-      logOut() {
-        this.$cookie.delete('token');
-        this.$store.state.user = '';
-        this.$router.push({name: 'home'});
-      },
       ...mapActions([
         'reAuthenticate',
       ])

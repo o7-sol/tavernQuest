@@ -71,6 +71,11 @@ export default {
         this.getNotifications();
     },
     methods: {
+        logOut() {
+            this.$cookie.delete('token');
+            this.$store.state.user = '';
+            this.$router.push({name: 'home'});
+        },
         ...mapActions(['getNotifications'])
     },
     computed: {
