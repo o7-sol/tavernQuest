@@ -34,6 +34,10 @@ const SET_NOTIFICATIONS = (state, payload) => {
     state.notifications = payload;
 }
 
+const REMOVE_NOTIFICATIONS = (state) => {
+    state.notifications = [];
+}
+
 export default {
     SET_TOKEN,
     SET_STACK_EXCHANGE_ITEMS,
@@ -43,5 +47,6 @@ export default {
     SET_USER,
     SET_GUILD_MESSAGES,
     SET_GUILDS,
-    SET_NOTIFICATIONS
+    SET_NOTIFICATIONS,
+    REMOVE_NOTIFICATIONS
 }

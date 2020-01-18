@@ -34,7 +34,6 @@ router.post('/api/buy-item-from-stack-exchange', Authenticated, async(req, res) 
 
         if(itemInStackExchange.elite) {
             index = _.findIndex(eliteItems, { _id: itemInStackExchange._id });
-            console.log(index)
          } else {
             index = _.findIndex(regularItems, { _id: itemInStackExchange._id });
          }

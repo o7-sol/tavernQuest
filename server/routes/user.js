@@ -151,4 +151,13 @@ router.get('/api/notifications', Authenticated, async (req, res) => {
     }
 });
 
+router.post('/api/clear-notifications', Authenticated, async (req, res) => {
+    try {
+        const user = await req.user;
+        Notification.deleteMany({user_id: user._id}).exec();
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 module.exports = router;

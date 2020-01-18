@@ -52,7 +52,7 @@ export default {
             );                
 
             this.$bvToast.toast([vNodesMsg], {
-              title: 'Item bought',
+              title: 'Item sold',
               variant: 'success',
               solid: true,
               autoHideDelay: 5000

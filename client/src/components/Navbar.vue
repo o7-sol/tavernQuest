@@ -21,6 +21,9 @@
         <!-- <router-link to="/achievements">Achievements</router-link> -->
         
           <b-nav-item-dropdown text="Notifications">
+          <button v-if="notifications.length" @click="clearNotifications" class="btn btn-sm btn-primary" style="margin-left: 5%">Clear All</button>  
+          <p class="text-center" v-else style="color: white">There are no new notifications.</p>
+          <br>
           <ul id="notificationsNav" class="dropdown-item list-unstyled">
               <li v-for="n in notifications" v-if="n.title === 'Stack Exchange'" :key="n._id">
                   <small>{{ n.created_at }}</small>
@@ -76,7 +79,7 @@ export default {
             this.$store.state.user = '';
             this.$router.push({name: 'home'});
         },
-        ...mapActions(['getNotifications'])
+        ...mapActions(['getNotifications', 'clearNotifications'])
     },
     computed: {
         ...mapGetters(['notifications'])
@@ -87,6 +90,7 @@ export default {
 <style scoped>
 #notificationsNav {
     height: 180px;
+    width: 410px;
     overflow-y: scroll;
 }
 </style>

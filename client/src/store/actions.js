@@ -535,6 +535,15 @@ const getNotifications = async({commit}, payload) => {
     }
 }
 
+const clearNotifications = async({commit}) => {
+    try {
+        API.post('/clear-notifications');
+        commit('REMOVE_NOTIFICATIONS');
+    } catch (error) {
+        
+    }
+}
+
 export default {
     createAccount,
     authenticate,
@@ -569,5 +578,6 @@ export default {
     getGuildMemberRequests,
     approveMemberRequest,
     getGuildMembers,
-    getNotifications
+    getNotifications,
+    clearNotifications
 }
