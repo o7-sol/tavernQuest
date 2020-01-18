@@ -17,6 +17,7 @@ const Authenticated = require('../middlewares/authenticated');
 
 // Models
 const User = require('../models/User');
+const Notification = require('../models/Notifcation');
 
 router.post('/api/get-user-info', Authenticated, async(req, res) => {
     try {
@@ -135,6 +136,16 @@ router.post('/api/sign-in', async(req, res) => {
             }
         });
     
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.get('/api/notifications', Authenticated, async (req, res) => {
+    try {
+        const user = await req.user;
+        const notifications = await Notification.find({user_id: user._id});
+        res.json(notifications);
     } catch (error) {
         console.log(error);
     }

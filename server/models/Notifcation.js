@@ -10,9 +10,14 @@ const NotificationSchema = mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId
     },
+    itemImg: {
+        type: String
+    },
+    itemType: {
+        type: String
+    },
     created_at: {
-        type : Date, 
-        default: Date.now
+        type: Date
     }
 });
 

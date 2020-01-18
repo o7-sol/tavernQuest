@@ -6,16 +6,15 @@ module.exports = function(socket, io) {
         const username = await data.item.user;
         const user = await User.findOne({username});
 
-        console.log(`from client: ${data.id}`)
-
         if(!user) {
             return console.log('User does not exist.');
         }
 
-        if(user.socket_id === '') {
-            return console.log('User has no socket ID');
-        }
-
-         io.to(data.id).emit('hey', 'I just met you');
+        socket.broadcast.emit('soldStackExchangeItem', {
+            userID: user._id,
+            message: `${data.item.title} was sold in stack exchange`,
+            itemImg: data.item.img,
+            type: data.item.type
+        });
     });
 };

@@ -31,8 +31,6 @@ const User = require('./models/User');
 io.on('connection', socket => {
     require('./sockets/guild')(socket, io);
     require('./sockets/stackExchange')(socket, io);
-    console.log(`from server: ${socket.id}`)
-
 });
 
 if(process.env.NODE_ENV === 'production') {
