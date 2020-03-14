@@ -12,6 +12,7 @@ const ItemDiscount = require('../models/ItemDiscount');
 const StackExchangeItems = require('../models/StackExchange');
 const User = require('../models/User');
 const Notification = require('../models/Notifcation');
+const BoughtItemFromMarket = require('../models/BoughtItemFromMarket');
 
 // Middlewares
 const Authenticated = require('../middlewares/authenticated');
@@ -482,6 +483,16 @@ router.get('/api/vitality-items', async(req, res) => {
 router.get('/api/latest-items', async(req, res) => {
     try {
         const items = await Item.find().sort('-createdAt').limit(5);
+        res.json({items});
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.get('/api/bought-items-from-market', async(req, res) => {
+    try {
+        const items = await BoughtItemFromMarket.find();
+        items.reverse();
         res.json({items});
     } catch (error) {
         console.log(error);

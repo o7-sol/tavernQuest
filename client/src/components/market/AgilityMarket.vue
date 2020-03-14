@@ -146,6 +146,7 @@ export default {
                         this.pushToast(imgURL, 'Order confirmed', item.title, data.successMsg, 'success'); 
                         this.$socket.emit('boughtItemFromMarket', {
                             item,
+                            userItemID: data.item.id,
                             userID: this.user._id
                         });
                         if(this.user.items.length < 14) {
