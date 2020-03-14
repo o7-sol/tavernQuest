@@ -3,48 +3,18 @@
     <div class="panelBody">
       <h1 class="panelTitle"><img src="../../assets/board.png" class="board">  Market</h1>
       <ul class="list-unstyled latestMarket">
-        <li>
-          <span>2019-08-01 21:25</span><br>
-          <img src="../../assets/hero/barbarian.png" class="latestFightHero">
-          &nbsp;<strong>Feknaz</strong>
+        <li v-for="item in items.slice(0, 5)" :key="item._id">
+          <span>{{item.created_at}}</span><br>
+          <img :src="require('../../assets/hero/'+item.user_img)" class="latestFightHero">
+          &nbsp;<strong>{{item.username}}</strong>
           &nbsp;<span style="vertical-align: middle">bought</span>
-          <img src="../../assets/items/health/potion.png">
-          <strong style="vertical-align: middle">Life Elixir</strong>
+          <img v-if="item.item_type === 'strength'" :src="require('../../assets/items/strength/'+item.item_img)">
+          <img v-if="item.item_type === 'intellect'" :src="require('../../assets/items/intellect/'+item.item_img)">
+          <img v-if="item.item_type === 'vitality'" :src="require('../../assets/items/vitality/'+item.item_img)">
+          <img v-if="item.item_type === 'agility'" :src="require('../../assets/items/agility/'+item.item_img)">
+             <strong style="vertical-align: middle">{{item.title}}</strong>
           &nbsp;<span style="vertical-align: middle">for</span>
-          &nbsp;<strong style="vertical-align: middle">300</strong>
-          <img src="../../assets/gold.png" class="latestMarketGold">
-        </li>
-        <li>
-          <span>2019-08-01 21:25</span><br>
-          <img src="../../assets/hero/barbarian.png" class="latestFightHero">
-          &nbsp;<strong>Feknaz</strong>
-          &nbsp;<span style="vertical-align: middle">bought</span>
-          <img src="../../assets/items/health/potion.png">
-          <strong style="vertical-align: middle">Life Elixir</strong>
-          &nbsp;<span style="vertical-align: middle">for</span>
-          &nbsp;<strong style="vertical-align: middle">300</strong>
-          <img src="../../assets/gold.png" class="latestMarketGold">
-        </li>
-        <li>
-          <span>2019-08-01 21:25</span><br>
-          <img src="../../assets/hero/barbarian.png" class="latestFightHero">
-          &nbsp;<strong>Feknaz</strong>
-          &nbsp;<span style="vertical-align: middle">bought</span>
-          <img src="../../assets/items/health/potion.png">
-          <strong style="vertical-align: middle">Life Elixir</strong>
-          &nbsp;<span style="vertical-align: middle">for</span>
-          &nbsp;<strong style="vertical-align: middle">300</strong>
-          <img src="../../assets/gold.png" class="latestMarketGold">
-        </li>
-        <li>
-          <span>2019-08-01 21:25</span><br>
-          <img src="../../assets/hero/barbarian.png" class="latestFightHero">
-          &nbsp;<strong>Feknaz</strong>
-          &nbsp;<span style="vertical-align: middle">bought</span>
-          <img src="../../assets/items/health/potion.png">
-          <strong style="vertical-align: middle">Life Elixir</strong>
-          &nbsp;<span style="vertical-align: middle">for</span>
-          &nbsp;<strong style="vertical-align: middle">300</strong>
+          &nbsp;<strong style="vertical-align: middle">{{item.spent_gold}}</strong>
           <img src="../../assets/gold.png" class="latestMarketGold">
         </li>
       </ul>
@@ -53,8 +23,30 @@
 </template>
 
 <script>
-export default {
+import { mapActions, mapGetters } from 'vuex';
 
+export default {
+  data() {
+    return {
+      items: []
+    }
+  },
+  created() {
+    this.getItems();
+  },
+  methods: {
+    ...mapActions(['getBoughtItemFromMarket']),
+    getItems() {
+      this.getBoughtItemFromMarket().then(data => {
+       return this.items = data.items;
+      });
+    }
+  },
+  sockets: {
+    boughtItemFromMarket: function() {
+      this.getItems();
+    }
+  }
 }
 
 </script>

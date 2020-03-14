@@ -16,7 +16,6 @@ export default new Vuex.Store({
     guild_messages: [],
     guilds: [],
     notifications: []
-
   },
   actions,
   mutations,

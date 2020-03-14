@@ -544,6 +544,16 @@ const clearNotifications = async({commit}) => {
     }
 }
 
+const getBoughtItemFromMarket = async({commit}, payload) => {
+    try {
+        const response = await API.get('/bought-items-from-market');
+        const boughtItemsFromMarket = response.data;
+        return boughtItemsFromMarket;
+    } catch (error) {
+        
+    }
+}
+
 export default {
     createAccount,
     authenticate,
@@ -579,5 +589,6 @@ export default {
     approveMemberRequest,
     getGuildMembers,
     getNotifications,
-    clearNotifications
+    clearNotifications,
+    getBoughtItemFromMarket
 }
