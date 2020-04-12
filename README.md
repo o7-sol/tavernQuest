@@ -25,6 +25,8 @@ pictures.
 
 - Items in the red background are known as elite items.
 
+- In the main page you can see users activity in real time. 
+
 <h1>Index page</h1>
 <p align="center">
   <img src="https://i.imgur.com/kzzkMef.png">
